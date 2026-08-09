@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHEL — Dashboard</title>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBaSr9WW9jm8xzw2qD6B8nfiTUKDDr6ulc",
+    authDomain: "project-chel.firebaseapp.com",
+    projectId: "project-chel",
+    storageBucket: "project-chel.firebasestorage.app",
+    messagingSenderId: "121409021229",
+    appId: "1:121409021229:web:233de23c2abde564af1fa4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  window.chelIsEditor = false;
+
+  window.chelFirebase = {
+    onPartsStateChange(callback){
+      const ref = doc(db, 'chel', 'partsState');
+      return onSnapshot(ref, (snap) => {
+        callback(snap.exists() ? (snap.data().data || {}) : {});
+      }, (err) => { console.error('partsState listener error', err); });
+    },
+    onBuildStepsChange(callback){
+      const ref = doc(db, 'chel', 'buildSteps');
+      return onSnapshot(ref, (snap) => {
+        callback(snap.exists() ? (snap.data().data || {}) : {});
+      }, (err) => { console.error('buildSteps listener error', err); });
+    },
+    async setBuildSteps(obj){
+      try{
+        const clean = JSON.parse(JSON.stringify(obj));
+        await setDoc(doc(db, 'chel', 'buildSteps'), { data: clean });
+        return true;
+      }catch(e){
+        console.error('setBuildSteps failed', e);
+        return false;
+      }
+    },
+    onResolvedIssuesChange(callback){
+      const ref = doc(db, 'chel', 'resolvedIssues');
+      return onSnapshot(ref, (snap) => {
+        callback(snap.exists() ? (snap.data().data || []) : []);
+      }, (err) => { console.error('resolvedIssues listener error', err); });
+    },
+    async setResolvedIssues(arr){
+      try{
+        const clean = JSON.parse(JSON.stringify(arr));
+        await setDoc(doc(db, 'chel', 'resolvedIssues'), { data: clean });
+        return true;
+      }catch(e){
+        console.error('setResolvedIssues failed', e);
+        return false;
+      }
+    },
+    async login(email, password){
+      try{
+        await signInWithEmailAndPassword(auth, email, password);
+        return { ok: true };
+      }catch(e){
+        return { ok: false, message: e.message };
+      }
+    },
+    async logout(){
+      await signOut(auth);
+    }
+  };
+
+  onAuthStateChanged(auth, (user) => {
+    window.chelIsEditor = !!user;
+    window.dispatchEvent(new CustomEvent('chel-auth-changed', { detail: { loggedIn: !!user, email: user ? user.email : null } }));
+  });
+
+  window.dispatchEvent(new Event('chel-firebase-ready'));
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+  :root{
+    --bg: #14181c;
+    --panel: #1b2129;
+    --panel2: #20272f;
+    --line: #33404c;
+    --blueprint: #3f7fb8;
+    --racing-red: #b8302a;
+    --brass: #c9a05c;
+    --green: #4c8c5c;
+    --paper: #eae6da;
+    --muted: #8993a1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--bg),var(--bg)),
+      repeating-linear-gradient(0deg, rgba(63,127,184,0.05) 0px, rgba(63,127,184,0.05) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(90deg, rgba(63,127,184,0.05) 0px, rgba(63,127,184,0.05) 1px, transparent 1px, transparent 28px);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    padding: 24px 16px 60px;
+  }
+  .wrap{max-width:1000px;margin:0 auto;}
+
+  .top-nav{display:flex; gap:14px; margin-bottom:18px; font-family:'IBM Plex Mono',monospace; font-size:0.8rem;}
+  .top-nav a{color:var(--muted); text-decoration:none; letter-spacing:0.5px;}
+  .top-nav a:hover{color:var(--brass);}
+  .top-nav a.current{color:var(--brass); font-weight:600;}
+
+  header{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    border-bottom:2px solid var(--brass);
+    padding-bottom:14px; margin-bottom:22px; flex-wrap:wrap; gap:10px;
+  }
+  .title{
+    font-family:'Oswald',sans-serif; font-weight:700; font-size:2.4rem;
+    letter-spacing:2px; text-transform:uppercase; line-height:1;
+  }
+  .title span{color:var(--brass);}
+  .subtitle{font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:0.8rem; letter-spacing:1px; margin-top:6px;}
+
+  .auth-bar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background:var(--panel); border:1px solid var(--line); border-radius:4px;
+    padding:8px 12px; margin-bottom:18px; font-size:0.78rem; font-family:'IBM Plex Mono',monospace;
+  }
+  .auth-bar #authStatus{color:var(--muted);}
+  .auth-bar input{
+    background:var(--panel2); border:1px solid var(--line); color:var(--paper);
+    padding:5px 8px; border-radius:3px; font-size:0.78rem; font-family:'IBM Plex Sans',sans-serif;
+    width:140px;
+  }
+  .auth-bar button{
+    background:var(--brass); border:none; color:var(--bg); font-weight:600;
+    padding:5px 12px; border-radius:3px; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; font-size:0.78rem;
+  }
+  .auth-bar #authLoginForm{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
+  .auth-bar #authError{color:#e0b0a8; font-size:0.72rem;}
+
+  .progress-card{
+    background:var(--panel); border:1px solid var(--brass); border-radius:6px;
+    padding:22px; margin-bottom:26px;
+  }
+  .progress-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px;}
+  .progress-pct{font-family:'IBM Plex Mono',monospace; font-size:2.4rem; font-weight:600; color:var(--brass);}
+  .progress-label{font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:2px; font-size:1rem;}
+  .progress-sub{font-family:'IBM Plex Mono',monospace; font-size:0.78rem; color:var(--muted);}
+  .progress-track{
+    width:100%; height:14px; background:var(--panel2); border:1px solid var(--line);
+    border-radius:7px; margin-top:14px; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; background:linear-gradient(90deg, var(--racing-red), var(--brass));
+    border-radius:7px 0 0 7px; transition:width 0.3s;
+  }
+
+  .section-label{
+    font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:2px;
+    font-size:0.95rem; color:var(--blueprint); margin: 30px 0 12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{content:''; flex:1; height:1px; background:var(--line);}
+
+  .milestone{
+    border:1px solid var(--line); border-radius:6px; margin-bottom:10px;
+    background:rgba(255,255,255,0.012);
+  }
+  .milestone > summary{
+    cursor:pointer; list-style:none; padding:12px 16px; display:flex; align-items:center; gap:10px;
+    font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:1.5px; font-size:0.98rem;
+    background:var(--panel2); border-bottom:1px solid var(--line); color:var(--brass);
+    border-radius:6px 6px 0 0;
+  }
+  .milestone:not([open]) > summary{border-radius:6px; border-bottom:none;}
+  .milestone > summary::-webkit-details-marker{display:none;}
+  .milestone > summary::before{content:'▸'; transition:transform .15s; display:inline-block;}
+  .milestone[open] > summary::before{transform:rotate(90deg);}
+  .milestone-meta{margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); text-transform:none; letter-spacing:0;}
+  .milestone-meta.done{color:var(--green);}
+  .milestone-content{padding:10px 16px;}
+
+  .step-row{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .step-row:last-child{border-bottom:none;}
+  .step-row input[type=checkbox]{
+    width:18px; height:18px; margin-top:2px; accent-color:var(--brass); cursor:pointer; flex-shrink:0;
+  }
+  .step-name{font-size:0.9rem;}
+  .step-name.done{color:var(--muted); text-decoration:line-through;}
+  .step-note{font-size:0.72rem; color:var(--muted); margin-top:2px; font-style:italic;}
+  .step-parts-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; background:var(--panel2);
+    border:1px solid var(--blueprint); color:var(--blueprint); padding:3px 8px; border-radius:3px;
+    cursor:pointer; margin-top:6px; text-decoration:none; display:inline-block;
+  }
+  .step-parts-btn:hover{background:rgba(63,127,184,0.15);}
+  .step-parts-btn.all-done{border-color:var(--green); color:var(--green);}
+
+  .parts-popup-wrap{position:relative; display:inline-block;}
+  .parts-popup{
+    display:none; position:absolute; z-index:50; left:0; top:calc(100% + 8px);
+    width:280px; background:var(--paper); color:var(--bg); border-radius:2px;
+    padding:14px 16px 14px 30px; box-shadow:0 6px 20px rgba(0,0,0,0.45);
+    background-image: repeating-linear-gradient(0deg, transparent 0px, transparent 22px, rgba(63,127,184,0.18) 22px, rgba(63,127,184,0.18) 23px);
+    border-left:3px solid var(--racing-red);
+  }
+  .parts-popup-wrap:hover .parts-popup{display:block;}
+  .parts-popup::before{
+    content:''; position:absolute; left:0; top:0; bottom:0; width:24px;
+    background:repeating-linear-gradient(180deg, transparent 0px, transparent 16px, rgba(184,48,42,0.25) 16px, rgba(184,48,42,0.25) 17px);
+    border-right:1px solid rgba(184,48,42,0.3);
+  }
+  .parts-popup-title{
+    font-family:'Oswald',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:1px;
+    font-size:0.8rem; margin-bottom:8px; color:var(--racing-red);
+  }
+  .parts-popup-item{font-size:0.78rem; line-height:1.5; margin-bottom:3px;}
+  .parts-popup-item.have{text-decoration:line-through; opacity:0.55;}
+
+  .issue{
+    display:flex; gap:10px; align-items:flex-start;
+    background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--racing-red);
+    padding:10px 12px; border-radius:0 4px 4px 0; margin-bottom:8px; font-size:0.86rem;
+  }
+  .issue b{color:var(--brass); font-family:'IBM Plex Mono',monospace; font-size:0.75rem; text-transform:uppercase;}
+  .del{background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.9rem;}
+  .issue-area-group{margin-bottom:20px;}
+  .issue-area-title{
+    font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted);
+    text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;
+  }
+  .empty{color:var(--muted); font-size:0.85rem; font-style:italic;}
+
+  footer{margin-top:36px; text-align:center; color:var(--muted); font-size:0.72rem; font-family:'IBM Plex Mono',monospace; letter-spacing:1px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-nav">
+    <a href="index.html">Home</a>
+    <a href="dashboard.html" class="current">Dashboard</a>
+    <a href="parts-list.html">Parts List</a>
+  </div>
+
+  <header>
+    <div>
+      <div class="title">CHEL <span>/ DASHBOARD</span></div>
+      <div class="subtitle">BUILD PROGRESS · MILESTONES · OPEN ISSUES</div>
+    </div>
+  </header>
+
+  <div id="authBar" class="auth-bar">
+    <span id="authStatus">Loading...</span>
+    <div id="authLoginForm" style="display:none;">
+      <input type="email" id="authEmail" placeholder="Email">
+      <input type="password" id="authPassword" placeholder="Password">
+      <button onclick="chelDoLogin()">Log In</button>
+      <span id="authError"></span>
+    </div>
+    <button id="authToggleBtn" onclick="chelToggleLoginForm()" style="display:none;">Log In to Edit</button>
+    <button id="authLogoutBtn" onclick="chelDoLogout()" style="display:none;">Log Out</button>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <div>
+        <div class="progress-label">Build Progress</div>
+        <div class="progress-sub" id="progressSub">Loading...</div>
+      </div>
+      <div class="progress-pct" id="progressPct">0%</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+  </div>
+
+  <div class="section-label">MILESTONES</div>
+  <div id="milestonesList"></div>
+
+  <div class="section-label">OPEN ISSUES</div>
+  <div id="issuesList"></div>
+
+  <footer>LIVE-SYNCED ACROSS DEVICES · TAP A MILESTONE TO EXPAND</footer>
+
+</div>
+
+<script>
+function chelToggleLoginForm(){
+  const form = document.getElementById('authLoginForm');
+  form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+}
+
+async function chelDoLogin(){
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const errEl = document.getElementById('authError');
+  errEl.textContent = '';
+  if(!email || !password){ errEl.textContent = 'Enter email and password.'; return; }
+  const result = await window.chelFirebase.login(email, password);
+  if(!result.ok){
+    errEl.textContent = 'Login failed — check email/password.';
+  }
+}
+
+async function chelDoLogout(){
+  await window.chelFirebase.logout();
+}
+
+function chelUpdateAuthUI(detail){
+  const statusEl = document.getElementById('authStatus');
+  const toggleBtn = document.getElementById('authToggleBtn');
+  const logoutBtn = document.getElementById('authLogoutBtn');
+  const loginForm = document.getElementById('authLoginForm');
+  if(detail.loggedIn){
+    statusEl.textContent = `Editing as ${detail.email}`;
+    toggleBtn.style.display = 'none';
+    logoutBtn.style.display = 'inline-block';
+    loginForm.style.display = 'none';
+  } else {
+    statusEl.textContent = 'Viewing (read-only)';
+    toggleBtn.style.display = 'inline-block';
+    logoutBtn.style.display = 'none';
+  }
+}
+
+window.addEventListener('chel-auth-changed', (e) => {
+  chelUpdateAuthUI(e.detail);
+  renderMilestones();
+  renderIssues();
+});
+
+// STOPGAP: id->name/price lookup, generated from parts-list.html's catalog.
+// If parts get renamed/added there, this needs regenerating to match — see
+// the shared-JSON-catalog discussion for the real long-term fix.
+const partsLookup = {
+  'block-core': {name:'Block: Mexican Cast 302 (decked/bored to 4.030")', price:500.00},
+  'main-girdle': {name:'Main Cap Girdle — PRW Billet Steel 3/8", 9030201', price:175.76},
+  'crank': {name:'Crankshaft — Eagle 4340 Forged 2.870" stroke, 430228705090', price:840.95},
+  'rod': {name:'Rod — Eagle CRS Lightweight H-beam, CRS5155F3D2000', price:650.28},
+  'piston': {name:'Piston — Icon Forged 6.8cc Dome, UEM-IC736-030', price:582.75},
+  'rod-bearings': {name:'Rod Bearings — Clevite P-Series, CLE-CB634P8', price:54.99},
+  'main-bearings': {name:'Crank Main Bearings — Clevite P-Series, CLE-MS590P', price:78.99},
+  'cam-bearings': {name:'Cam Bearings — Clevite, SH-510S', price:33.99},
+  'main-studs': {name:'Main Studs — ARP Stud Kit, 154-5408', price:66.99},
+  'rear-main-seal': {name:'Rear Main Seal — Fel-Pro BS 30136, 2-piece, nitrile', price:20.99},
+  'heads': {name:'Heads — AFR 165 SBF Renegade CNC (pair, assembled)', price:2126.00},
+  'spring-kit': {name:'Valve Spring Kit — FTI-SR765-KIT-TI (PAC 1238X + Ti retainers)', price:976.00},
+  'intake-valves': {name:'Intake Valves — SS, 8mm x 1.900" x 5.000" (8)', price:176.00},
+  'exhaust-valves': {name:'Exhaust Valves — Inconel, 8mm x 1.600" x 5.030" (8)', price:436.00},
+  'lifters': {name:'Lifters — Morel Ultra Pro 5436 Link-Bar Solid Roller', price:950.00},
+  'rockers': {name:'Rocker Arms — Comp Cams Magnum XD Roller Rockers', price:560.00},
+  'rocker-studs': {name:'Rocker Arm Studs — ARP 7/16" Pro-Series (16)', price:65.00},
+  'pushrods': {name:'Pushrods — FTI Custom One-Piece 5/16" HD (16)', price:192.00},
+  'camshaft': {name:'Camshaft — Custom Solid Roller Billet Core', price:550.00},
+  'cam-bolt-kit': {name:'Camshaft Bolt Kit — ARP Pro-Series', price:9.00},
+  'thrust-plate': {name:'Camshaft Thrust Plate — fresh replacement (bolted flat plate)', price:20.00},
+  'timing-set': {name:'Timing Set — Comp Cams Keyway Adj. Billet, 7138-5', price:171.95},
+  'damper': {name:'Harmonic Damper — ATI Super Damper Aluminum, 918924', price:414.50},
+  'head-bolts': {name:'Head Bolts — ARP Pro-Series Cylinder Head Bolts', price:56.00},
+  'rocker-girdle': {name:'Rocker Stud Girdle — Jomar 1126 Pro Billet (corrected from 1123)', price:199.99},
+  'rocker-girdle-nuts': {name:'Adjustment Nuts — Jomar 1415, 7/16" stud, .600" base, 2.0" long (2 packs)', price:89.98},
+  'head-gasket': {name:'Head Gasket — Cometic MLS 4.060" bore .051" thick, C5479-051 x2', price:184.70},
+  'vc-studs': {name:'Valve Cover Studs — ARP Stud Kit, 200-7610', price:28.99},
+  'valve-covers': {name:'Valve Covers — Ansen Pentroof Cobra Le Mans Black', price:325.00},
+  'seals-guides': {name:'Pushrod Guide / Valve Stem Seals', price:0.00},
+  'intake-manifold': {name:'Intake Manifold — Edelbrock Vic Jr EFI Multi-port, 29215', price:510.95},
+  'throttle-body': {name:'Throttle Body — Holley 4-Barrel 1000 CFM 4150, 112-587', price:673.95},
+  'fuel-rail': {name:'Fuel Rail — Holley EFI 6AN F-thread, 534-280', price:134.95},
+  'injectors': {name:'Injectors — Holley EV1 Plug 30lb, 522-308', price:583.95},
+  'fuel-reg': {name:'Fuel Press Reg — Holley Bypass Kit, 12-886KIT', price:146.65},
+  'fuel-pump': {name:'Fuel Pump — Walbro In-tank 67gph/255lph, GCA719-2', price:111.99},
+  'ecu': {name:'ECU — Holley Terminator X MPFI Kit, 550-937', price:1303.95},
+  'fuel-hanger': {name:'Fuel Pump Hanger — SVE -6AN, SVE-9407AHP-K', price:149.99},
+  'fuel-filter': {name:'Fuel Filter — Holley HP Billet 10 Micron 3/8" NPT, 162-550', price:115.15},
+  'fuel-filter-bracket': {name:'Fuel Filter Bracket — Holley Billet, 162-573', price:49.37},
+  'distributor': {name:'Distributor — Holley EFI Dual Sync Ford 302, 565-202BK', price:519.95},
+  'ignition-module': {name:'Ignition Module — MSD 6EFI Controller, 6415', price:150.29},
+  'ignition-coil': {name:'Ignition Coil — MSD 6EFI, 86415', price:70.25},
+  'plug-wires': {name:'Spark Plug Wires — MSD 8.5mm Super Conductor, MSD-31323', price:144.85},
+  'oil-pump': {name:'Oil Pump — Melling M68A (Std Vol/High Press)', price:74.97},
+  'oil-pump-shaft': {name:'Oil Pump Shaft — ARP Driveshaft, 154-7904', price:19.99},
+  'oil-pan': {name:'Oil Pan — Kevko Racing Sportsman Road Race, F501-RR-302', price:399.99},
+  'oil-pickup': {name:'Oil Pickup Tube — Kevko Racing 302 Road Race, F201-1RR', price:79.99},
+  'oil-dipstick': {name:'Oil Dipstick — Kevko Racing Lokar Locking, K128LO', price:177.99},
+  'crank-pulley': {name:'Crank Pulley — Auto Specialties Underdrive, 820100', price:82.99},
+  'flywheel': {name:'Flywheel — American Powertrain 157-tooth, FWFO-20003', price:459.95},
+  'alternator': {name:'Alternator — Powermaster Race 150 amp, 8-57140', price:218.99},
+  'water-pump': {name:'Water Pump — GMB High Perf CCW, GMB-125-1560P', price:62.99},
+  'water-pump-pulley': {name:'Water Pump Pulley — March Performance Alum, 2032-08', price:118.95},
+  'ac-compressor': {name:'A/C Compressor — Four Seasons Reman R-134a, 57388', price:195.99},
+  'belt-tensioner': {name:'Belt Tensioner — Continental Accu-Drive, 49222', price:82.99},
+  'timing-cover': {name:'Timing Cover — Pioneer Auto, 500302M', price:129.99},
+  'air-cleaner': {name:'Air Cleaner — Amsen 15" Oval w/ Custom Script', price:250.00},
+  'starter': {name:'Starter Motor — Ford Performance High-Torque Mini Starter, M-11000-B51', price:329.60},
+  'engine-fasteners': {name:'Engine Fasteners — ARP Engine Bolt Kit, 554-9801', price:194.99},
+  'timing-pointer': {name:'Timing Pointer — MSD Adjustable 11 o\'clock, 89889', price:116.95},
+  'piston-rings': {name:'Piston Rings — Total Seal TS1 Gapless Ring Set, T369035', price:386.92},
+  'machining-block': {name:'Block clean, machining & prep (deck to 8.200", bore/hone to 4.030")', price:1500.00},
+  'machining-balance': {name:'Zero-balance rotating assembly', price:500.00},
+  'tkx-trans': {name:'Tremec TKX 5-Speed — TCET18085 (1-1/8" x 26-spline input, 31-spline output)', price:2895.00},
+  'bellhousing': {name:'Bellhousing — QuickTime RM-6063 or RM-6065 (TBD)', price:1177.95},
+  'throwout-bearing': {name:'Throwout Bearing — McLeod 1350, 1300-Series Bolt-On Hydraulic', price:395.00},
+  'clutch-rxt': {name:'Clutch — McLeod RXT Street Twin, 6923-07C', price:1245.00},
+  'pilot-bushing': {name:'Pilot Bushing — McLeod 8-1380-2 (0.670"–0.672" ID x 1.380" OD, SBF Windsor)', price:36.00},
+  'clutch-master-cyl': {name:'Hydraulic Clutch Master Cylinder — FFR-supplied, PN 34158, 3/4" bore, 6:1 ratio', price:0.00},
+  'rear-diff': {name:'Rear Differential — Ford Performance M-4001-88355B, Super 8.8" IRS loaded housing, iron, 3.55:1, Traction-Lok', price:1224.99},
+  'diff-temp-gauge': {name:'Differential Temp Gauge — AutoMeter 2636 Z-Series, 2-1/16", 100-250°F', price:72.99},
+  'speedo-mechanical': {name:'Speedometer — AutoMeter Arctic White Mechanical, PN 1396 (functional, odometer only)', price:129.99},
+  'speedo-cable': {name:'Speedometer Cable', price:0.00},
+  'speedo-driven-gear': {name:'Speedometer Driven Gear (calibration gear, not electronic)', price:0.00},
+  'driveshaft-halfshafts': {name:'Driveshaft & Half Shafts — FFR-supplied', price:0.00},
+  'front-rotor': {name:'Front Rotors — PowerStop AR8144XPR (pair), 13" drilled & slotted, 94-04 Cobra/Bullitt/Mach 1', price:121.89},
+  'front-brake-pads': {name:'Front Brake Pads — PowerStop Z26412, Z26 Street Performance Carbon-Fiber Ceramic w/ hardware kit', price:85.79},
+  'front-brake-rebuild': {name:'Front Brake Rebuild Hardware — caliper repair kit, hardware kit, slide pins, boots, bracket bolts, bleeder screws', price:64.21},
+  'front-caliper': {name:'Front Calipers — PowerStop L4766C & L4767C (pair)', price:0.00},
+  'rear-rotor': {name:'Rear Rotors — PowerStop AR85160XPR (pair), drilled & slotted', price:133.79},
+  'rear-caliper': {name:'Rear Calipers — Nugeon 9918037A (RH) & 9918037B (LH), remanufactured, unpainted, w/ mounting bracket', price:119.58},
+  'rear-caliper-core': {name:'Nugeon Core Charge — $44/side (refundable)', price:88.00},
+  'rear-brake-pads': {name:'Rear Brake Pads — PowerStop Z261793, Z26 Street Performance Carbon-Fiber Ceramic w/ hardware kit', price:69.79},
+  'front-braided-lines': {name:'Front Stainless Braided Soft Lines', price:0.00},
+  'front-dust-shields': {name:'Front Dust Shields', price:0.00},
+  'banjo-bolts': {name:'Banjo Bolts', price:0.00},
+  'pedal-box': {name:'Pedal Box — Wilwood 340-11299, reverse swing mount brake/clutch, 6.25:1 ratio', price:0.00},
+  'master-cylinders': {name:'Master Cylinders (x3: front, rear, clutch) — Wilwood Z-260-14297, compact remote, 0.75" bore', price:0.00},
+  'bias-adjuster': {name:'Brake Bias Adjuster — Wilwood 340-4990, remote balance bar cable, 5 ft, dash-mount blue knob', price:54.99},
+  'bias-coupler': {name:'90° Coupler — Tilton TIL-72-560', price:93.50},
+  'rear-spindle': {name:'Rear Suspension Spindle/Knuckle — 2015+ Mustang IRS (pair)', price:0.00},
+  'rear-hub-bearing': {name:'Rear Wheel Bearing & Hub Assembly — Ford OEM FR3Z-1104-B (HUB285), qty 2', price:339.98},
+  'knuckle-bushing-set': {name:'Knuckle to LCA Bushing Set — JEGS M-5A460-M', price:0.00},
+  'gauges': {name:'AutoMeter Cobra Series Gauge Set (4" primary + 2-1/16" secondary)', price:0.00},
+  'vintage-air': {name:'Vintage Air Gen 5 Mini w/ Defrost Kit, 661000', price:1009.00},
+  'ffr-kit': {name:'Factory Five Type 65 Coupe Kit — Complete Coupe, full build sheet', price:0.00},
+  'footbox-extension': {name:'Driver Side Footbox Extension — Snakebite Motorworks', price:0.00},
+  'trunk-drop-floor': {name:'Trunk Drop Floor Kit — Snakebite Motorworks', price:314.00},
+  'door-pocket-kit': {name:'Door Pocket Kit — Snakebite Motorworks', price:260.00},
+  'trans-tunnel-lower': {name:'Trans Tunnel Lower Kit — Snakebite Motorworks', price:174.00},
+  'firewall-lower': {name:'Firewall Lower Kit — Snakebite Motorworks', price:43.00},
+  'access-doors': {name:'Access Doors — Snakebite Motorworks (qty 2)', price:78.00},
+  'hood-roller': {name:'Hood Roller — Snakebite Motorworks', price:130.00},
+  'pontoon-covers': {name:'Pontoon Covers, Linear Pattern — Snakebite Motorworks', price:158.00},
+  'horn-relocation-mount': {name:'Horn Relocation Mount Brackets — Snakebite Motorworks', price:18.00},
+  'chassis-primer': {name:'Primer — Eastwood OptiFlow Epoxy Primer Kit, Roll-On, Gray (98003ZP)', price:0.00},
+  'chassis-paint': {name:'Paint & Activator — Eastwood Bright White Single Stage', price:0.00},
+  'brake-reservoir': {name:'Brake/Clutch Fluid Reservoir — Tilton 72-576, Three Chamber Plastic, push-on fittings', price:116.45},
+  'rear-sway-bar': {name:'Rear Sway Bar — FFR IRS Front & Rear Sway Bar Kit (2015 IRS Swaybar, instruction set #15998)', price:0.00},
+  'oil-filter-adapter': {name:"Oil Filter Adapter — Hamburger\'s -12AN, HAM-3320", price:135.99},
+  'oil-filter-mount': {name:"Oil Filter Mount — Hamburger\'s -12AN 3/4-16, HAM-3343", price:131.99},
+};
+
+const milestones = [
+  {
+    id: 'm1', num: 1, name: 'Chassis Prep',
+    steps: [
+      {id:'m1-primer', name:'Primer on bare steel chassis', linkedParts:['chassis-primer']},
+      {id:'m1-fit-panels', name:'Fit aluminum panels and pre-drill', linkedParts:['footbox-extension','trunk-drop-floor','door-pocket-kit','trans-tunnel-lower','firewall-lower','access-doors','hood-roller','pontoon-covers','horn-relocation-mount']},
+      {id:'m1-clean-sand', name:'Clean holes, sand and clean primed surface', linkedParts:[]},
+      {id:'m1-final-paint', name:'Final paint', linkedParts:['chassis-paint']},
+    ]
+  },
+  {
+    id: 'm2', num: 2, name: 'Rolling Chassis',
+    steps: [
+      {id:'m2-steering-rack', name:'Steering Rack', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
+      {id:'m2-front-suspension', name:'Front Suspension', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
+      {id:'m2-tie-rods', name:'Steering Tie Rod Ends', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
+      {id:'m2-front-brakes', name:'Front Brakes', linkedParts:['front-rotor','front-brake-pads','front-brake-rebuild','front-caliper','front-braided-lines','front-dust-shields','banjo-bolts']},
+      {id:'m2-irs-diff', name:'IRS Diff and Suspension', linkedParts:['rear-diff','diff-temp-gauge','rear-spindle','rear-hub-bearing','knuckle-bushing-set','rear-sway-bar']},
+      {id:'m2-rear-brakes', name:'Rear Brakes', linkedParts:['rear-rotor','rear-caliper','rear-caliper-core','rear-brake-pads']},
+      {id:'m2-temp-wheels', name:'Temp Wheels and Tires', linkedParts:[]},
+      {id:'m2-alignment', name:'Rough Alignment', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm3', num: 3, name: 'Chassis Fuel System',
+    steps: [
+      {id:'m3-fuel-tank', name:'Fuel Tank', linkedParts:['fuel-pump','fuel-filter','fuel-filter-bracket'], note:'Fuel sender/pump/filter tracked under Engine — see linked parts'},
+      {id:'m3-fuel-lines', name:'Fuel Lines', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm4', num: 4, name: 'Cockpit Stage 1',
+    steps: [
+      {id:'m4-pedal-box', name:'Pedal Box', linkedParts:['pedal-box','master-cylinders','bias-adjuster','bias-coupler','brake-reservoir']},
+      {id:'m4-accel-pedal', name:'Accelerator Pedal', linkedParts:[]},
+      {id:'m4-cockpit-alum', name:'Cockpit aluminum', linkedParts:['footbox-extension','trans-tunnel-lower']},
+    ]
+  },
+  {
+    id: 'm5', num: 5, name: 'Engine Assembly',
+    steps: [
+      {id:'m5-block-machining', name:'Block Machining', linkedParts:['block-core','machining-block','machining-balance']},
+      {id:'m5-rotating-assy', name:'Rotating Assy Zero Balance', linkedParts:['crank','rod','piston','piston-rings','rod-bearings','main-bearings','cam-bearings','flywheel','damper']},
+      {id:'m5-short-block', name:'Short Block Assembly', linkedParts:['main-studs','main-girdle','rear-main-seal','oil-pump','oil-pump-shaft','oil-pan','oil-pickup','oil-dipstick','timing-set','timing-cover','camshaft','cam-bolt-kit','thrust-plate','timing-pointer','engine-fasteners']},
+      {id:'m5-head-install', name:'Head Installation', linkedParts:['heads','head-gasket','head-bolts','spring-kit','intake-valves','exhaust-valves','valve-covers','vc-studs','seals-guides','rocker-girdle','rocker-girdle-nuts','rockers','rocker-studs','pushrods','lifters']},
+      {id:'m5-intake-efi', name:'Intake and EFI Installation', linkedParts:['intake-manifold','throttle-body','fuel-rail','injectors','fuel-reg','ecu','fuel-hanger']},
+      {id:'m5-accessory', name:'Accessory Installation', linkedParts:['crank-pulley','alternator','water-pump','water-pump-pulley','ac-compressor','belt-tensioner','air-cleaner','starter']},
+      {id:'m5-clutch-install', name:'Clutch Installation', linkedParts:['clutch-rxt','pilot-bushing','throwout-bearing']},
+    ]
+  },
+  {
+    id: 'm6', num: 6, name: 'Transmission Assembly',
+    steps: [
+      {id:'m6-bellhousing', name:'Bellhousing Installation', linkedParts:['bellhousing']},
+      {id:'m6-shifter', name:'Shifter Location', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm7', num: 7, name: 'Drivetrain Installation',
+    steps: [
+      {id:'m7-heat-shield', name:'Engine Bay Prep - Heat Shielding', linkedParts:[]},
+      {id:'m7-mount', name:'Mount', linkedParts:['tkx-trans']},
+      {id:'m7-fuel-install', name:'Fuel System Installation', linkedParts:['fuel-rail','fuel-pump','fuel-reg']},
+      {id:'m7-driveshaft', name:'Driveshaft', linkedParts:['driveshaft-halfshafts']},
+    ]
+  },
+  {
+    id: 'm8', num: 8, name: 'Driver Controls',
+    steps: [
+      {id:'m8-steering-shaft', name:'Steering Shaft', linkedParts:[]},
+      {id:'m8-clutch-lines', name:'Clutch hydraulic lines', linkedParts:[]},
+      {id:'m8-accel-cable', name:'Accelerator Cable', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm9', num: 9, name: 'Brakes',
+    steps: [
+      {id:'m9-hard-lines', name:'Hard Brake Lines', linkedParts:[]},
+      {id:'m9-soft-lines', name:'Soft Brake Lines', linkedParts:['front-braided-lines']},
+      {id:'m9-reservoir', name:'Brake Reservoir', linkedParts:['brake-reservoir']},
+      {id:'m9-ebrake', name:'Emergency Brake Handle and Cables', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm10', num: 10, name: 'Function Test 1: Hydraulics',
+    steps: [
+      {id:'m10-brake-bleed', name:'Brake Fluid and Bleed', linkedParts:[]},
+      {id:'m10-brake-pedal-adj', name:'Brake Pedal Adjustment', linkedParts:[]},
+      {id:'m10-clutch-bleed', name:'Clutch Fluid and Bleed', linkedParts:[]},
+      {id:'m10-clutch-pedal-adj', name:'Clutch Pedal Adjustment', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm11', num: 11, name: 'Battery',
+    steps: [
+      {id:'m11-battery-tray', name:'Battery Tray', linkedParts:[]},
+      {id:'m11-battery-cable', name:'Battery Cable and Hookup', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm12', num: 12, name: 'Electrical',
+    steps: [
+      {id:'m12-chassis-harness', name:'Chassis Wiring Harness', linkedParts:[]},
+      {id:'m12-lights-horn', name:'Lights and Horn', linkedParts:['horn-relocation-mount']},
+      {id:'m12-engine-harness', name:'Engine Harness', linkedParts:['ecu']},
+      {id:'m12-ignition', name:'Ignition System', linkedParts:['distributor','ignition-module','ignition-coil','plug-wires']},
+      {id:'m12-gauge-wiring', name:'Gauge Wiring', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm13', num: 13, name: 'Cooling System',
+    steps: [
+      {id:'m13-alum-duct', name:'Aluminum Duct', linkedParts:[]},
+      {id:'m13-radiator', name:'Radiator, Fan and Hose', linkedParts:['water-pump','water-pump-pulley']},
+      {id:'m13-overflow', name:'Overflow Tank', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm14', num: 14, name: 'Cockpit Stage 2',
+    steps: [
+      {id:'m14-trans-tunnel', name:'Trans Tunnel', linkedParts:['trans-tunnel-lower']},
+      {id:'m14-outside-footbox', name:'Outside Footbox', linkedParts:['footbox-extension']},
+      {id:'m14-hatch-floor', name:'Hatch Floor', linkedParts:['trunk-drop-floor']},
+    ]
+  },
+  {
+    id: 'm15', num: 15, name: 'Exhaust',
+    steps: [
+      {id:'m15-headers', name:'Headers and J-pipe', linkedParts:[]},
+      {id:'m15-side-exhaust', name:'Side Exhaust', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm16', num: 16, name: 'Function Test 2: Power On',
+    steps: [
+      {id:'m16-accessory-lights', name:'Accessory, Lights, Horn', linkedParts:[]},
+      {id:'m16-engine-power', name:'Engine Power', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm17', num: 17, name: 'PCV System',
+    steps: [
+      {id:'m17-catch-can', name:'Mount PCV Catch Can', linkedParts:[]},
+      {id:'m17-vacuum-lines', name:'Route Vacuum and Evac Lines', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm18', num: 18, name: 'Function Test 3: Engine Run',
+    steps: [
+      {id:'m18-fill-fluids', name:'Fill Fluids', linkedParts:[]},
+      {id:'m18-engine-run', name:'Engine Run', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm19', num: 19, name: 'Interior',
+    steps: [
+      {id:'m19-insulation', name:'Heat and Noise Insulation', linkedParts:[]},
+      {id:'m19-carpet', name:'Carpet Installation', linkedParts:[]},
+      {id:'m19-dash', name:'Dash Assembly & Installation', linkedParts:[]},
+      {id:'m19-ac', name:'A/C Evaporator and Ducting', linkedParts:['ac-compressor']},
+      {id:'m19-gauges', name:'Gauge Installation', linkedParts:['diff-temp-gauge','speedo-mechanical','speedo-cable','speedo-driven-gear']},
+      {id:'m19-seats', name:'Seat and Harness Installation', linkedParts:[]},
+      {id:'m19-steering-wheel', name:'Steering Wheel Installation', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm20', num: 20, name: 'Functional Test 4: Rolling Chassis Check',
+    steps: [
+      {id:'m20-suspension', name:'Suspension', linkedParts:[]},
+      {id:'m20-fluids', name:'Fluids', linkedParts:[]},
+      {id:'m20-rattles', name:'Rattles', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm21', num: 21, name: 'Body Fitment',
+    steps: [
+      {id:'m21-rear-body-mount', name:'Rear Body Mount', linkedParts:[]},
+      {id:'m21-nose-trim', name:'Nose Trim and Mount', linkedParts:[]},
+      {id:'m21-door-trim', name:'Door Trim and Mount', linkedParts:[]},
+      {id:'m21-door-popper', name:'Door Popper Installation', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm22', num: 22, name: 'Body Work',
+    steps: [
+      {id:'m22-sanding', name:'Sanding and Body Filling', linkedParts:[]},
+      {id:'m22-spoiler', name:'Spoiler Fitment', linkedParts:[]},
+      {id:'m22-nose-scoop', name:'Nose Scoop Fitment', linkedParts:[]},
+      {id:'m22-side-window', name:'Side Window Fitment', linkedParts:[]},
+      {id:'m22-light-fitment', name:'Light Fitment', linkedParts:[]},
+      {id:'m22-final-primer', name:'Removal, Final Prep and Primer', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm23', num: 23, name: 'Body Paint',
+    steps: [
+      {id:'m23-interior-liners', name:'Interior Liners', linkedParts:[]},
+      {id:'m23-exterior-paint', name:'Exterior Paint', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm24', num: 24, name: 'Final Assembly',
+    steps: [
+      {id:'m24-shifter-ebrake-boot', name:'Shifter and E-brake Boot', linkedParts:[]},
+      {id:'m24-mesh', name:'Nose Side and Rear Mesh', linkedParts:[]},
+      {id:'m24-headliner', name:'Headliner', linkedParts:[]},
+      {id:'m24-final-body-mount', name:'Final Body Mounting', linkedParts:[]},
+      {id:'m24-light-install', name:'Light Installation', linkedParts:[]},
+      {id:'m24-fuel-filler', name:'Fuel Filler and Gas Cap Installation', linkedParts:[]},
+      {id:'m24-windows', name:'Windows', linkedParts:[]},
+      {id:'m24-hatch-alum', name:'Hatch Interior Aluminum', linkedParts:['access-doors']},
+      {id:'m24-mirrors', name:'Mirror Installations', linkedParts:[]},
+      {id:'m24-rear-hatch', name:'Rear Hatch Installation', linkedParts:[]},
+      {id:'m24-side-exhaust-final', name:'Side Exhaust Final Installation', linkedParts:[]},
+      {id:'m24-ac-charge', name:'A/C Line Routing and System Charge', linkedParts:['ac-compressor']},
+      {id:'m24-final-wheels', name:'Final Wheel and Tire Installation', linkedParts:[]},
+      {id:'m24-realignment', name:'Re-alignment (rough, final professional after completion)', linkedParts:[]},
+    ]
+  },
+  {
+    id: 'm25', num: 25, name: 'Functional Test: Shakedown',
+    steps: [
+      {id:'m25-predrive', name:'Pre-drive Check', linkedParts:[]},
+      {id:'m25-test-drive', name:'Test Drive', linkedParts:[]},
+      {id:'m25-celebrate', name:'Celebrate', linkedParts:[]},
+    ]
+  },
+];
+
+const issues = [
+  {id:"rocker-girdle", area:"Engine", tag:"ROCKER GIRDLE", text:"Jomar 1126 (corrected from 1123) — confirm girdle-to-Magnum-XD-rocker-body clearance directly with Jomar before ordering; not something that shows up on a spec sheet."},
+  {id:"camshaft", area:"Engine", tag:"CAMSHAFT", text:"Custom billet grind from FTI — request the actual cam card once it's finalized, hardest line item to evaluate sight-unseen."},
+  {id:"piston-rings-optional", area:"Engine", tag:"PISTON RINGS (OPTIONAL)", text:"True gapless-TOP-ring version (Total Seal AP Steel) exists at this bore but needs a direct quote from Total Seal for a complete kit — current pick (TS1, gapless 2nd) is the confirmed-price, in-stock choice."},
+  {id:"starter-fit", area:"Engine", tag:"STARTER FIT", text:"Ford Performance M-11000-B51 mini starter confirmed for the 157-tooth flywheel — 157-tooth manual-trans starters can have different nose lengths depending on bellhousing/spacer plate, so reconfirm fit once the bellhousing is chosen in the drivetrain chat."},
+  {id:"rear-main-seal", area:"Engine", tag:"REAR MAIN SEAL", text:"1-piece vs. 2-piece style is set by the block, not the crank — get confirmation from the machine shop during block clean/machine/prep before ordering."},
+  {id:"pcv-catch-can-parked", area:"Engine", tag:"PCV / CATCH CAN (PARKED)", text:"Closed-loop system required — Terminator X is closed-loop EFI, unmetered air from open breathers causes real tuning issues. Planned architecture: valve covers → dual-inlet baffled catch can → PCV valve → intake manifold vacuum, with a separate fresh-air makeup line upstream of the throttle body. Solid roller cam may produce rough idle vacuum — a fixed-orifice (metered restrictor) PCV valve is the backup if a standard spring-pintle valve misbehaves. Catch can mounting location depends on chassis packaging — parked until further into chassis assembly."},
+  {id:"valve-cover-an-bungs", area:"Engine", tag:"VALVE COVER AN BUNGS", text:"Confirm the Ansen Pentroof covers ship pre-drilled with -AN bungs for PCV/catch can lines before paint — have bungs welded in if not included."},
+  {id:"o2-bung-exhaust-stage", area:"Engine", tag:"O2 BUNG (EXHAUST STAGE)", text:"Bosch LSU 4.9 wideband is included with the Terminator X kit — the O2 bung itself needs to be welded into the FFR-supplied header/collector. Flag for whenever header install happens."},
+  {id:"rear-main-seal-leak-risk", area:"Engine", tag:"REAR MAIN SEAL LEAK RISK", text:"Fel-Pro BS 30136 (2-piece, nitrile) has a documented pattern of persistent leaks reported even on careful installs — appears to be an inherent weak point of the 2-piece SBF design generally, not a brand-specific flaw."},
+  {id:"rear-main-seal-1-piece-conversion", area:"Engine", tag:"REAR MAIN SEAL — 1-PIECE CONVERSION", text:"Worth asking the machine shop (while the block is already on their bench for deck/bore work) whether converting to a 1-piece rear main seal is feasible — a permanent fix some builders take to eliminate the 2-piece leak failure mode entirely. Decision pending."},
+  {id:"ffr-kit-line-item-breakout", area:"Chassis", tag:"FFR KIT LINE-ITEM BREAKOUT", text:"The FFR kit invoice ($28,486, sales order #0218905) is one purchase but covers parts that logically belong to other areas — seats/carpet (Interior), wheels/body/nose (Exterior), IRS rear suspension/sway bars (Suspension & Brakes). Currently tracked as a single Chassis line for simplicity; let the dashboard chat know if you'd rather have it split into per-area line items instead."},
+  {id:"bellhousing", area:"Drivetrain", tag:"BELLHOUSING", text:"QuickTime RM-6063 (short-shaft) vs RM-6065 (long-shaft) — TKX short input shaft points toward 6063, but depth spec is unconfirmed from published sources. Emailed Tremec directly; awaiting reply, no fast turnaround expected. No purchase until resolved."},
+  {id:"shifter", area:"Drivetrain", tag:"SHIFTER", text:"Stock offset shifter included in the FFR kit rejected — want a forward-angled/offset replacement instead. Exact part(s) TBD pending physical inventory of the paper kit packet (scan planned)."},
+  {id:"rear-caliper-core-charge", area:"Suspension & Brakes", tag:"REAR CALIPER CORE CHARGE", text:"Nugeon rear calipers carry a $44/side ($88 total) core charge — return old calipers after install to recover it, or budget for the forfeit if not returned."},
+  {id:"reservoir-mounting-fitting", area:"Suspension & Brakes", tag:"RESERVOIR MOUNTING/FITTING", text:"Confirm reservoir mounting location before finalizing push-on vs. AN fitting choice (Tilton 72-576 vs. 72-577). Also verify actual Wilwood Z-260-14297 MC barb size against Tilton hose/fitting spec once reservoir style is finalized."},
+  {id:"shock-damper-upgrade-path-future", area:"Suspension & Brakes", tag:"SHOCK/DAMPER UPGRADE PATH (FUTURE)", text:"Kit ships with standard KONI monotube shocks. Common FFR builder pattern is a later upgrade to double-adjustable KONIs or QA-1 coilovers once there's track mileage and a clearer sense of what needs to change. Not an action item now — revisit after initial track days at Ridge if base shocks feel like a limiting factor."},
+];
+
+let buildStepsState = {};
+let partsStateCache = {};
+let resolvedIssueIds = [];
+
+function loadBuildSteps(){
+  window.chelFirebase.onBuildStepsChange((data) => {
+    buildStepsState = data || {};
+    renderMilestones();
+    renderProgress();
+  });
+}
+
+function loadPartsStateCache(){
+  window.chelFirebase.onPartsStateChange((data) => {
+    partsStateCache = data || {};
+    renderMilestones();
+  });
+}
+
+function loadResolvedIssues(){
+  window.chelFirebase.onResolvedIssuesChange((arr) => {
+    resolvedIssueIds = arr || [];
+    renderIssues();
+  });
+}
+
+function allSteps(){
+  const out = [];
+  milestones.forEach(m => m.steps.forEach(s => out.push(s)));
+  return out;
+}
+
+async function toggleStep(stepId, val){
+  buildStepsState[stepId] = val;
+  renderMilestones();
+  renderProgress();
+  const ok = await window.chelFirebase.setBuildSteps(buildStepsState);
+  if(!ok) alert('Save failed — your last change may not have been stored. Try again.');
+}
+
+function renderProgress(){
+  const steps = allSteps();
+  const total = steps.length;
+  const done = steps.filter(s => buildStepsState[s.id]).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressSub').textContent = `${done} / ${total} steps complete`;
+}
+
+const milestoneOpenState = {};
+document.addEventListener('toggle', (e) => {
+  const key = e.target && e.target.dataset ? e.target.dataset.milestoneKey : null;
+  if(key) milestoneOpenState[key] = e.target.open;
+}, true);
+
+function partsCountForStep(step){
+  if(!step.linkedParts || !step.linkedParts.length) return null;
+  const total = step.linkedParts.length;
+  const have = step.linkedParts.filter(pid => partsStateCache[pid] && partsStateCache[pid].purchased).length;
+  return {have, total};
+}
+
+function renderMilestones(){
+  const el = document.getElementById('milestonesList');
+  el.innerHTML = milestones.map(m => {
+    const done = m.steps.filter(s => buildStepsState[s.id]).length;
+    const total = m.steps.length;
+    const isOpen = !!milestoneOpenState[m.id];
+    const editable = !!window.chelIsEditor;
+    const dis = editable ? '' : 'disabled';
+    return `<details class="milestone" data-milestone-key="${m.id}" ${isOpen ? 'open' : ''}>
+      <summary>${m.num}) ${m.name}<span class="milestone-meta ${done===total?'done':''}">${done}/${total} steps</span></summary>
+      <div class="milestone-content">
+        ${m.steps.map(s => {
+          const checked = !!buildStepsState[s.id];
+          const counts = partsCountForStep(s);
+          let partsBtn = '';
+          if(counts){
+            const allDone = counts.have === counts.total;
+            const popupItems = s.linkedParts.map(pid => {
+              const info = partsLookup[pid];
+              const have = partsStateCache[pid] && partsStateCache[pid].purchased;
+              const label = info ? info.name : pid;
+              return `<div class="parts-popup-item ${have?'have':''}">${label}</div>`;
+            }).join('');
+            partsBtn = `<span class="parts-popup-wrap">
+              <a class="step-parts-btn ${allDone?'all-done':''}" href="parts-list.html?ids=${s.linkedParts.join(',')}">Show Parts (${counts.have}/${counts.total})</a>
+              <div class="parts-popup">
+                <div class="parts-popup-title">Needed for this step</div>
+                ${popupItems}
+              </div>
+            </span>`;
+          }
+          return `<div class="step-row">
+            <input type="checkbox" ${dis} ${checked?'checked':''} onchange="toggleStep('${s.id}', this.checked)">
+            <div style="flex:1;">
+              <div class="step-name ${checked?'done':''}">${s.name}</div>
+              ${s.note ? `<div class="step-note">${s.note}</div>` : ''}
+              ${partsBtn}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function renderIssues(){
+  const editable = !!window.chelIsEditor;
+  const active = issues.filter(i => !resolvedIssueIds.includes(i.id));
+  const resolved = issues.filter(i => resolvedIssueIds.includes(i.id));
+
+  const areas = [...new Set(active.map(i => i.area))];
+  const activeHTML = areas.map(area => `
+    <div class="issue-area-group">
+      <div class="issue-area-title">${area}</div>
+      ${active.filter(i => i.area === area).map(i => `
+        <div class="issue">
+          <div style="flex:1;"><b>${i.tag}</b><br>${i.text}</div>
+          ${editable ? `<button class="del" style="white-space:nowrap;" onclick="toggleIssueResolved('${i.id}', true)" title="Mark resolved">✓ Resolve</button>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  const resolvedHTML = resolved.length ? `
+    <details style="margin-top:8px;">
+      <summary style="cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; color:var(--muted); list-style:none; padding:6px 0;">▸ Resolved (${resolved.length})</summary>
+      ${resolved.map(i => `
+        <div class="issue" style="opacity:0.6; border-left-color:var(--muted);">
+          <div style="flex:1;"><b>${i.tag}</b><br>${i.text}</div>
+          ${editable ? `<button class="del" style="white-space:nowrap;" onclick="toggleIssueResolved('${i.id}', false)" title="Move back to active">↺ Reopen</button>` : ''}
+        </div>
+      `).join('')}
+    </details>
+  ` : '';
+
+  document.getElementById('issuesList').innerHTML = (active.length ? activeHTML : '<div class="empty">No open issues right now.</div>') + resolvedHTML;
+}
+
+async function toggleIssueResolved(id, resolve){
+  if(resolve){
+    if(!resolvedIssueIds.includes(id)) resolvedIssueIds.push(id);
+  } else {
+    resolvedIssueIds = resolvedIssueIds.filter(x => x !== id);
+  }
+  renderIssues();
+  await window.chelFirebase.setResolvedIssues(resolvedIssueIds);
+}
+
+function chelStartApp(){
+  loadBuildSteps();
+  loadPartsStateCache();
+  loadResolvedIssues();
+}
+if(window.chelFirebase){
+  chelStartApp();
+} else {
+  window.addEventListener('chel-firebase-ready', chelStartApp, { once: true });
+}
+</script>
+</body>
+</html>
