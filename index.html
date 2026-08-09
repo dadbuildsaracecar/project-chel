@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Chel — Factory Five Type 65 Coupe Build</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap');
+
+  :root{
+    --bg: #14181c;
+    --panel: #1b2129;
+    --panel2: #20272f;
+    --line: #33404c;
+    --blueprint: #3f7fb8;
+    --racing-red: #b8302a;
+    --brass: #c9a05c;
+    --paper: #eae6da;
+    --muted: #8993a1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--bg),var(--bg)),
+      repeating-linear-gradient(0deg, rgba(63,127,184,0.05) 0px, rgba(63,127,184,0.05) 1px, transparent 1px, transparent 28px),
+      repeating-linear-gradient(90deg, rgba(63,127,184,0.05) 0px, rgba(63,127,184,0.05) 1px, transparent 1px, transparent 28px);
+    color:var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+
+  /* HERO */
+  .hero{
+    position:relative; width:100%; height:78vh; min-height:420px; max-height:760px;
+    overflow:hidden;
+  }
+  .hero img{
+    width:100%; height:100%; object-fit:cover; object-position:center 55%;
+    display:block;
+  }
+  .hero::after{
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(20,24,28,0.15) 0%, rgba(20,24,28,0.55) 65%, var(--bg) 100%);
+  }
+  .hero-content{
+    position:absolute; left:0; right:0; bottom:0; padding:0 24px 48px;
+    text-align:center; z-index:2;
+  }
+  .hero-title{
+    font-family:'Oswald',sans-serif; font-weight:700; text-transform:uppercase;
+    letter-spacing:6px; font-size:clamp(2.2rem, 7vw, 4.2rem); line-height:1;
+    color:var(--paper); text-shadow:0 2px 18px rgba(0,0,0,0.5);
+  }
+  .hero-title span{color:var(--brass);}
+  .hero-subtitle{
+    font-family:'IBM Plex Mono',monospace; font-size:0.85rem; letter-spacing:2px;
+    color:var(--paper); opacity:0.85; margin-top:10px; text-transform:uppercase;
+  }
+
+  .wrap{max-width:920px; margin:0 auto; padding:0 20px 60px;}
+
+  /* BLURB */
+  .blurb{
+    max-width:720px; margin:56px auto 0; font-size:1.08rem; line-height:1.75;
+    color:var(--paper);
+  }
+  .blurb p{margin:0 0 22px;}
+  .blurb .close-line{
+    font-family:'Oswald',sans-serif; font-weight:600; text-transform:uppercase;
+    letter-spacing:1.5px; font-size:1.3rem; color:var(--brass); text-align:center;
+    margin-top:36px;
+  }
+
+  /* NAV BUTTONS */
+  .nav-row{
+    display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+    margin:48px 0 8px;
+  }
+  .nav-btn{
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    background:var(--panel); border:1px solid var(--brass); border-radius:6px;
+    padding:20px 36px; min-width:220px; text-decoration:none; color:var(--paper);
+    transition:background 0.15s, transform 0.1s;
+  }
+  .nav-btn:hover{background:var(--panel2); transform:translateY(-1px);}
+  .nav-btn .nav-label{
+    font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:2px;
+    font-size:1.05rem; color:var(--brass);
+  }
+  .nav-btn .nav-desc{font-size:0.78rem; color:var(--muted); text-align:center;}
+  .nav-btn.disabled{
+    border-color:var(--line); opacity:0.55; cursor:default; pointer-events:none;
+  }
+  .nav-btn.disabled .nav-label{color:var(--muted);}
+  .coming-soon-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:1px;
+    color:var(--bg); background:var(--muted); padding:2px 8px; border-radius:2px;
+    text-transform:uppercase; margin-top:2px;
+  }
+
+  /* SPEC SHEET */
+  .section-label{
+    font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:2px;
+    font-size:0.95rem; color:var(--blueprint); margin: 64px 0 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{content:''; flex:1; height:1px; background:var(--line);}
+
+  .spec-tile{
+    background:var(--panel); border:1px solid var(--line); border-radius:6px;
+    padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  }
+  @media (max-width:640px){ .spec-tile{grid-template-columns:1fr;} }
+
+  .spec-col-title{
+    font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:1.5px;
+    font-size:0.9rem; color:var(--muted); margin-bottom:14px; padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .spec-col.chel .spec-col-title{color:var(--brass); border-bottom-color:var(--brass);}
+
+  .spec-row{
+    display:flex; justify-content:space-between; gap:12px; padding:6px 0;
+    border-bottom:1px dashed var(--line); font-size:0.86rem;
+  }
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row .k{color:var(--muted);}
+  .spec-row .v{text-align:right; font-family:'IBM Plex Mono',monospace; font-size:0.82rem;}
+
+  .engine-block{margin-bottom:10px;}
+  .engine-block .engine-name{
+    font-family:'Oswald',sans-serif; font-size:0.95rem; letter-spacing:0.5px;
+    color:var(--paper); margin-bottom:6px;
+  }
+  .engine-sub{
+    display:flex; justify-content:space-between; gap:12px; padding:3px 0 3px 14px;
+    font-size:0.8rem; border-bottom:1px dashed var(--line);
+  }
+  .engine-sub .k{color:var(--muted);}
+  .engine-sub .v{font-family:'IBM Plex Mono',monospace; text-align:right;}
+
+  footer{
+    margin-top:64px; text-align:center; color:var(--muted); font-size:0.72rem;
+    font-family:'IBM Plex Mono',monospace; letter-spacing:1px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="images/hero.jpg" alt="Project Chel — Shelby Daytona Coupe replica at speed">
+    <div class="hero-content">
+      <div class="hero-title">PROJECT <span>CHEL</span></div>
+      <div class="hero-subtitle">Factory Five Type 65 Coupe — A Shelby Daytona Build</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="blurb">
+      <p>The Shelby Daytona Coupe was born from a limited budget, spare parts, and a desire to compete with the Ferrari 250 GTO in the GT racing class in the years prior to the new Ford GT40 being ready. The Daytona saw much success in its two years of racing with multiple GT class wins in 1964 and 1965, headlined by a class win and fourth overall at the 24 Hours of Le Mans, piloted by Dan Gurney and Bob Bondurant.</p>
+
+      <p>From its racing pedigree to its beautiful body design, the Daytona Coupe has been one of my all-time favorite cars for as long as I can remember. I've dreamed of driving this car, and finally decided that the time had come. With the support of my amazing family, and with a little help from my friends, I am making this dream a reality.</p>
+
+      <p>My inspiration for this build is to capture the spirit of racing. While it will be road legal, I want this car to feel like a race-car, raw, unrestrained, and unapologetic. I am not building a show car to sit pristine in a garage for me to look at. This car was designed to be driven hard and fast, and I plan to put as many miles as possible on it with no regard for road wear, rock chips, scratches and door dings. I want to enjoy this car, and to share it with as many people as possible.</p>
+
+      <div class="close-line">Welcome to my Magnum Opus.<br>Welcome to Project: Chel.</div>
+    </div>
+
+    <div class="nav-row">
+      <a class="nav-btn" href="parts-list.html">
+        <div class="nav-label">Parts List</div>
+        <div class="nav-desc">Every part, spec, and the reasoning behind each decision</div>
+      </a>
+      <a class="nav-btn disabled" href="dashboard.html">
+        <div class="nav-label">Dashboard</div>
+        <div class="nav-desc">Build progress, milestones, and open issues</div>
+        <div class="coming-soon-tag">Coming Soon</div>
+      </a>
+    </div>
+
+    <div class="section-label">SPECIFICATIONS</div>
+    <div class="spec-tile">
+
+      <div class="spec-col ffr">
+        <div class="spec-col-title">FFR Type 65 Coupe Specs</div>
+        <div class="spec-row"><span class="k">Wheelbase</span><span class="v">95"</span></div>
+        <div class="spec-row"><span class="k">Overall length</span><span class="v">173"</span></div>
+        <div class="spec-row"><span class="k">Overall width</span><span class="v">72"</span></div>
+        <div class="spec-row"><span class="k">Overall height</span><span class="v">46.5"</span></div>
+        <div class="spec-row"><span class="k">Weight</span><span class="v">~2,400 lbs</span></div>
+        <div class="spec-row"><span class="k">Weight distribution</span><span class="v">43/57 F/R</span></div>
+        <div class="spec-row"><span class="k">Frame</span><span class="v">Spaceframe with 6-point SCCA-designed competition cage</span></div>
+      </div>
+
+      <div class="spec-col chel">
+        <div class="spec-col-title">Project Chel Specs</div>
+        <div class="engine-block">
+          <div class="engine-name">Engine: Ford 289 "Renegade of Funk"</div>
+          <div class="engine-sub"><span class="k">Target</span><span class="v">350hp+ @ 8,000 RPM</span></div>
+          <div class="engine-sub"><span class="k">Compression</span><span class="v">~10.63:1</span></div>
+          <div class="engine-sub"><span class="k">Redline</span><span class="v">8,000 RPM</span></div>
+          <div class="engine-sub"><span class="k">Heads</span><span class="v">165cc AFR Renegade</span></div>
+          <div class="engine-sub"><span class="k">Fuel</span><span class="v">Holley Terminator X port EFI</span></div>
+        </div>
+        <div class="spec-row"><span class="k">Transmission</span><span class="v">Tremec TKX, TCET18085</span></div>
+        <div class="spec-row"><span class="k">Differential</span><span class="v">S550 Super 8.8, 3.55</span></div>
+        <div class="spec-row"><span class="k">Front Brakes</span><span class="v">SN95 / SVE Cobra PBR, 13"</span></div>
+        <div class="spec-row"><span class="k">Rear Brakes</span><span class="v">S550 GT, 13"</span></div>
+      </div>
+
+    </div>
+
+    <footer>PROJECT CHEL · DAD BUILDS A RACE CAR</footer>
+
+  </div>
+
+</body>
+</html>
