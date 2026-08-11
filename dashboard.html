@@ -453,6 +453,13 @@ const partsLookup = {
   'horn-relocation-mount': {name:'Horn Relocation Mount Brackets — Snakebite Motorworks', price:18.00},
   'chassis-primer': {name:'Primer — Eastwood OptiFlow Epoxy Primer Kit, Roll-On, Gray (98003ZP)', price:0.00},
   'chassis-paint': {name:'Paint & Activator — Eastwood Bright White Single Stage', price:0.00},
+  'boom-mat-cld': {name:'Damping — DEI Boom Mat Pro CLD (butyl/foil constrained-layer damper)', price:0.00},
+  'raptor-liner': {name:'Liner — U-POL Raptor Liner (2K polyurethane)', price:0.00},
+  'footbox-drain-fitting': {name:'Drain Fitting — DIY oversized nylon/poly barbed fitting, trimmed for flush/low-profile fit', price:0.00},
+  'frame-coating': {name:'Internal Frame Coating — Eastwood Internal Frame Coating Plus w/ Nozzle, PN 98092', price:43.49},
+  'adhesive-heat-shield': {name:'Adhesive Barrier — DEI Boom Mat Floor & Tunnel Shield II', price:0.00},
+  'formed-heat-shield': {name:'Formed Standoff Shield — DEI Form-A-Barrier', price:0.00},
+  'heat-shield-standoffs': {name:'Mounting Standoffs — DEI Heat Shield Stand-Off Mounting Kit, PN 10224 (6-pack)', price:0.00},
   'brake-reservoir': {name:'Brake/Clutch Fluid Reservoir — Tilton 72-576, Three Chamber Plastic, push-on fittings', price:116.45},
   'rear-sway-bar': {name:'Rear Sway Bar — FFR IRS Front & Rear Sway Bar Kit (2015 IRS Swaybar, instruction set #15998)', price:0.00},
   'oil-filter-adapter': {name:"Oil Filter Adapter — Hamburger\'s -12AN, HAM-3320", price:135.99},
@@ -464,9 +471,10 @@ const milestones = [
     id: 'm1', num: 1, name: 'Chassis Prep',
     steps: [
       {id:'m1-primer', name:'Primer on bare steel chassis', linkedParts:['chassis-primer']},
-      {id:'m1-fit-panels', name:'Fit aluminum panels and pre-drill', linkedParts:['footbox-extension','trunk-drop-floor','door-pocket-kit','trans-tunnel-lower','firewall-lower','access-doors','hood-roller','pontoon-covers','horn-relocation-mount']},
+      {id:'m1-fit-panels', name:'Fit aluminum panels and pre-drill', linkedParts:[]},
       {id:'m1-clean-sand', name:'Clean holes, sand and clean primed surface', linkedParts:[]},
       {id:'m1-final-paint', name:'Final paint', linkedParts:['chassis-paint']},
+      {id:'m1-corrosion-underbody', name:'Corrosion Preventative & Underbody', linkedParts:['raptor-liner','frame-coating'], note:'Sequenced after Final Paint — access holes drilled and coating applied post-paint, since holes get plugged after and bare edge exposure isn\'t a concern. Selective to lower tube runs (highest moisture exposure), not every tube.'},
     ]
   },
   {
@@ -475,8 +483,8 @@ const milestones = [
       {id:'m2-steering-rack', name:'Steering Rack', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
       {id:'m2-front-suspension', name:'Front Suspension', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
       {id:'m2-tie-rods', name:'Steering Tie Rod Ends', linkedParts:[], note:'FFR kit-included, not separately tracked as a line item'},
-      {id:'m2-front-brakes', name:'Front Brakes', linkedParts:['front-rotor','front-brake-pads','front-brake-rebuild','front-caliper','front-braided-lines','front-dust-shields','banjo-bolts']},
-      {id:'m2-irs-diff', name:'IRS Diff and Suspension', linkedParts:['rear-diff','diff-temp-gauge','rear-spindle','rear-hub-bearing','knuckle-bushing-set','rear-sway-bar']},
+      {id:'m2-front-brakes', name:'Front Brakes', linkedParts:['front-rotor','front-brake-pads','front-brake-rebuild','front-caliper','front-dust-shields','banjo-bolts']},
+      {id:'m2-irs-diff', name:'IRS Diff and Suspension', linkedParts:['rear-diff','rear-spindle','rear-hub-bearing','knuckle-bushing-set']},
       {id:'m2-rear-brakes', name:'Rear Brakes', linkedParts:['rear-rotor','rear-caliper','rear-caliper-core','rear-brake-pads']},
       {id:'m2-temp-wheels', name:'Temp Wheels and Tires', linkedParts:[]},
       {id:'m2-alignment', name:'Rough Alignment', linkedParts:[]},
@@ -485,14 +493,15 @@ const milestones = [
   {
     id: 'm3', num: 3, name: 'Chassis Fuel System',
     steps: [
-      {id:'m3-fuel-tank', name:'Fuel Tank', linkedParts:['fuel-pump','fuel-filter','fuel-filter-bracket'], note:'Fuel sender/pump/filter tracked under Engine — see linked parts'},
-      {id:'m3-fuel-lines', name:'Fuel Lines', linkedParts:[]},
+      {id:'m3-fuel-tank', name:'Fuel Tank', linkedParts:['fuel-pump','fuel-hanger']},
+      {id:'m3-fuel-lines', name:'Fuel Lines', linkedParts:['fuel-filter','fuel-filter-bracket']},
     ]
   },
   {
     id: 'm4', num: 4, name: 'Cockpit Stage 1',
     steps: [
-      {id:'m4-pedal-box', name:'Pedal Box', linkedParts:['pedal-box','master-cylinders','bias-adjuster','bias-coupler','brake-reservoir']},
+      {id:'m4-footbox-floor-prep', name:'Footbox Floor Prep, Damping & Liner + Drain Install', linkedParts:['boom-mat-cld','raptor-liner','footbox-drain-fitting'], note:'Sequenced before Pedal Box install — floor done first, raised/upper floor done later during Interior buildout (Heat and Noise Insulation), overlap zone scuffed and feathered between sessions.'},
+      {id:'m4-pedal-box', name:'Pedal Box', linkedParts:['pedal-box','master-cylinders','bias-adjuster','bias-coupler']},
       {id:'m4-accel-pedal', name:'Accelerator Pedal', linkedParts:[]},
       {id:'m4-cockpit-alum', name:'Cockpit aluminum', linkedParts:['footbox-extension','trans-tunnel-lower']},
     ]
@@ -500,27 +509,27 @@ const milestones = [
   {
     id: 'm5', num: 5, name: 'Engine Assembly',
     steps: [
-      {id:'m5-block-machining', name:'Block Machining', linkedParts:['block-core','machining-block','machining-balance']},
-      {id:'m5-rotating-assy', name:'Rotating Assy Zero Balance', linkedParts:['crank','rod','piston','piston-rings','rod-bearings','main-bearings','cam-bearings','flywheel','damper']},
-      {id:'m5-short-block', name:'Short Block Assembly', linkedParts:['main-studs','main-girdle','rear-main-seal','oil-pump','oil-pump-shaft','oil-pan','oil-pickup','oil-dipstick','timing-set','timing-cover','camshaft','cam-bolt-kit','thrust-plate','timing-pointer','engine-fasteners']},
-      {id:'m5-head-install', name:'Head Installation', linkedParts:['heads','head-gasket','head-bolts','spring-kit','intake-valves','exhaust-valves','valve-covers','vc-studs','seals-guides','rocker-girdle','rocker-girdle-nuts','rockers','rocker-studs','pushrods','lifters']},
-      {id:'m5-intake-efi', name:'Intake and EFI Installation', linkedParts:['intake-manifold','throttle-body','fuel-rail','injectors','fuel-reg','ecu','fuel-hanger']},
-      {id:'m5-accessory', name:'Accessory Installation', linkedParts:['crank-pulley','alternator','water-pump','water-pump-pulley','ac-compressor','belt-tensioner','air-cleaner','starter']},
-      {id:'m5-clutch-install', name:'Clutch Installation', linkedParts:['clutch-rxt','pilot-bushing','throwout-bearing']},
+      {id:'m5-block-machining', name:'Block Machining', linkedParts:['block-core','main-girdle','main-bearings','cam-bearings','main-studs','machining-block']},
+      {id:'m5-rotating-assy', name:'Rotating Assy Zero Balance', linkedParts:['crank','rod','piston','rod-bearings','damper','flywheel','machining-balance']},
+      {id:'m5-short-block', name:'Short Block Assembly', linkedParts:['rear-main-seal','piston-rings','camshaft','cam-bolt-kit','thrust-plate','timing-set','oil-pump','oil-pump-shaft','oil-pan','oil-pickup','oil-dipstick','oil-filter-adapter']},
+      {id:'m5-head-install', name:'Head Installation', linkedParts:['heads','spring-kit','intake-valves','exhaust-valves','lifters','rockers','rocker-studs','pushrods','head-bolts','rocker-girdle','rocker-girdle-nuts','head-gasket','vc-studs','valve-covers','seals-guides']},
+      {id:'m5-intake-efi', name:'Intake and EFI Installation', linkedParts:['intake-manifold','throttle-body','fuel-rail','injectors']},
+      {id:'m5-accessory', name:'Accessory Installation', linkedParts:['crank-pulley','alternator','water-pump','water-pump-pulley','ac-compressor','belt-tensioner','timing-cover','air-cleaner','starter','engine-fasteners','timing-pointer']},
+      {id:'m5-clutch-install', name:'Clutch Installation', linkedParts:['clutch-rxt','pilot-bushing']},
     ]
   },
   {
     id: 'm6', num: 6, name: 'Transmission Assembly',
     steps: [
-      {id:'m6-bellhousing', name:'Bellhousing Installation', linkedParts:['bellhousing']},
+      {id:'m6-bellhousing', name:'Bellhousing Installation', linkedParts:['tkx-trans','bellhousing','throwout-bearing','speedo-mechanical','speedo-cable','speedo-driven-gear'], note:'Parts needed in-hand before this step, not necessarily all installed here — e.g. the speedometer gauge itself mounts in the dash later, but needs to be purchased by this point.'},
       {id:'m6-shifter', name:'Shifter Location', linkedParts:[]},
     ]
   },
   {
     id: 'm7', num: 7, name: 'Drivetrain Installation',
     steps: [
-      {id:'m7-heat-shield', name:'Engine Bay Prep - Heat Shielding', linkedParts:[]},
-      {id:'m7-mount', name:'Mount', linkedParts:['tkx-trans']},
+      {id:'m7-heat-shield', name:'Engine Bay Prep - Heat Shielding', linkedParts:['firewall-lower','adhesive-heat-shield','formed-heat-shield','heat-shield-standoffs'], note:'Adhesive shield goes in as engine bay prep. Formed/flexible shielding waits until after engine install — headers get temp-installed to confirm clearance, then removed, then final shield fitment happens. This step spans through Mount and Fuel System Installation chronologically; no separate step needed for the temp-fit.'},
+      {id:'m7-mount', name:'Mount', linkedParts:['tkx-trans','oil-filter-mount']},
       {id:'m7-fuel-install', name:'Fuel System Installation', linkedParts:['fuel-rail','fuel-pump','fuel-reg']},
       {id:'m7-driveshaft', name:'Driveshaft', linkedParts:['driveshaft-halfshafts']},
     ]
@@ -537,7 +546,7 @@ const milestones = [
     id: 'm9', num: 9, name: 'Brakes',
     steps: [
       {id:'m9-hard-lines', name:'Hard Brake Lines', linkedParts:[]},
-      {id:'m9-soft-lines', name:'Soft Brake Lines', linkedParts:['front-braided-lines']},
+      {id:'m9-soft-lines', name:'Soft Brake Lines', linkedParts:['front-braided-lines'], note:'Rear soft line still being sourced — see Open Issues.'},
       {id:'m9-reservoir', name:'Brake Reservoir', linkedParts:['brake-reservoir']},
       {id:'m9-ebrake', name:'Emergency Brake Handle and Cables', linkedParts:[]},
     ]
@@ -565,7 +574,7 @@ const milestones = [
       {id:'m12-lights-horn', name:'Lights and Horn', linkedParts:['horn-relocation-mount']},
       {id:'m12-engine-harness', name:'Engine Harness', linkedParts:['ecu']},
       {id:'m12-ignition', name:'Ignition System', linkedParts:['distributor','ignition-module','ignition-coil','plug-wires']},
-      {id:'m12-gauge-wiring', name:'Gauge Wiring', linkedParts:[]},
+      {id:'m12-gauge-wiring', name:'Gauge Wiring', linkedParts:['gauges'], note:'AutoMeter Cobra Series will eventually be split into individual gauge line items — link will update once that\'s done.'},
     ]
   },
   {
@@ -615,11 +624,12 @@ const milestones = [
   {
     id: 'm19', num: 19, name: 'Interior',
     steps: [
-      {id:'m19-insulation', name:'Heat and Noise Insulation', linkedParts:[]},
+      {id:'m19-insulation', name:'Heat and Noise Insulation', linkedParts:['boom-mat-cld']},
       {id:'m19-carpet', name:'Carpet Installation', linkedParts:[]},
+      {id:'m19-door-card', name:'Door Card Assembly', linkedParts:['door-pocket-kit'], note:'Interior door panel/pocket trim — distinct from Body Fitment\'s Door Trim and Mount, which is panel gap/alignment to the chassis.'},
       {id:'m19-dash', name:'Dash Assembly & Installation', linkedParts:[]},
-      {id:'m19-ac', name:'A/C Evaporator and Ducting', linkedParts:['ac-compressor']},
-      {id:'m19-gauges', name:'Gauge Installation', linkedParts:['diff-temp-gauge','speedo-mechanical','speedo-cable','speedo-driven-gear']},
+      {id:'m19-ac', name:'A/C Evaporator and Ducting', linkedParts:['vintage-air']},
+      {id:'m19-gauges', name:'Gauge Installation', linkedParts:['diff-temp-gauge']},
       {id:'m19-seats', name:'Seat and Harness Installation', linkedParts:[]},
       {id:'m19-steering-wheel', name:'Steering Wheel Installation', linkedParts:[]},
     ]
@@ -665,7 +675,7 @@ const milestones = [
       {id:'m24-shifter-ebrake-boot', name:'Shifter and E-brake Boot', linkedParts:[]},
       {id:'m24-mesh', name:'Nose Side and Rear Mesh', linkedParts:[]},
       {id:'m24-headliner', name:'Headliner', linkedParts:[]},
-      {id:'m24-final-body-mount', name:'Final Body Mounting', linkedParts:[]},
+      {id:'m24-final-body-mount', name:'Final Body Mounting', linkedParts:['hood-roller','pontoon-covers']},
       {id:'m24-light-install', name:'Light Installation', linkedParts:[]},
       {id:'m24-fuel-filler', name:'Fuel Filler and Gas Cap Installation', linkedParts:[]},
       {id:'m24-windows', name:'Windows', linkedParts:[]},
@@ -673,7 +683,7 @@ const milestones = [
       {id:'m24-mirrors', name:'Mirror Installations', linkedParts:[]},
       {id:'m24-rear-hatch', name:'Rear Hatch Installation', linkedParts:[]},
       {id:'m24-side-exhaust-final', name:'Side Exhaust Final Installation', linkedParts:[]},
-      {id:'m24-ac-charge', name:'A/C Line Routing and System Charge', linkedParts:['ac-compressor']},
+      {id:'m24-ac-charge', name:'A/C Line Routing and System Charge', linkedParts:['ac-compressor','vintage-air']},
       {id:'m24-final-wheels', name:'Final Wheel and Tire Installation', linkedParts:[]},
       {id:'m24-realignment', name:'Re-alignment (rough, final professional after completion)', linkedParts:[]},
     ]
@@ -705,6 +715,7 @@ const issues = [
   {id:"rear-caliper-core-charge", area:"Suspension & Brakes", tag:"REAR CALIPER CORE CHARGE", text:"Nugeon rear calipers carry a $44/side ($88 total) core charge — return old calipers after install to recover it, or budget for the forfeit if not returned."},
   {id:"reservoir-mounting-fitting", area:"Suspension & Brakes", tag:"RESERVOIR MOUNTING/FITTING", text:"Confirm reservoir mounting location before finalizing push-on vs. AN fitting choice (Tilton 72-576 vs. 72-577). Also verify actual Wilwood Z-260-14297 MC barb size against Tilton hose/fitting spec once reservoir style is finalized."},
   {id:"shock-damper-upgrade-path-future", area:"Suspension & Brakes", tag:"SHOCK/DAMPER UPGRADE PATH (FUTURE)", text:"Kit ships with standard KONI monotube shocks. Common FFR builder pattern is a later upgrade to double-adjustable KONIs or QA-1 coilovers once there's track mileage and a clearer sense of what needs to change. Not an action item now — revisit after initial track days at Ridge if base shocks feel like a limiting factor."},
+  {id:"front-rear-brake-soft-lines", area:"Suspension & Brakes", tag:"FRONT/REAR BRAKE SOFT LINES", text:"Placeholder — noted for now, more detail pending. Aaron working through this with the specialist chats, expect an update alongside the parts-to-step list."},
 ];
 
 let buildStepsState = {};
