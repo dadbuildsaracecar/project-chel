@@ -489,7 +489,7 @@
     <div class="parts-list" id="partsList-ffrkit"></div>
 
     <div class="sub-label" style="margin-top:14px;">ITEMS IN THE KIT <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--muted);text-transform:none;letter-spacing:0;">(reference only — from FFR pack list, sorted by box, no prices)</span></div>
-    <div class="part-note" style="margin-bottom:10px;">Transcribed from the FFR Kit Pack List, SO #0218905. Box numbering skips around (07→09, 16→19, 32→38→45→98→99) — that\'s how FFR numbered them, not a transcription gap. Box 27\'s Ignition Switch Components section is missing its line items in the scan; not a concern since a different ignition switch is planned. Box 16\'s aluminum race seats and Box 32\'s seat track are worth reconciling against the Kirkey Highback seats mentioned in the project summary.</div>
+    <div class="part-note" style="margin-bottom:10px;">Transcribed from the FFR Kit Pack List, SO #0218905. Box numbering skips around (07→09, 16→19, 32→38→45→98→99) — that\'s how FFR numbered them, not a transcription gap. Box 27\'s Ignition Switch Components section is missing its line items in the scan; not a concern since a different ignition switch is planned. Box 16\'s aluminum race seats confirmed as the same Kirkey 65 Series Highback seats mentioned in the project summary — see Interior area, not a separate purchase.</div>
   <details class="kit-box">
     <summary>Box 01<span class="cat-meta">35 line items</span></summary>
     <div class="kit-box-content">
@@ -1229,6 +1229,7 @@
   <details class="area-block">
     <summary>INTERIOR</summary>
     <div class="area-content">
+  <div class="part-note" style="margin-bottom:14px;">Full cockpit heat/noise treatment strategy (zone-by-zone radiant barrier vs. vibration damping breakdown) documented in <b>chel-heat-noise-insulation-matrix.md</b> in project knowledge — reference there for the complete zone matrix rather than duplicating it here.</div>
   <div class="sub-label">DASH &amp; GAUGES</div>
   <div class="machining-card">
     <div class="machining-row"><span><span class="svc-chip">GAUGES</span>AutoMeter Cobra series</span><span>4" primary / 2-1/16" secondary</span></div>
@@ -1238,7 +1239,7 @@
       <tr><td>Indicators / switches</td><td>L/R Flasher, Hi-Beam, Ignition, Fog Lt, Lights, Aux Lt, Wiper, Horn, Climate Control</td></tr>
       <tr><td>Vents</td><td>4x dash vents per layout</td></tr>
     </table>
-    <div class="part-note" style="margin-top:8px;">Alt full-sweep water temp gauge (PN 201007) only available in °C — decide before ordering if that's a dealbreaker. Fuel sending unit spec'd for 16–158 ohm, late Ford (1987+) style.</div>
+    <div class="part-note" style="margin-top:8px;">Water temp resolved as half-sweep electric (201015) — avoids the full-sweep mechanical's (201007) capillary tube leak point, and sidesteps the °C-only limitation entirely. Fuel sending unit confirmed 16–158 ohm, matches what shipped with the OEM fuel tank components. Full priced gauge set now tracked as individual line items below.</div>
   </div>
 
   
@@ -1532,8 +1533,52 @@ const partsData = [
   {id:'knuckle-bushing-set', area:'Suspension & Brakes', cat:'Suspension', name:'Knuckle to LCA Bushing Set — JEGS M-5A460-M', price:0.00, defaultPurchased:true, defaultActualPrice:80.99, defaultTaxPaid:9.02, note:'Purchased from JEGS — $80.99 + $9.02 tax (shipping excluded). Verify this doesn\'t duplicate the eBay spindle/knuckle hubs above before ordering anything else for this joint.'},
 
   // Interior
-  {id:'gauges', area:'Interior', cat:'Dash & Gauges', name:'AutoMeter Cobra Series Gauge Set (4" primary + 2-1/16" secondary)', price:0.00, note:'Price TBD. Includes the 4" Cobra Series speedo — this one is decorative only, not connected to the driveline. The functional speedo (used for odometer purposes) is a separate AutoMeter Arctic White mechanical unit tracked under Drivetrain, hidden-mounted behind the dash. Two physical speedometers in the car, only one actually hooked up. To be worked in detail with the interior specialist chat.'},
-  {id:'vintage-air', area:'Interior', cat:'Climate Control', name:'Vintage Air Gen 5 Mini w/ Defrost Kit, 661000', price:1009.00, note:'Price TBD'},
+  {id:'gauge-tach', area:'Interior', cat:'Dash & Gauges', name:'Tachometer — AutoMeter Cobra 201004, 4", 8000 RPM', price:199.99, note:'Summit pricing, verified current.'},
+  {id:'gauge-speedo-decorative', area:'Interior', cat:'Dash & Gauges', name:'Speedometer (decorative) — AutoMeter Cobra 201005, 4", mechanical', price:171.99, note:'Decorative only, not connected to the driveline. The functional speedo (used for odometer purposes) is a separate AutoMeter Arctic White mechanical unit tracked under Drivetrain, hidden-mounted behind the dash. Two physical speedometers in the car, only one actually hooked up.'},
+  {id:'gauge-fuel-level', area:'Interior', cat:'Dash & Gauges', name:'Fuel Level — AutoMeter Cobra 201975, 2-1/16", 16-158 ohm', price:86.99, note:'Confirmed to match the sending unit shipped with the OEM fuel tank components (late-model Ford spec, 16-158 ohm) — resolves an earlier stale note that flagged a possible 73-10 ohm mismatch. No gauge change needed, that was a correction to the note, not the part.'},
+  {id:'gauge-water-temp', area:'Interior', cat:'Dash & Gauges', name:'Water Temp — AutoMeter Cobra 201015, 2-1/16", half-sweep electric', price:83.99, note:'Half-sweep electric chosen over full-sweep mechanical (201007, °C only) — avoids the capillary tube leak point, prioritizes long-term reliability over sweep aesthetics.'},
+  {id:'gauge-voltmeter', area:'Interior', cat:'Dash & Gauges', name:'Voltmeter — AutoMeter Cobra 201009, 2-1/16"', price:76.99},
+  {id:'gauge-oil-pressure', area:'Interior', cat:'Dash & Gauges', name:'Oil Pressure — AutoMeter Cobra 201006, 2-1/16"', price:82.99},
+  {id:'gauge-oil-temp', area:'Interior', cat:'Dash & Gauges', name:'Oil Temp — AutoMeter Cobra 201018, 2-1/16"', price:84.99},
+  {id:'gauge-clock', area:'Interior', cat:'Dash & Gauges', name:'Clock — AutoMeter Cobra 201019, 2-1/16"', price:135.99},
+  {id:'vintage-air', area:'Interior', cat:'Climate Control', name:'Vintage Air Gen 5 Mini w/ Defrost Kit, 661000', price:1009.00},
+
+  // Seats & Mounting
+  {id:'seats-kirkey', area:'Interior', cat:'Seats & Mounting', name:'Seats — Kirkey 65 Series Highback, Adjustable Layback Road Race, 16" hip width (likely 65160KIT), qty 2', price:0.00, defaultPurchased:true, note:'Same seats as FFR pack list Box 16, PN 16666 "Aluminum Race Seat w/Cover" — not a duplicate purchase, just kit nomenclature (now reconciled, see kit reference note above). .100" 5052 aluminum, TIG/MIG welded, 18-23° adjustable layback, fabric covers included. Driver seat needs fore-aft adjustment (accommodate other drivers); passenger seat is fixed position, full rearward. Exact PN (hip width) to verify in shop.'},
+  {id:'kirkey-rear-stay', area:'Interior', cat:'Seats & Mounting', name:'Rear Stay/Mount — Kirkey #99212', price:0.00, note:'Required per Kirkey\'s own install docs in addition to the bottom bracket — the seat shell isn\'t rated to react lateral/rearward loads through the bottom mount alone. Needed for both seats regardless of which driver-side mounting approach is chosen. Price TBD.'},
+
+  // Dash Controls & Indicators
+  {id:'headlight-switch', area:'Interior', cat:'Dash Controls & Indicators', name:'Headlight Switch — CJ Pony Parts SW441, 1965-66 Mustang repro', price:29.99},
+  {id:'headlight-switch-knob', area:'Interior', cat:'Dash Controls & Indicators', name:'Headlight Switch Knob — CJ Pony Parts HW1518', price:14.99},
+  {id:'headlight-switch-bezel', area:'Interior', cat:'Dash Controls & Indicators', name:'Headlight Switch Bezel — CJ Pony Parts HW1516', price:9.99},
+  {id:'ignition-switch-cylinder', area:'Interior', cat:'Dash Controls & Indicators', name:'Ignition Switch Cylinder — CJ Pony Parts HW1541', price:10.99},
+  {id:'ignition-switch-assembly', area:'Interior', cat:'Dash Controls & Indicators', name:'Ignition Switch Assembly — CJ Pony Parts ISA1', price:16.99},
+  {id:'ignition-switch-spacer', area:'Interior', cat:'Dash Controls & Indicators', name:'Ignition Switch Spacer — Ford C4DZ-10A885-A', price:9.70},
+  {id:'ignition-switch-bezel', area:'Interior', cat:'Dash Controls & Indicators', name:'Ignition Switch Bezel — CJ Pony Parts HW1536', price:10.99},
+  {id:'wiper-switch', area:'Interior', cat:'Dash Controls & Indicators', name:'Wiper Switch — CJ Pony Parts WWS3, 2-speed', price:34.99, note:'Variable/intermittent wiper researched and dropped — no clean bolt-on exists for the 65-66 2-speed switch (CJ\'s intermittent module is 67-73 only; Scott Drake\'s variable switch is single-speed only). Staying with standard 2-speed, low priority per Aaron.'},
+  {id:'wiper-switch-nut', area:'Interior', cat:'Dash Controls & Indicators', name:'Wiper Switch Nut — Ford C4DZ-17512-A', price:20.67},
+  {id:'wiper-switch-spacer', area:'Interior', cat:'Dash Controls & Indicators', name:'Wiper Switch Spacer — Ford C4DZ-17C443-A', price:8.99},
+  {id:'wiper-bezel', area:'Interior', cat:'Dash Controls & Indicators', name:'Wiper Bezel — CJ Pony Parts HW1400', price:9.99},
+  {id:'wiper-knob', area:'Interior', cat:'Dash Controls & Indicators', name:'Wiper Knob — CJ Pony Parts HW1399', price:9.99},
+  {id:'indicator-lights', area:'Interior', cat:'Dash Controls & Indicators', name:'Indicator Lights — Alpinetech PL12MS-20 (qty 1) + PL12MS-81 (qty 2)', price:20.25, note:'L. Flasher, R. Flasher, Hi-Beam, LED panel-mount. $6.75 each.'},
+  {id:'toggle-switches-fog-aux-hazard', area:'Interior', cat:'Dash Controls & Indicators', name:'Fog/Aux/Hazard Toggle Switches — kit-supplied', price:0.00, defaultPurchased:true, note:'Included in FFR kit. Quantity TBD, custom-engraved bezels via Etsy still pending.'},
+  {id:'custom-switch-bezels', area:'Interior', cat:'Dash Controls & Indicators', name:'Custom Engraved Switch Bezels — Etsy', price:0.00, note:'Qty/price TBD, sourcing not yet finalized.'},
+
+  // Steering Column
+  {id:'steering-column', area:'Interior', cat:'Steering Column', name:'Column — Speedway Motors Nostalgia Steel, PN 91032311, 1-3/4" OD straight/non-tilt', price:104.99, note:'Length TBD (24-40" in 2" increments) — price starts at $104.99, varies by length. 3/4" DD shaft end. Chosen to enable column-mounted turn signals with self-cancel and integrated high-beam momentary switch, replacing the FFR-stock column which lacks this feature.'},
+  {id:'turn-signal-kit', area:'Interior', cat:'Steering Column', name:'Self-Cancelling Turn Signal Retrofit Kit — Speedway PN 910310311', price:142.99, note:'Pin-style quick-release hub, vintage race-car aesthetic. Optional momentary stalk switch used for high beam.'},
+  {id:'steering-column-mount', area:'Interior', cat:'Steering Column', name:'Universal Steering Column Mount 1-3/4" — Speedway PN 91032630-BLK', price:33.99, note:'Adapted via custom bracket to factory FFR dash pillow block location.'},
+
+  // Door Hardware
+  {id:'door-pull-handles', area:'Interior', cat:'Door Hardware', name:'Door Pull Set — Rennline RS Style, PN DH21BLKRED (via ECS Tuning)', price:135.00, note:'Porsche RS-inspired pull strap, replacing stock FFR plastic interior handles. Mounts directly to FFR\'s existing cable-operated latch mechanism, no latch hardware changes needed. Red strap deliberately ties to red pull tabs on Simpson RSCE harnesses. Weight savings over stock plastic handles.'},
+
+  // Sound & Heat Insulation (Interior)
+  {id:'rocker-rigid-foam', area:'Interior', cat:'Sound & Heat Insulation', name:'Rigid Foam Insulation — rocker cavity (product/PN TBD)', price:0.00, note:'Sandwiched between fiberglass body skin and aluminum floor panel in the rocker zone, alongside CLD and FTS II layers for muffler radiant heat exposure. Product not yet selected.'},
+
+  // Trim Material
+  {id:'suede-roof', area:'Interior', cat:'Trim Material', name:'Roof Suede — foam-backed, 1/8" foam, ~60" wide (YourAutoTrim.com or Graham Fabrics)', price:0.00, note:'Sold by the yard, qty TBD. One continuous piece for roof + possible A/C pillar extension.'},
+  {id:'suede-dash-door', area:'Interior', cat:'Trim Material', name:'Dash/Door Suede — no foam backing, 58" wide, color-matched to roof (YourAutoTrim.com or Graham Fabrics)', price:0.00, note:'Sold by the yard, qty TBD. Chosen without foam for a tighter, tailored look on flat-mounted dash and structured door cards — foam is right for the headliner\'s compound curves, wrong here. Same vendor/face material as roof suede for guaranteed color/texture match.'},
+  {id:'floor-mats', area:'Interior', cat:'Trim Material', name:'Floor Mats — Finish Line custom-cut FFR mats', price:145.00, note:'Loose, pull-out style, custom-cut to FFR footbox profile. Type 65 Coupe-specific fitment not yet confirmed — Finish Line\'s documented pattern history is mostly roadster/MK3/MK4. Fallbacks if no direct fit: CarCoverPlanet (made-to-order, ~4 week turnaround, used by other FFR builders) or local upholstery shop pattern-cutting loose mats from the kit\'s own leftover CP Black Carpet Kit material (60821X) — guaranteed match, likely cheapest.'},
 
   // Complete FFR Kit — own dedicated card, not part of Chassis accordion
   {id:'ffr-kit', area:'FFRKit', cat:'Kit', name:'Factory Five Type 65 Coupe Kit — Complete Coupe, full build sheet', price:0.00, defaultPurchased:true, defaultActualPrice:28486.00, defaultTaxPaid:0.00, note:'Purchased — Factory Five sales order #0218905. $22,990 base kit plus options (hyd. clutch master kit, 302 headers, coupe side exhaust, CP IRS rear suspension kit, IRS driveshaft, manual rack, alum race seats, 17" soft-lip Halibrands, coupe body+nose, nose scoop, black carpet kit, side window parts, front/rear sway bar parts, seat track kit, brake reservoir parts, gauge credit -$400, front brake credit -$225), minus a $3,000 30th-anniversary discount. Post-discount total $28,486.00. No tax charged by FFR at time of sale — sales tax on the full purchase gets paid later during state registration/titling, so $0 tax paid here is accurate, not a placeholder. This single line bundles components that logically belong to other dashboard areas (seats/carpet → Interior, wheels/body → Exterior, IRS/sway bars → Suspension & Brakes) — flagged below if you want those broken out individually later.'},
