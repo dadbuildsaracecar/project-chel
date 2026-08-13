@@ -492,6 +492,16 @@ const partsLookup = {
   'adhesive-heat-shield': {name:'Adhesive Barrier — DEI Boom Mat Floor & Tunnel Shield II', price:0.00},
   'formed-heat-shield': {name:'Formed Standoff Shield — DEI Form-A-Barrier', price:0.00},
   'heat-shield-standoffs': {name:'Mounting Standoffs — DEI Heat Shield Stand-Off Mounting Kit, PN 10224 (6-pack)', price:0.00},
+  'paint-speed-yellow': {name:'Base Color — Ford Speed Yellow, code BZ (2005-06 Ford GT), basecoat', price:0.00},
+  'paint-magnetic-metallic': {name:'Stripe Color — Ford Magnetic Metallic, code J7 (cross-ref M7325/M7325A), basecoat', price:0.00},
+  'paint-oxford-white': {name:'White Accent — Ford Oxford White, current code Z1 (nose ball + tail wedge), basecoat', price:0.00},
+  'body-primer': {name:'Primer — Eastwood OptiFlow Epoxy (body application)', price:0.00},
+  'wheel-finish-bronze': {name:'Wheel Finish — Satin bronze powder coat (SVE Satin Bronze reference)', price:0.00},
+  'underbody-fiberglass-reinforcement': {name:'Backside Reinforcement — Fiberglass cloth (Kevlar under consideration for radiator opening)', price:0.00},
+  'engine-bay-nose-heat-layer': {name:'Heat/Aesthetic Layer — engine bay center nose panel, adhesive-backed reflective heat barrier', price:0.00},
+  'door-window-sealant': {name:'Sealant — GE Silicone II or equivalent', price:0.00},
+  'window-frame-door-seal': {name:'Seal — thin rubber gasket or bulb seal (McMaster-Carr "P"-profile type), window frame-to-door top joint', price:0.00},
+  'window-glass-door-seal': {name:'Seal — small bulb seal between window glass and door', price:0.00},
   'brake-reservoir': {name:'Brake/Clutch Fluid Reservoir — Tilton 72-576, Three Chamber Plastic, push-on fittings', price:116.45},
   'rear-sway-bar': {name:'Rear Sway Bar — FFR IRS Front & Rear Sway Bar Kit (2015 IRS Swaybar, instruction set #15998)', price:0.00},
   'oil-filter-adapter': {name:"Oil Filter Adapter — Hamburger\'s -12AN, HAM-3320", price:135.99},
@@ -677,9 +687,10 @@ const milestones = [
   {
     id: 'm21', num: 21, name: 'Body Fitment',
     steps: [
+      {id:'m21-prep-reinforcement', name:'Pre-Installation Prep/Reinforcement', linkedParts:['underbody-fiberglass-reinforcement','engine-bay-nose-heat-layer','raptor-liner'], note:'Backside fiberglass/Kevlar reinforcement at radiator opening and nose leading edge, plus engine bay nose panel heat layer and Raptor Liner extension to nose underside/fender wells — all done now while panels are off-car, ahead of body/paint stage.'},
       {id:'m21-rear-body-mount', name:'Rear Body Mount', linkedParts:[]},
       {id:'m21-nose-trim', name:'Nose Trim and Mount', linkedParts:[]},
-      {id:'m21-door-trim', name:'Door Trim and Mount', linkedParts:[]},
+      {id:'m21-door-trim', name:'Door Trim and Mount', linkedParts:['door-window-sealant']},
       {id:'m21-door-popper', name:'Door Popper Installation', linkedParts:[]},
     ]
   },
@@ -687,9 +698,10 @@ const milestones = [
     id: 'm22', num: 22, name: 'Body Work',
     steps: [
       {id:'m22-sanding', name:'Sanding and Body Filling', linkedParts:[]},
+      {id:'m22-hatch-glass', name:'Rear Hatch Glass Fitment', linkedParts:[], note:'Reportedly the hardest seal on the car — FFR-supplied glass (kit Box 98, PN 60153) isn\'t perfectly consistent panel to panel. Requires careful dry test-fitting (sometimes opening relief/build-up) plus hinge adjustment to avoid stressing the tempered glass closed. Must happen before final paint, not after — same category as the Pre-Installation Prep/Reinforcement work.'},
       {id:'m22-spoiler', name:'Spoiler Fitment', linkedParts:[]},
       {id:'m22-nose-scoop', name:'Nose Scoop Fitment', linkedParts:[]},
-      {id:'m22-side-window', name:'Side Window Fitment', linkedParts:[]},
+      {id:'m22-side-window', name:'Side Window Fitment', linkedParts:['window-frame-door-seal','window-glass-door-seal'], note:'Side window install requires door trimming to fit frame against inner door edge — go conservative on material removal, at least one builder had to re-glass a door after over-trimming. Expect the frame to be mounted/removed many times during fitting (spacers used to set proper top/front gaps) — normal, iterative, not a fitment problem.'},
       {id:'m22-light-fitment', name:'Light Fitment', linkedParts:[]},
       {id:'m22-final-primer', name:'Removal, Final Prep and Primer', linkedParts:[]},
     ]
@@ -754,6 +766,15 @@ const issues = [
   {id:"steering-column-finalization", area:"Interior", tag:"STEERING COLUMN FINALIZATION", text:"Three things need Speedway tech confirmation before fabrication: (1) minimum shaft engagement/support length inside the column tube before trimming, (2) adapter plate dimensions — bolt circles, pilot diameters, and critically the self-cancel cam engagement shoulder height, (3) column length not yet selected (24-40\" in 2\" increments). The FFR wood wheel's 6-bolt Moto-Lita pattern doesn't match the turn signal kit's 3-bolt Grant hub — a combined adapter/spacer plate will be fabricated in-house rather than modifying the hub or swapping wheels, since the self-cancel mechanism also reads a specific cam/shoulder engagement off the hub."},
   {id:"rocker-heat-load-coordination", area:"Interior", tag:"ROCKER HEAT LOAD COORDINATION", text:"Rocker/muffler radiant heat exposure needs coordination with the Exterior specialist on exhaust routing/heat load before the rocker zone's insulation sandwich (CLD + FTS II + rigid foam) is finalized."},
   {id:"floor-mat-fitment", area:"Interior", tag:"FLOOR MAT FITMENT", text:"Finish Line's custom-cut FFR mats need a direct Type 65 Coupe fitment confirmation (call to verify) before ordering — their documented pattern history is mostly roadster/MK3/MK4. Fallbacks if no direct fit: CarCoverPlanet (made-to-order, ~4 week turnaround) or a local upholstery shop pattern-cutting loose mats from the kit's own leftover CP Black Carpet Kit material (60821X) — guaranteed match, likely cheapest."},
+  {id:"oxford-white-code", area:"Exterior", tag:"OXFORD WHITE CODE", text:"Confirm current code Z1 (not legacy YZ) with whichever paint supplier is used — code matters more than color name."},
+  {id:"gelcoat-spider-cracking", area:"Exterior", tag:"GELCOAT SPIDER CRACKING", text:"Body panels have existing gelcoat spider cracking — scarify (flap wheel/pin needler) + high-build primer fill planned. Watch PNW garage humidity during primer cure to avoid blistering/print-through."},
+  {id:"stripe-layout", area:"Exterior", tag:"STRIPE LAYOUT (LOW PRIORITY)", text:"Single outer stripe vs. double outer+inner stripe undecided — Aaron testing in GT7 first. Doesn't affect paint sourcing. No rush, paint isn't happening for 12+ months."},
+  {id:"wheel-powder-coat-vendor", area:"Exterior", tag:"WHEEL POWDER COAT VENDOR", text:"Prior shop closed — needs a new local source for satin bronze powder coating."},
+  {id:"wheel-lip-masking", area:"Exterior", tag:"WHEEL LIP MASKING", text:"Confirm chosen powder coat shop can mask/plug the polished outer rim lip cleanly for oven-cure application — tape doesn't survive powder cure, different masking approach than paint."},
+  {id:"engine-bay-heat-layer-product", area:"Exterior", tag:"ENGINE BAY HEAT LAYER PRODUCT", text:"Engine bay center nose panel's heat/reflective layer not yet sourced — possible overlap with the Chassis-tracked DEI Boom Mat Floor & Tunnel Shield II, not yet confirmed as the same product."},
+  {id:"raptor-liner-thickness", area:"Exterior", tag:"RAPTOR LINER THICKNESS AT IMPACT ZONES", text:"Determine whether extra localized Raptor Liner thickness (2 passes) is warranted at highest-impact fender well strike zones vs. uniform single-pass coverage."},
+  {id:"side-pipe-heat-shields", area:"Exterior", tag:"SIDE PIPE LEG-BURN HEAT SHIELDS", text:"Confirm actual need once car is drivable and real-world pipe/rocker clearance and heat behavior can be assessed — Gen 3 coupe's side pipes tuck closer to the rocker than the roadster's, which may reduce leg-burn exposure and heat-soak risk enough to make this a non-issue. If needed, most retail shield vendors are sized for the roadster's single large-diameter muffler tube and won't fit the coupe's dual/quad-pipe arrangement — Drummer Mike (individual fabricator via FFR/Cobra forums) is the best-documented match for coupe-style dual pipes. SteelShields.com and CobraStuff's ceramic-coated line worth direct inquiry. Breeze Automotive's adhesive-backed zero-clearance shield insulation flagged as a possible product-family overlap with the interior rocker cavity FTS liner — worth checking if usable in both locations."},
+  {id:"water-test-recommendation", area:"Exterior", tag:"WATER TEST BEFORE TRIM", text:"Recommend a low-pressure water test (garden hose, working low to high) on doors/windows/hatch once sealing work is complete and before carpet/interior trim goes in."},
 ];
 
 let buildStepsState = {};
