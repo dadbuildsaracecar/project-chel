@@ -1,0 +1,158 @@
+<svg width="100%" viewBox="0 0 1400 1320" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Gauges and Dash schematic</title>
+<desc>Full wiring schematic for the AutoMeter Cobra gauge cluster — tach, speedo, oil pressure, volt, fuel level, oil temp, water temp, and clock — plus dash illumination and power, and cross-references to other circuit sheets for dash switches and controls.</desc>
+<defs>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#c9a05c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- HEADER -->
+<text x="700" y="42" font-size="22" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace" letter-spacing="2">GAUGES &amp; DASH</text>
+<text x="700" y="66" font-size="13" fill="#8993a1" text-anchor="middle" font-family="monospace">AUTOMETER COBRA SERIES &#183; 4&#8243; PRIMARY / 2-1/16&#8243; SECONDARY &#183; PRINT AT 18&#215;24 OR LARGER</text>
+<text x="1380" y="30" font-size="10" fill="#8993a1" text-anchor="end" font-family="monospace">REV 1 &#183; AUG 2026</text>
+<line x1="20" y1="82" x2="1380" y2="82" stroke="#3a4552" stroke-width="1"/>
+
+<!-- LEGEND -->
+<rect x="20" y="94" width="16" height="10" rx="2" fill="#eae6da"/><text x="42" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Dash illumination (White)</text>
+<rect x="280" y="94" width="16" height="10" rx="2" fill="#e0a340"/><text x="302" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Switched 12V (&#8216;I&#8217; term)</text>
+<rect x="510" y="94" width="16" height="10" rx="2" fill="#5dcaa5"/><text x="532" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Sender signal (&#8216;S&#8217; term)</text>
+<rect x="740" y="94" width="16" height="10" rx="2" fill="#8993a1"/><text x="762" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Ground</text>
+<rect x="900" y="94" width="16" height="10" rx="2" fill="#b8302a" stroke="#e0b0a8" stroke-width="0.5" stroke-dasharray="2 2"/><text x="922" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Mechanical / not wired</text>
+<text x="1380" y="103" font-size="10" fill="#8993a1" text-anchor="end" font-family="monospace">Cross-refs: see named sheet</text>
+
+<!-- ============ UNIVERSAL WIRING PATTERN (reference strip) ============ -->
+<rect x="60" y="140" width="1280" height="110" rx="8" fill="#242c35" stroke="#c9a05c" stroke-width="2"/>
+<text x="700" y="164" font-size="14" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">AUTOMETER UNIVERSAL ELECTRIC WIRING PATTERN</text>
+<text x="700" y="180" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Applies to every electric gauge below unless noted otherwise &#8212; per AutoMeter install doc</text>
+<text x="90" y="206" font-size="11" fill="#eae6da" font-family="monospace">White</text>
+<text x="90" y="222" font-size="9" fill="#8993a1" font-family="monospace">+12V dash light, dimmable</text>
+<text x="360" y="206" font-size="11" fill="#eae6da" font-family="monospace">Black</text>
+<text x="360" y="222" font-size="9" fill="#8993a1" font-family="monospace">Dash light gnd / chassis gnd</text>
+<text x="630" y="206" font-size="11" fill="#e0a340" font-family="monospace">&#8216;I&#8217; terminal</text>
+<text x="630" y="222" font-size="9" fill="#8993a1" font-family="monospace">Switched 12V, NEVER direct batt</text>
+<text x="920" y="206" font-size="11" fill="#5dcaa5" font-family="monospace">&#8216;S&#8217; terminal</text>
+<text x="920" y="222" font-size="9" fill="#8993a1" font-family="monospace">Sender signal (n/a on Volt)</text>
+<text x="1150" y="206" font-size="11" fill="#8993a1" font-family="monospace">GND</text>
+<text x="1150" y="222" font-size="9" fill="#8993a1" font-family="monospace">Crimp AND solder ring term.</text>
+<text x="90" y="242" font-size="9" fill="#e0b0a8" font-family="monospace">CAUTION: gauge power must pass through the key switch &#8212; never wired straight to the battery post</text>
+
+<!-- ============ GAUGE GRID ============ -->
+
+<!-- TACH (left, row 1) -->
+<rect x="60" y="270" width="620" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="370" y="294" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">TACH &#8212; 4&#8243; primary</text>
+<text x="370" y="310" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">8k RPM limit, rotated so 7k sits at TDC</text>
+<text x="80" y="332" font-size="10" fill="#5dcaa5" font-family="monospace">Signal: Gray, from 6EFI Ignition Box tach output</text>
+<text x="80" y="348" font-size="9" fill="#8993a1" font-family="monospace">12V square wave, 24% duty &#8212; NOT a coil tap</text>
+<text x="80" y="368" font-size="9" fill="#c7cdd3" font-family="monospace">White/Black/I/GND per universal pattern above</text>
+<text x="80" y="386" font-size="9" fill="#8993a1" font-family="monospace">Full detail: Ignition &amp; Charging sheet</text>
+
+<!-- SPEEDO (right, row 1) -->
+<rect x="720" y="270" width="620" height="150" rx="6" fill="#1c232b" stroke="#b8302a" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="1030" y="294" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">SPEEDO &#8212; 4&#8243; primary</text>
+<text x="1030" y="310" font-size="10" fill="#e0b0a8" text-anchor="middle" font-family="monospace">Two physical speedos, split functions</text>
+<text x="740" y="330" font-size="10" fill="#eae6da" font-family="monospace">Decorative: Cobra 4&#8243; face in dash</text>
+<text x="740" y="344" font-size="9" fill="#5dcaa5" font-family="monospace">Gets dash lighting (White/Black) from the common</text>
+<text x="740" y="357" font-size="9" fill="#5dcaa5" font-family="monospace">bus above &#8212; NOT connected to the speedo cable</text>
+<text x="740" y="377" font-size="10" fill="#eae6da" font-family="monospace">Functional: AutoMeter Arctic White, PN 1396</text>
+<text x="740" y="391" font-size="9" fill="#8993a1" font-family="monospace">Mechanical cable, hidden behind firewall, odometer-</text>
+<text x="740" y="404" font-size="9" fill="#8993a1" font-family="monospace">only window &#8212; no electrical wiring, no lighting</text>
+
+<!-- FUEL LEVEL (left, row 2) -->
+<rect x="60" y="430" width="620" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="370" y="454" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">FUEL LEVEL &#8212; 2-1/16&#8243; secondary</text>
+<text x="370" y="470" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Model 201975</text>
+<text x="80" y="492" font-size="10" fill="#5dcaa5" font-family="monospace">Signal: Lt Green, LT GRN-FUEL SENDER</text>
+<text x="80" y="508" font-size="9" fill="#5dcaa5" font-family="monospace">16-158 ohm confirmed &#8212; matches FFR&#8217;s late-Ford</text>
+<text x="80" y="522" font-size="9" fill="#5dcaa5" font-family="monospace">(1987+) sender directly, no adapter needed</text>
+<text x="80" y="542" font-size="9" fill="#c7cdd3" font-family="monospace">White/Black/I/GND per universal pattern above</text>
+<text x="80" y="560" font-size="9" fill="#8993a1" font-family="monospace">Netlist ohm-spec conflict corrected on this sheet</text>
+
+<!-- OIL PRESSURE (right, row 2) -->
+<rect x="720" y="430" width="620" height="150" rx="6" fill="#1c232b" stroke="#b8302a" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="1030" y="454" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">OIL PRESSURE &#8212; 2-1/16&#8243; secondary</text>
+<text x="1030" y="470" font-size="10" fill="#e0b0a8" text-anchor="middle" font-family="monospace">Mechanical, model 201006</text>
+<text x="740" y="492" font-size="10" fill="#e0b0a8" font-family="monospace">Braided #4 (DASH 4) line + 90&#176; brass fitting</text>
+<text x="740" y="508" font-size="9" fill="#8993a1" font-family="monospace">GRY-OIL PRESS electrical sender wire is unused</text>
+<text x="740" y="522" font-size="9" fill="#8993a1" font-family="monospace">for this gauge (confirmed by Aaron)</text>
+<text x="740" y="542" font-size="9" fill="#8993a1" font-family="monospace">Holley&#8217;s own electric oil pressure sensor is a</text>
+<text x="740" y="556" font-size="9" fill="#8993a1" font-family="monospace">separate circuit &#8212; see EFI/ECU sheet</text>
+
+<!-- OIL TEMP (left, row 3) -->
+<rect x="60" y="590" width="620" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="370" y="614" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">OIL TEMP &#8212; 2-1/16&#8243; secondary</text>
+<text x="370" y="630" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Model 201018, electric bayonet-style</text>
+<text x="80" y="652" font-size="10" fill="#5dcaa5" font-family="monospace">Signal: Lt Blue, LT BLU-OIL TEMP</text>
+<text x="80" y="668" font-size="9" fill="#8993a1" font-family="monospace">100-250&#176;F range, matches FFR pinout directly</text>
+<text x="80" y="688" font-size="9" fill="#c7cdd3" font-family="monospace">White/Black/I/GND per universal pattern above</text>
+<text x="80" y="706" font-size="9" fill="#8993a1" font-family="monospace">Verify sender boss location during engine build</text>
+
+<!-- VOLT (right, row 3) -->
+<rect x="720" y="590" width="620" height="150" rx="6" fill="#1c232b" stroke="#e0a340" stroke-width="1.5"/>
+<text x="1030" y="614" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">VOLT &#8212; 2-1/16&#8243; secondary</text>
+<text x="1030" y="630" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Charge indicator, model 201009</text>
+<text x="740" y="652" font-size="10" fill="#e0a340" font-family="monospace">CRITICAL: &#8216;I&#8217; terminal &#8594; switched 12V ONLY</text>
+<text x="740" y="668" font-size="9" fill="#e0a340" font-family="monospace">Never across the battery or straight off the</text>
+<text x="740" y="682" font-size="9" fill="#e0a340" font-family="monospace">alternator &#8212; must pass through the key switch</text>
+<text x="740" y="702" font-size="9" fill="#c7cdd3" font-family="monospace">White/Black/GND only &#8212; no &#8216;S&#8217; terminal on Volt</text>
+<text x="740" y="718" font-size="9" fill="#8993a1" font-family="monospace">Charging source detail: Ignition &amp; Charging sheet</text>
+
+<!-- WATER TEMP (left, row 4) -->
+<rect x="60" y="750" width="620" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="370" y="774" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">WATER TEMP &#8212; 2-1/16&#8243; secondary</text>
+<text x="370" y="790" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Model 201015, electric half-sweep</text>
+<text x="80" y="812" font-size="10" fill="#5dcaa5" font-family="monospace">Signal: Dk Blue, DK BLU-WATER TEMP</text>
+<text x="80" y="828" font-size="9" fill="#8993a1" font-family="monospace">100-250&#176;F, avoids full-sweep mechanical&#8217;s leak</text>
+<text x="80" y="842" font-size="9" fill="#8993a1" font-family="monospace">point &amp; the &#176;C-only limitation of PN 201007</text>
+<text x="80" y="862" font-size="9" fill="#c7cdd3" font-family="monospace">White/Black/I/GND per universal pattern above</text>
+<text x="80" y="880" font-size="9" fill="#8993a1" font-family="monospace">Separate boss from Holley CTS &#8212; see EFI/ECU sheet</text>
+
+<!-- CLOCK (right, row 4) -->
+<rect x="720" y="750" width="620" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="1030" y="774" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">CLOCK &#8212; 2-1/16&#8243; secondary</text>
+<text x="1030" y="790" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Simplest circuit on the sheet</text>
+<text x="740" y="812" font-size="10" fill="#5dcaa5" font-family="monospace">Power: Red, RED-SPEEDO/CLOCK MEMORY</text>
+<text x="740" y="828" font-size="9" fill="#8993a1" font-family="monospace">Constant power off the BAT FED bus (always hot,</text>
+<text x="740" y="842" font-size="9" fill="#8993a1" font-family="monospace">keeps time with key off) + a chassis ground</text>
+<text x="740" y="862" font-size="9" fill="#c7cdd3" font-family="monospace">No signal wire, no dash-light circuit needed</text>
+<text x="740" y="880" font-size="9" fill="#8993a1" font-family="monospace">Confirmed by Aaron</text>
+
+<!-- ============ DASH ILLUMINATION & POWER ============ -->
+<rect x="60" y="920" width="1280" height="120" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="700" y="944" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">DASH ILLUMINATION &amp; POWER &#8212; feeds every gauge above</text>
+<text x="90" y="968" font-size="10" fill="#eae6da" font-family="monospace">WHT-DASH LIGHTS</text>
+<text x="90" y="984" font-size="9" fill="#8993a1" font-family="monospace">Headlight switch dimmer &#8594; all gauge backlights, dimmable together</text>
+<text x="500" y="968" font-size="10" fill="#e0a340" font-family="monospace">BRN-GAUGE FEED</text>
+<text x="500" y="984" font-size="9" fill="#8993a1" font-family="monospace">GAUGE FD/RADIO IGN fuse (10A) &#8594; every gauge &#8216;I&#8217; terminal</text>
+<text x="500" y="1000" font-size="9" fill="#e0b0a8" font-family="monospace">Draw-vs-fuse check flagged on Power &amp; Fuse Block sheet</text>
+<text x="950" y="968" font-size="10" fill="#8993a1" font-family="monospace">GND</text>
+<text x="950" y="984" font-size="9" fill="#8993a1" font-family="monospace">Common chassis ground bus, all gauge GND terminals</text>
+
+<!-- ============ DASH CONTROLS (cross-reference) ============ -->
+<rect x="60" y="1060" width="1280" height="180" rx="8" fill="#242c35" stroke="#c9a05c" stroke-width="2"/>
+<text x="700" y="1088" font-size="15" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">DASH CONTROLS &#8212; on the panel, detailed elsewhere</text>
+<text x="700" y="1106" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Physically mounted on the same dash panel as the gauges, but their circuits belong to other sheets</text>
+
+<text x="90" y="1132" font-size="10" fill="#eae6da" font-family="monospace">Horn button</text>
+<text x="90" y="1148" font-size="9" fill="#8993a1" font-family="monospace">&#8594; Horn Relay, Power &amp; Fuse Block sheet</text>
+
+<text x="90" y="1174" font-size="10" fill="#eae6da" font-family="monospace">Ignition switch bezel (Classic Mustang)</text>
+<text x="90" y="1190" font-size="9" fill="#8993a1" font-family="monospace">&#8594; BAT/ACC/IGNITION/START terms, Ignition &amp; Charging sheet</text>
+
+<text x="480" y="1132" font-size="10" fill="#eae6da" font-family="monospace">Light / wiper switches (Classic Mustang)</text>
+<text x="480" y="1148" font-size="9" fill="#8993a1" font-family="monospace">&#8594; Lighting sheet (not yet built)</text>
+
+<text x="480" y="1174" font-size="10" fill="#eae6da" font-family="monospace">Fog &amp; aux toggle switches</text>
+<text x="480" y="1190" font-size="9" fill="#8993a1" font-family="monospace">&#8594; racing-number interlock, Lighting sheet (not yet built)</text>
+
+<text x="900" y="1132" font-size="10" fill="#eae6da" font-family="monospace">Climate controls (Vintage Air Gen 5 SureFit)</text>
+<text x="900" y="1148" font-size="9" fill="#8993a1" font-family="monospace">Electronic stepper motors, no vacuum &#8212; own dedicated</text>
+<text x="900" y="1162" font-size="9" fill="#8993a1" font-family="monospace">harness from the Vintage Air kit, not yet in this netlist</text>
+
+<text x="900" y="1188" font-size="10" fill="#eae6da" font-family="monospace">Turn/hi-beam dash indicator lamps</text>
+<text x="900" y="1204" font-size="9" fill="#8993a1" font-family="monospace">Confirmed NOT redundant with gauge faces &#8594; Lighting sheet</text>
+
+<!-- FOOTER -->
+<text x="700" y="1280" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Source: Chel Electrical Master Netlist &#8212; rows 26&#8211;45, 73&#8211;101 &#183; generated Aug 2026</text>
+</svg>

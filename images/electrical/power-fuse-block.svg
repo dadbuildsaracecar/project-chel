@@ -1,0 +1,208 @@
+<svg width="100%" viewBox="0 0 1600 1420" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Power Distribution and Fuse Block schematic</title>
+<desc>Full wiring schematic for the FFR chassis fuse block, showing battery, ignition switch terminals, the three fused-power buses, all eleven fuses with amperage and wire color, the three relays, starter solenoid, and alternator.</desc>
+<defs>
+<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#c9a05c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- HEADER -->
+<text x="800" y="42" font-size="22" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace" letter-spacing="2">POWER DISTRIBUTION &amp; FUSE BLOCK</text>
+<text x="800" y="66" font-size="13" fill="#8993a1" text-anchor="middle" font-family="monospace">FFR CHASSIS HARNESS REV W &#8212; PG.32 &#183; PRINT AT 24&#215;18 OR LARGER</text>
+<text x="1580" y="30" font-size="10" fill="#8993a1" text-anchor="end" font-family="monospace">REV 1 &#183; AUG 2026</text>
+<line x1="20" y1="82" x2="1580" y2="82" stroke="#3a4552" stroke-width="1"/>
+
+<!-- LEGEND -->
+<rect x="20" y="94" width="16" height="10" rx="2" fill="#d9534f"/><text x="42" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Battery direct (always hot)</text>
+<rect x="290" y="94" width="16" height="10" rx="2" fill="#a97142"/><text x="312" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">ACC FED (accessory pos.)</text>
+<rect x="550" y="94" width="16" height="10" rx="2" fill="#e0a340"/><text x="572" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">IGN FED (run position)</text>
+<rect x="800" y="94" width="16" height="10" rx="2" fill="#3f7fb8"/><text x="822" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Crank-only (START)</text>
+<rect x="1020" y="94" width="16" height="10" rx="2" fill="#b8302a" stroke="#e0b0a8" stroke-width="0.5" stroke-dasharray="2 2"/><text x="1042" y="103" font-size="11" fill="#c7cdd3" font-family="monospace">Not used / flagged</text>
+<text x="1580" y="103" font-size="10" fill="#8993a1" text-anchor="end" font-family="monospace">Crossing w/o dot = no connection</text>
+
+<!-- ============ BATTERY ============ -->
+<rect x="60" y="140" width="280" height="100" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="200" y="164" font-size="14" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">BATTERY</text>
+<text x="200" y="180" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">12V primary source</text>
+<text x="80" y="200" font-size="10" fill="#c7cdd3" font-family="monospace">&#8594; BAT FED bus (direct, always hot)</text>
+<text x="80" y="216" font-size="10" fill="#c7cdd3" font-family="monospace">&#8594; Ignition Switch BAT term</text>
+<text x="80" y="232" font-size="10" fill="#5dcaa5" font-family="monospace">&#8592; Alternator charging feed (Red)</text>
+
+<!-- ============ IGNITION SWITCH ============ -->
+<rect x="60" y="280" width="280" height="260" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="200" y="304" font-size="14" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">IGNITION SWITCH</text>
+<line x1="75" y1="315" x2="325" y2="315" stroke="#3a4552" stroke-width="0.5"/>
+
+<text x="80" y="335" font-size="11" fill="#eae6da" font-family="monospace">BAT term</text>
+<text x="80" y="350" font-size="9" fill="#8993a1" font-family="monospace">Red, unfused &#8594; Starter Solenoid</text>
+
+<text x="80" y="390" font-size="11" fill="#eae6da" font-family="monospace">ACC term</text>
+<text x="80" y="405" font-size="9" fill="#8993a1" font-family="monospace">Brown &#8594; ACC FED bus + Alt. excite</text>
+
+<text x="80" y="445" font-size="11" fill="#eae6da" font-family="monospace">IGNITION term</text>
+<text x="80" y="460" font-size="9" fill="#8993a1" font-family="monospace">Orange (ORG-IGN FEED) &#8594; IGN FED bus</text>
+
+<text x="80" y="500" font-size="11" fill="#eae6da" font-family="monospace">START term</text>
+<text x="80" y="515" font-size="9" fill="#8993a1" font-family="monospace">Lt Blue, crank-only &#8594; see below</text>
+
+<!-- Ignition switch stubs -->
+<line x1="340" y1="335" x2="360" y2="335" stroke="#d9534f" stroke-width="1.5"/>
+<line x1="340" y1="397" x2="370" y2="397" stroke="#a97142" stroke-width="1.5"/>
+<line x1="370" y1="397" x2="370" y2="535" stroke="#a97142" stroke-width="1.5"/>
+<line x1="370" y1="535" x2="420" y2="535" stroke="#a97142" stroke-width="1.5" marker-end="url(#arrB)"/>
+<line x1="340" y1="452" x2="395" y2="452" stroke="#e0a340" stroke-width="1.5"/>
+<line x1="395" y1="452" x2="395" y2="775" stroke="#e0a340" stroke-width="1.5"/>
+<line x1="395" y1="775" x2="420" y2="775" stroke="#e0a340" stroke-width="1.5" marker-end="url(#arrB)"/>
+<line x1="340" y1="507" x2="360" y2="507" stroke="#3f7fb8" stroke-width="1.5"/>
+
+<!-- Battery BAT FED tap -->
+<line x1="340" y1="200" x2="420" y2="200" stroke="#d9534f" stroke-width="1.5"/>
+<line x1="420" y1="200" x2="420" y2="225" stroke="#d9534f" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<!-- ============ CRANK-ONLY CIRCUITS (below ignition switch) ============ -->
+<rect x="60" y="560" width="280" height="120" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="200" y="584" font-size="12" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">CRANK-ONLY (START term)</text>
+<line x1="200" y1="540" x2="200" y2="560" stroke="#3f7fb8" stroke-width="1.5" marker-end="url(#arrB)"/>
+<text x="80" y="606" font-size="10" fill="#c7cdd3" font-family="monospace">EFI Crank Power (Lt Blue) &#8594; EFI harness</text>
+<text x="80" y="622" font-size="9" fill="#e0b0a8" font-family="monospace">Per EFI/ECU sheet: likely unused &#8212; Terminator</text>
+<text x="80" y="637" font-size="9" fill="#e0b0a8" font-family="monospace">X takes run power from switched +12V instead</text>
+<text x="80" y="660" font-size="10" fill="#c7cdd3" font-family="monospace">Clutch Safety Switch (Lt Blue)</text>
+<text x="80" y="675" font-size="9" fill="#8993a1" font-family="monospace">Neutral/clutch safety interlock</text>
+
+<!-- ============ STARTER SOLENOID + ALTERNATOR (top right) ============ -->
+<rect x="760" y="140" width="380" height="80" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="950" y="163" font-size="12" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">STARTER SOLENOID</text>
+<text x="780" y="182" font-size="9" fill="#8993a1" font-family="monospace">&#9668; Ignition Switch BAT term (Red, unfused)</text>
+<text x="780" y="198" font-size="9" fill="#8993a1" font-family="monospace">Heavy feed, direct to solenoid &#8212; not fused</text>
+
+<rect x="1160" y="140" width="380" height="80" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="1350" y="163" font-size="12" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">ALTERNATOR</text>
+<text x="1180" y="182" font-size="9" fill="#8993a1" font-family="monospace">&#8594; Battery, charging feed (Red, direct)</text>
+<text x="1180" y="198" font-size="9" fill="#e0b0a8" font-family="monospace">&#9668; ACC term ign excite &#8212; skip if 1-wire alt</text>
+
+<!-- ============ FUSE BLOCK (spine) ============ -->
+<rect x="420" y="140" width="300" height="1010" rx="8" fill="#242c35" stroke="#c9a05c" stroke-width="2"/>
+<text x="570" y="168" font-size="15" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">FUSE BLOCK</text>
+<text x="570" y="186" font-size="11" fill="#8993a1" text-anchor="middle" font-family="monospace">FFR Chassis Harness, pg.32</text>
+<line x1="435" y1="198" x2="705" y2="198" stroke="#3a4552" stroke-width="1"/>
+
+<text x="570" y="228" font-size="11" font-weight="700" fill="#d9534f" text-anchor="middle" font-family="monospace">BAT FED BUS &#8212; always hot</text>
+<line x1="435" y1="240" x2="705" y2="240" stroke="#3a4552" stroke-width="0.5"/>
+
+<text x="570" y="268" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">HDLT SW / RADIO / COURTESY</text>
+<text x="570" y="284" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">15A &#8212; Red</text>
+<line x1="720" y1="275" x2="760" y2="275" stroke="#d9534f" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="338" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">BRAKE</text>
+<text x="570" y="354" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">15A &#8212; Orange</text>
+<line x1="720" y1="345" x2="760" y2="345" stroke="#d9534f" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="408" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">HORN</text>
+<text x="570" y="424" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">15A &#8212; via Horn Relay</text>
+<line x1="720" y1="415" x2="760" y2="415" stroke="#d9534f" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="478" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">COOLING FAN</text>
+<text x="570" y="494" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">30A &#8212; Dk Blue, thermostat</text>
+<line x1="720" y1="485" x2="760" y2="485" stroke="#d9534f" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="528" font-size="11" font-weight="700" fill="#a97142" text-anchor="middle" font-family="monospace">ACC FED BUS &#8212; accessory pos.</text>
+<line x1="435" y1="540" x2="705" y2="540" stroke="#3a4552" stroke-width="0.5"/>
+
+<text x="570" y="578" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">GAUGE FD / RADIO IGN</text>
+<text x="570" y="594" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">10A &#8212; Brown</text>
+<line x1="720" y1="585" x2="760" y2="585" stroke="#a97142" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="648" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">WIPER</text>
+<text x="570" y="664" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">10A &#8212; Purple</text>
+<line x1="720" y1="655" x2="760" y2="655" stroke="#a97142" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="718" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">HEATER</text>
+<text x="570" y="734" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">20A &#8212; Brown, Vintage Air</text>
+<line x1="720" y1="725" x2="760" y2="725" stroke="#a97142" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="765" font-size="11" font-weight="700" fill="#e0a340" text-anchor="middle" font-family="monospace">IGN FED BUS &#8212; run position</text>
+<text x="570" y="778" font-size="7.5" fill="#8993a1" text-anchor="middle" font-family="monospace">+ Reverse Light tap, new &#8212; see Lighting sheet</text>
+<line x1="435" y1="785" x2="705" y2="785" stroke="#3a4552" stroke-width="0.5"/>
+
+<text x="570" y="830" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">FUEL PUMP</text>
+<text x="570" y="846" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">15A &#8212; Tan, see note &#8594;</text>
+<line x1="720" y1="845" x2="760" y2="845" stroke="#e0a340" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="935" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">EFI OR COIL</text>
+<text x="570" y="951" font-size="9" fill="#5dcaa5" text-anchor="middle" font-family="monospace">15A &#8212; Orange, RESOLVED &#8594;</text>
+<line x1="720" y1="950" x2="760" y2="950" stroke="#e0a340" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<text x="570" y="1020" font-size="11" fill="#e0b0a8" text-anchor="middle" font-family="monospace">CHOKE</text>
+<text x="570" y="1036" font-size="9" fill="#e0b0a8" text-anchor="middle" font-family="monospace">10A &#8212; Tan, capped</text>
+<line x1="720" y1="1035" x2="760" y2="1035" stroke="#e0a340" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrB)"/>
+
+<text x="570" y="1090" font-size="11" fill="#eae6da" text-anchor="middle" font-family="monospace">TURN SIGNAL</text>
+<text x="570" y="1106" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">10A &#8212; feeds flasher &#8594;</text>
+<line x1="720" y1="1105" x2="760" y2="1105" stroke="#e0a340" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<!-- ============ DESTINATION BOXES (right column) ============ -->
+<rect x="760" y="248" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="271" font-size="12" fill="#eae6da" font-family="monospace">HEADLIGHT SW / RADIO MEMORY / COURTESY LT</text>
+<text x="780" y="288" font-size="9" fill="#8993a1" font-family="monospace">Always-hot circuit &#8212; stock, no changes</text>
+
+<rect x="760" y="318" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="341" font-size="12" fill="#eae6da" font-family="monospace">BRAKE PEDAL SWITCH</text>
+<text x="780" y="358" font-size="9" fill="#8993a1" font-family="monospace">Stock, no changes</text>
+
+<rect x="760" y="388" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="411" font-size="12" fill="#eae6da" font-family="monospace">HORN RELAY &#8594; HORN</text>
+<text x="780" y="428" font-size="9" fill="#8993a1" font-family="monospace">Coil trigger: Brn-Horn SW / output: Dk Grn-Horn</text>
+
+<rect x="760" y="458" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="481" font-size="12" fill="#eae6da" font-family="monospace">COOLING FAN RELAY &#8594; FAN</text>
+<text x="780" y="498" font-size="9" fill="#8993a1" font-family="monospace">Thermostat-switch controlled per FFR manual</text>
+
+<rect x="760" y="558" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="581" font-size="12" fill="#eae6da" font-family="monospace">DASH GAUGES / RADIO</text>
+<text x="780" y="598" font-size="9" fill="#e0b0a8" font-family="monospace">Verify AutoMeter Cobra full-set current draw vs 10A</text>
+
+<rect x="760" y="628" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="651" font-size="12" fill="#eae6da" font-family="monospace">WIPER MOTOR</text>
+<text x="780" y="668" font-size="9" fill="#8993a1" font-family="monospace">Stock, no changes</text>
+
+<rect x="760" y="698" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="721" font-size="12" fill="#eae6da" font-family="monospace">VINTAGE AIR GEN 5 MINI &#8212; blower</text>
+<text x="780" y="738" font-size="9" fill="#e0b0a8" font-family="monospace">Verify blower draw vs stock 20A fuse before wiring</text>
+
+<rect x="760" y="798" width="700" height="95" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="821" font-size="12" font-weight="700" fill="#eae6da" font-family="monospace">FFR FUEL PUMP RELAY &#8212; chassis-mounted</text>
+<text x="780" y="839" font-size="10" fill="#c7cdd3" font-family="monospace">Superseded &#8212; Holley Terminator X now runs the Walbro</text>
+<text x="780" y="855" font-size="10" fill="#c7cdd3" font-family="monospace">255 off its own dedicated relay/fuse (see EFI/ECU sheet)</text>
+<text x="780" y="875" font-size="10" fill="#5dcaa5" font-family="monospace">This relay socket &amp; fuse position now repurposed for the</text>
+<text x="780" y="891" font-size="10" fill="#5dcaa5" font-family="monospace">racing-number light interlock relay (Electrical flag 12)</text>
+
+<rect x="760" y="903" width="700" height="95" rx="5" fill="#1c232b" stroke="#5dcaa5" stroke-width="1.5"/>
+<text x="780" y="926" font-size="12" font-weight="700" fill="#eae6da" font-family="monospace">ECU SWITCHED +12V IN (Terminator X, pin A10)</text>
+<text x="780" y="944" font-size="10" fill="#5dcaa5" font-family="monospace">RESOLVED &#8212; this fuse only feeds the ECU's low-current</text>
+<text x="780" y="960" font-size="10" fill="#5dcaa5" font-family="monospace">key-on logic wire. ECU main power and injector/pump power</text>
+<text x="780" y="976" font-size="10" fill="#5dcaa5" font-family="monospace">are separate, direct-to-battery fused circuits (see EFI sheet)</text>
+<text x="780" y="992" font-size="9" fill="#8993a1" font-family="monospace">&#8212; stock 15A fuse has plenty of headroom, no upgrade needed</text>
+
+<rect x="760" y="1008" width="700" height="55" rx="5" fill="#2a1f1e" stroke="#b8302a" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="780" y="1031" font-size="12" fill="#e0b0a8" font-family="monospace">CHOKE &#8212; capped, tucked into loom</text>
+<text x="780" y="1048" font-size="9" fill="#e0b0a8" font-family="monospace">No choke on EFI build &#8212; kept only for a future carb swap</text>
+
+<rect x="760" y="1078" width="700" height="55" rx="5" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="780" y="1101" font-size="12" fill="#eae6da" font-family="monospace">TURN SIGNAL FLASHER &#8594; Speedway self-canceling stalk</text>
+<text x="780" y="1118" font-size="9" fill="#8993a1" font-family="monospace">Confirmed pinout on steering column sheet (see index)</text>
+
+<!-- ============ INERTIA SWITCH (below fuse block, related to fuel pump) ============ -->
+<rect x="420" y="1170" width="300" height="80" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
+<text x="570" y="1194" font-size="12" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">INERTIA SWITCH</text>
+<text x="440" y="1214" font-size="9" fill="#c7cdd3" font-family="monospace">Fuel pump safety cutoff, in series w/ pump feed</text>
+<text x="440" y="1230" font-size="9" fill="#e0b0a8" font-family="monospace">Must be pushed &#8220;on&#8221; &#8212; common no-start culprit</text>
+<line x1="570" y1="1150" x2="570" y2="1170" stroke="#e0a340" stroke-width="1.5" marker-end="url(#arrB)"/>
+
+<!-- ============ FOOTER ============ -->
+<rect x="60" y="1280" width="1460" height="60" rx="6" fill="#2a1f1e" stroke="#b8302a" stroke-width="1.5"/>
+<text x="790" y="1305" font-size="12" font-weight="700" fill="#e0b0a8" text-anchor="middle" font-family="monospace">CHECK BEFORE WIRING &#8212; two accessory fuses flagged for current draw</text>
+<text x="790" y="1323" font-size="10" fill="#e0b0a8" text-anchor="middle" font-family="monospace">Confirm actual AutoMeter Cobra gauge-set draw vs GAUGE FD (10A) and Vintage Air blower draw vs HEATER (20A) before final crimp.</text>
+
+<text x="790" y="1368" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Source: Chel Electrical Master Netlist &#8212; Master Netlist rows 2&#8211;25 &#183; generated Aug 2026</text>
+</svg>
