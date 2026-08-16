@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chel Wiring Diagram — Layer Viewer</title>
+<style>
+  :root {
+    --bg: #f4f2ee;
+    --panel: #1c232b;
+    --panel-line: #3a4552;
+    --brass: #c9860a;
+    --text: #eae6da;
+    --muted: #8993a1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background: var(--bg);
+    color: #222;
+  }
+  header {
+    background: var(--panel);
+    color: var(--text);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  .controls {
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 16px 18px;
+    min-width: 260px;
+    max-width: 300px;
+    height: fit-content;
+    border: 1px solid var(--panel-line);
+  }
+  .controls h2 {
+    font-size: 14px;
+    margin: 0 0 12px;
+    color: var(--brass);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .layer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .layer-row:last-of-type { border-bottom: none; }
+  .layer-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--brass);
+    cursor: pointer;
+  }
+  .swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .layer-row label {
+    flex: 1;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .opacity-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .opacity-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--brass);
+  }
+  .btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  button {
+    background: #242c35;
+    color: var(--text);
+    border: 1px solid var(--panel-line);
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    flex: 1;
+  }
+  button:hover { border-color: var(--brass); color: var(--brass); }
+  .base-control {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--panel-line);
+  }
+  .base-control label {
+    font-size: 12px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .stage-wrap {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    overflow: auto;
+    padding: 10px;
+  }
+  .stage-ratio {
+    position: relative;
+    width: 100%;
+    padding-top: 52.4793%; /* 2540 / 4840, keeps the box in ratio in any browser */
+  }
+  .stage {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .stage img, .stage object {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+  footer {
+    padding: 14px 28px 28px;
+    font-size: 12px;
+    color: #777;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>CHEL — WIRING DIAGRAM LAYER VIEWER</h1>
+    <p>Same car outline, stacked circuit layers — toggle any combination on/off</p>
+  </div>
+  <p style="margin:0;">Rev 1 · Aug 2026</p>
+</header>
+
+<div class="layout">
+  <div class="controls">
+    <h2>Layers</h2>
+    <div id="layer-list"></div>
+    <div class="btn-row">
+      <button id="allOn">All on</button>
+      <button id="allOff">All off</button>
+    </div>
+    <div class="base-control">
+      <label for="baseOpacity">Base outline opacity</label>
+      <div class="opacity-row">
+        <input type="range" id="baseOpacity" min="0" max="100" value="100">
+        <span id="baseOpacityVal" style="font-size:12px;">100%</span>
+      </div>
+    </div>
+    <div class="hint">
+      Drop new layer files into the <code>layers/</code> folder and add an entry to the
+      <code>LAYERS</code> list at the bottom of this file. Every layer must share the exact
+      same canvas as the base outline (4840&times;2540) with a transparent background so
+      they align when stacked — that's the only hard requirement.
+    </div>
+  </div>
+
+  <div class="stage-wrap">
+    <div class="stage-ratio">
+      <div class="stage" id="stage">
+        <img id="baseLayer" src="schematic_base.png" alt="Car outline">
+        <!-- layer <img>/<object> elements injected here by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Base outline + harness layers, traced by Aaron. Same viewer, swap or add layer files any time — see the hint panel for the spec.
+</footer>
+
+<script>
+// ---- Layer definitions: add/remove entries here as new layer files arrive ----
+var LAYERS = [
+  { id: 'all-components', name: 'All Components',   file: 'layers/all_components.png',   color: '#8993a1', defaultOn: false },
+  { id: 'main-harness',   name: 'Main Harness',     file: 'layers/main_harness.png',     color: '#1a1a1a', defaultOn: true  },
+  { id: 'front-harness',  name: 'Front Harness',    file: 'layers/front_harness.png',    color: '#e0791a', defaultOn: true  },
+  { id: 'rear-harness',   name: 'Rear Harness',     file: 'layers/rear_harness.png',     color: '#4caf50', defaultOn: true  },
+  { id: 'dash-harness',   name: 'Dash Harness',     file: 'layers/dash_harness.png',     color: '#2196c9', defaultOn: true  },
+  { id: 'door-harness',   name: 'Door Harness',     file: 'layers/door_harness.png',     color: '#c9860a', defaultOn: true  },
+  { id: 'fog-light',      name: 'Fog Light Harness',file: 'layers/fog_light_harness.png',color: '#d1201f', defaultOn: true  },
+  { id: 'ignition',       name: 'Ignition',         file: 'layers/ignition.png',         color: '#7c3fa6', defaultOn: true  },
+  { id: 'sender',         name: 'Sender Harness',   file: 'layers/sender_harness.png',   color: '#8a5a2e', defaultOn: true  }
+];
+
+var list = document.getElementById('layer-list');
+var stageEl = document.getElementById('stage');
+
+for (var i = 0; i < LAYERS.length; i++) {
+  (function(layer) {
+    var row = document.createElement('div');
+    row.className = 'layer-row';
+
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = 'chk-' + layer.id;
+    checkbox.checked = layer.defaultOn;
+
+    var swatch = document.createElement('span');
+    swatch.className = 'swatch';
+    swatch.style.background = layer.color;
+
+    var label = document.createElement('label');
+    label.setAttribute('for', 'chk-' + layer.id);
+    label.textContent = layer.name;
+
+    row.appendChild(checkbox);
+    row.appendChild(swatch);
+    row.appendChild(label);
+    list.appendChild(row);
+
+    var img = document.createElement('img');
+    img.id = 'img-' + layer.id;
+    img.src = layer.file;
+    img.style.display = layer.defaultOn ? 'block' : 'none';
+    stageEl.appendChild(img);
+
+    checkbox.addEventListener('change', function(e) {
+      img.style.display = e.target.checked ? 'block' : 'none';
+    });
+  })(LAYERS[i]);
+}
+
+document.getElementById('allOn').addEventListener('click', function() {
+  for (var i = 0; i < LAYERS.length; i++) {
+    document.getElementById('chk-' + LAYERS[i].id).checked = true;
+    document.getElementById('img-' + LAYERS[i].id).style.display = 'block';
+  }
+});
+document.getElementById('allOff').addEventListener('click', function() {
+  for (var i = 0; i < LAYERS.length; i++) {
+    document.getElementById('chk-' + LAYERS[i].id).checked = false;
+    document.getElementById('img-' + LAYERS[i].id).style.display = 'none';
+  }
+});
+
+var baseOpacity = document.getElementById('baseOpacity');
+var baseOpacityVal = document.getElementById('baseOpacityVal');
+baseOpacity.addEventListener('input', function() {
+  document.getElementById('baseLayer').style.opacity = baseOpacity.value / 100;
+  baseOpacityVal.textContent = baseOpacity.value + '%';
+});
+</script>
+
+</body>
+</html>
