@@ -118,13 +118,21 @@
   .doc-status.pending{background:rgba(184,48,42,0.15); color:#e0b0a8;}
   .doc-status.linked{background:rgba(63,127,184,0.18); color:#a8c9e0;}
 
-  .diagram-index{width:100%; height:auto; display:block;}
-  .diagram-link{cursor:pointer;}
-  .diagram-link rect{transition:fill 0.15s;}
-  .diagram-link:hover rect{fill:#2a3844;}
-  .diagram-link:hover text{fill:#eae6da;}
-  .diagram-nolink rect{opacity:0.85;}
-  .diagram-caption-hint{font-family:'IBM Plex Mono',monospace; font-size:0.7rem; color:var(--muted); margin-top:8px; text-align:center;}
+  .viewer-embed-wrap{
+    width:100%; border-radius:4px; overflow:hidden; border:1px solid var(--line);
+    background:#f4f2ee;
+  }
+  .viewer-embed{
+    width:100%; height:640px; border:0; display:block;
+  }
+  .viewer-btn-row{margin-top:10px; display:flex; justify-content:flex-end;}
+  .viewer-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; letter-spacing:0.5px;
+    background:var(--panel2); color:var(--brass); border:1px solid var(--brass);
+    border-radius:4px; padding:8px 14px; cursor:pointer; transition:background 0.15s;
+  }
+  .viewer-btn:hover{background:var(--brass); color:var(--bg);}
+  @media (max-width:640px){ .viewer-embed{height:760px;} }
 
   footer{margin-top:36px; text-align:center; color:var(--muted); font-size:0.72rem; font-family:'IBM Plex Mono',monospace; letter-spacing:1px;}
 </style>
@@ -149,115 +157,51 @@
 
   <p class="intro-note">This page holds reference material you'd actually open and read — wiring schematics, notebook sketches, spec matrices, install manuals — as opposed to Parts List, which tracks what gets purchased and checked off. Rule of thumb: if an image directly illustrates a specific purchasable part, it stays on Parts List next to that part; if it's conceptual/design reference with no part tag, it lives here.</p>
 
-  <div class="section-label">WIRING SCHEMATICS</div>
+  <div class="section-label">ELECTRICAL SYSTEMS</div>
   <div class="machining-card">
-<svg class="diagram-index" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" role="img">
-<title>Electrical circuit sheet index</title>
-<desc>Block-level map showing how the six electrical circuit sheets relate to each other: Power Distribution and Fuse Block at the root, Ground Scheme as the common return path, and the four subsystem sheets in between.</desc>
-<defs>
-<marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-<path d="M2 1L8 5L2 9" fill="none" stroke="#c9a05c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</marker>
-</defs>
-
-<!-- HEADER -->
-<text x="450" y="36" font-size="19" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace" letter-spacing="1.5">CHEL ELECTRICAL &#8212; SHEET INDEX</text>
-<text x="450" y="56" font-size="11" fill="#8993a1" text-anchor="middle" font-family="monospace">Six circuit sheets, one netlist &#8212; this is the map, not the wiring</text>
-<line x1="30" y1="70" x2="870" y2="70" stroke="#3a4552" stroke-width="1"/>
-
-<!-- ============ POWER DISTRIBUTION (root, top) — CLICKABLE ============ -->
-<a href="images/electrical/power-fuse-block.svg" target="_blank" rel="noopener" class="diagram-link">
-<rect x="60" y="90" width="780" height="110" rx="8" fill="#242c35" stroke="#c9a05c" stroke-width="2"/>
-<text x="450" y="118" font-size="15" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">POWER DISTRIBUTION &amp; FUSE BLOCK</text>
-<text x="450" y="136" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Battery, ignition switch, 11 fuses, 3 relays &#8212; root of every circuit below</text>
-<text x="450" y="158" font-size="9" fill="#5dcaa5" text-anchor="middle" font-family="monospace">Every sheet below draws power from here</text>
-<text x="450" y="184" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">power-fuse-block.svg</text>
-</a>
-
-<line x1="245" y1="200" x2="245" y2="234" stroke="#c9a05c" stroke-width="1.5" marker-end="url(#arrB)"/>
-<line x1="655" y1="200" x2="655" y2="234" stroke="#c9a05c" stroke-width="1.5" marker-end="url(#arrB)"/>
-
-<!-- ============ ROW 1: IGNITION & CHARGING | EFI/ECU — CLICKABLE ============ -->
-<a href="images/electrical/ignition-charging.svg" target="_blank" rel="noopener" class="diagram-link">
-<rect x="60" y="240" width="370" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
-<text x="245" y="266" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">IGNITION &amp; CHARGING</text>
-<text x="80" y="288" font-size="9" fill="#c7cdd3" font-family="monospace">Starting circuit, alternator, 1-wire</text>
-<text x="80" y="302" font-size="9" fill="#c7cdd3" font-family="monospace">charging, condensed ignition/timing</text>
-<text x="80" y="316" font-size="9" fill="#c7cdd3" font-family="monospace">chain (full detail on EFI/ECU sheet)</text>
-<text x="80" y="338" font-size="9" fill="#5dcaa5" font-family="monospace">Volt gauge source &#8594; Gauges &amp; Dash</text>
-<text x="80" y="352" font-size="9" fill="#5dcaa5" font-family="monospace">Ignition chain &#8594; EFI/ECU sheet</text>
-<text x="245" y="376" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">ignition-charging.svg</text>
-</a>
-
-<a href="images/electrical/efi-ecu-full-schematic.svg" target="_blank" rel="noopener" class="diagram-link">
-<rect x="470" y="240" width="370" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
-<text x="655" y="266" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">EFI/ECU INTEGRATION</text>
-<text x="490" y="288" font-size="9" fill="#c7cdd3" font-family="monospace">Full pin-by-pin ECU harness, sensors,</text>
-<text x="490" y="302" font-size="9" fill="#c7cdd3" font-family="monospace">injectors, distributor, 6EFI, coil, tach</text>
-<text x="490" y="316" font-size="9" fill="#c7cdd3" font-family="monospace">&#8212; the deepest-detail sheet of the six</text>
-<text x="490" y="338" font-size="9" fill="#5dcaa5" font-family="monospace">Tach signal &#8594; Gauges &amp; Dash</text>
-<text x="490" y="352" font-size="9" fill="#5dcaa5" font-family="monospace">Fuel pump relay &#8594; Power &amp; Fuse sheet</text>
-<text x="655" y="376" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">efi-ecu-full-schematic.svg</text>
-</a>
-
-<line x1="430" y1="315" x2="465" y2="315" stroke="#5dcaa5" stroke-width="1.5" marker-end="url(#arrB)"/>
-<line x1="465" y1="325" x2="430" y2="325" stroke="#5dcaa5" stroke-width="1.5" marker-end="url(#arrB)"/>
-
-<line x1="245" y1="390" x2="245" y2="424" stroke="#c9a05c" stroke-width="1.5" marker-end="url(#arrB)"/>
-<line x1="655" y1="390" x2="655" y2="424" stroke="#c9a05c" stroke-width="1.5" marker-end="url(#arrB)"/>
-
-<!-- ============ ROW 2: GAUGES & DASH | LIGHTING — CLICKABLE ============ -->
-<a href="images/electrical/gauges-dash.svg" target="_blank" rel="noopener" class="diagram-link">
-<rect x="60" y="430" width="370" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
-<text x="245" y="456" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">GAUGES &amp; DASH</text>
-<text x="80" y="478" font-size="9" fill="#c7cdd3" font-family="monospace">All 8 AutoMeter Cobra gauges, dash</text>
-<text x="80" y="492" font-size="9" fill="#c7cdd3" font-family="monospace">illumination, universal wiring pattern,</text>
-<text x="80" y="506" font-size="9" fill="#c7cdd3" font-family="monospace">dash controls cross-referenced out</text>
-<text x="80" y="528" font-size="9" fill="#5dcaa5" font-family="monospace">Dash indicators &#8596; Lighting sheet</text>
-<text x="80" y="542" font-size="9" fill="#5dcaa5" font-family="monospace">Signal sources &#8596; EFI/ECU, Ign&amp;Charging</text>
-<text x="245" y="566" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">gauges-dash.svg</text>
-</a>
-
-<a href="images/electrical/lighting.svg" target="_blank" rel="noopener" class="diagram-link">
-<rect x="470" y="430" width="370" height="150" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1"/>
-<text x="655" y="456" font-size="13" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">LIGHTING</text>
-<text x="490" y="478" font-size="9" fill="#c7cdd3" font-family="monospace">Front/rear lamps, turn/hazard, reverse</text>
-<text x="490" y="492" font-size="9" fill="#c7cdd3" font-family="monospace">light, dash indicators, and the custom</text>
-<text x="490" y="506" font-size="9" fill="#c7cdd3" font-family="monospace">racing-number-light interlock relay</text>
-<text x="490" y="528" font-size="9" fill="#5dcaa5" font-family="monospace">Dash indicators &#8596; Gauges &amp; Dash</text>
-<text x="490" y="542" font-size="9" fill="#5dcaa5" font-family="monospace">Reverse light fuse &#8594; Power &amp; Fuse sheet</text>
-<text x="655" y="566" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">lighting.svg</text>
-</a>
-
-<line x1="430" y1="505" x2="465" y2="505" stroke="#5dcaa5" stroke-width="1.5" marker-end="url(#arrB)"/>
-<line x1="465" y1="515" x2="430" y2="515" stroke="#5dcaa5" stroke-width="1.5" marker-end="url(#arrB)"/>
-
-<line x1="245" y1="580" x2="245" y2="614" stroke="#8993a1" stroke-width="1.5" marker-end="url(#arrB)"/>
-<line x1="655" y1="580" x2="655" y2="614" stroke="#8993a1" stroke-width="1.5" marker-end="url(#arrB)"/>
-
-<!-- ============ GROUND SCHEME (foundation, bottom) — NOT CLICKABLE, no dedicated sheet ============ -->
-<g class="diagram-nolink">
-<rect x="60" y="620" width="780" height="120" rx="8" fill="#242c35" stroke="#8993a1" stroke-width="2"/>
-<text x="450" y="648" font-size="15" font-weight="700" fill="#eae6da" text-anchor="middle" font-family="monospace">GROUND SCHEME</text>
-<text x="450" y="666" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">Star-ground reference &#8212; battery negative post, engine block, chassis bus</text>
-<text x="450" y="688" font-size="9" fill="#e0b0a8" text-anchor="middle" font-family="monospace">Synthesized from all five other sheets, not a single netlist section</text>
-<text x="450" y="708" font-size="9" fill="#c7cdd3" text-anchor="middle" font-family="monospace">Every circuit above ultimately returns here</text>
-<text x="450" y="730" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">no dedicated sheet &#8212; see netlist ground columns</text>
-</g>
-
-<!-- ============ MASTER NETLIST NOTE — CLICKABLE (links to xlsx) ============ -->
-<a href="images/electrical/Chel_Electrical_Master_Netlist.xlsx" target="_blank" rel="noopener" class="diagram-link">
-<rect x="60" y="760" width="780" height="70" rx="6" fill="#1c232b" stroke="#3a4552" stroke-width="1" stroke-dasharray="5 4"/>
-<text x="450" y="784" font-size="11" font-weight="700" fill="#c9a05c" text-anchor="middle" font-family="monospace">Chel_Electrical_Master_Netlist.xlsx</text>
-<text x="450" y="802" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">Single source of truth behind all six sheets &#8212; every diagram is generated from it, never hand-drawn independently</text>
-<text x="450" y="818" font-size="9" fill="#8993a1" text-anchor="middle" font-family="monospace">so they can't silently drift out of sync with each other</text>
-</a>
-
-<!-- FOOTER -->
-<text x="450" y="860" font-size="10" fill="#8993a1" text-anchor="middle" font-family="monospace">All six sheets: /images/electrical/ &#183; generated Aug 2026</text>
-</svg>
-<div class="diagram-caption-hint">Click any block to open its circuit sheet &#183; Ground Scheme has no dedicated sheet (synthesized from the other five)</div>
+    <div class="part-note" style="margin-bottom:10px;">Layered wiring schematic — same car outline, harness circuits stacked as togglable layers. Auto-fit below; use the button to pop it open full-scale in a new tab with whatever layers you've got toggled here.</div>
+    <div class="viewer-embed-wrap">
+      <iframe id="wiringViewerFrame" class="viewer-embed" src="wiring-layer-viewer/index.html" title="Chel wiring diagram layer viewer" loading="lazy"></iframe>
+    </div>
+    <div class="viewer-btn-row">
+      <button type="button" id="openFullScaleBtn" class="viewer-btn">Open Full-Scale ↗</button>
+    </div>
   </div>
+
+  <div class="machining-card" style="margin-top:14px;">
+    <div class="doc-row">
+      <span><a href="images/electrical/Chel_Electrical_Master_Netlist.xlsx" style="color:var(--paper);" target="_blank" rel="noopener">Chel_Electrical_Master_Netlist.xlsx</a></span>
+      <span class="doc-status linked">LINKED</span>
+    </div>
+    <div class="part-note" style="margin-top:8px;">Single source of truth behind every circuit sheet and the layered schematic above — nothing is hand-drawn independently, so they can't silently drift out of sync with each other.</div>
+  </div>
+
+  <script>
+    (function() {
+      var btn = document.getElementById('openFullScaleBtn');
+      var iframe = document.getElementById('wiringViewerFrame');
+      btn.addEventListener('click', function() {
+        var url = 'wiring-layer-viewer/index.html';
+        try {
+          var doc = iframe.contentDocument || iframe.contentWindow.document;
+          var checked = [];
+          doc.querySelectorAll('.layer-row input[type="checkbox"]').forEach(function(cb) {
+            if (cb.checked) checked.push(cb.id.replace('chk-', ''));
+          });
+          var baseOpacityEl = doc.getElementById('baseOpacity');
+          var params = new URLSearchParams();
+          params.set('on', checked.join(','));
+          if (baseOpacityEl) params.set('baseOpacity', baseOpacityEl.value);
+          url += '?' + params.toString();
+        } catch (e) {
+          // Same-origin read failed (e.g. iframe still loading) — fall back to opening
+          // the viewer with its own defaults rather than blocking the button.
+        }
+        window.open(url, '_blank');
+      });
+    })();
+  </script>
+
 
   <div class="section-label">REFERENCE SKETCHES</div>
 
