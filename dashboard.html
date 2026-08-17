@@ -486,11 +486,14 @@ const partsLookup = {
   'horn-relocation-mount': {name:'Horn Relocation Mount Brackets — Snakebite Motorworks', price:18.00},
   'chassis-primer': {name:'Primer — Eastwood OptiFlow Epoxy Primer Kit, Roll-On, Gray (98003ZP)', price:0.00},
   'chassis-paint': {name:'Paint & Activator — Eastwood Bright White Single Stage', price:0.00},
-  'boom-mat-cld': {name:'Damping — DEI Boom Mat Pro CLD (butyl/foil constrained-layer damper)', price:0.00},
-  'raptor-liner': {name:'Liner — U-POL Raptor Liner (2K polyurethane)', price:0.00},
+  'boom-mat-cld-chassis': {name:'Damping, Chassis — DEI Boom Mat Pro CLD (butyl/foil constrained-layer damper)', price:0.00},
+  'boom-mat-cld-interior': {name:'Damping, Interior — DEI Boom Mat Pro CLD (butyl/foil constrained-layer damper)', price:0.00},
+  'raptor-liner-chassis': {name:'Liner, Chassis — U-POL Raptor Liner (2K polyurethane)', price:0.00},
+  'raptor-liner-exterior': {name:'Liner, Exterior — U-POL Raptor Liner (2K polyurethane)', price:0.00},
   'footbox-drain-fitting': {name:'Drain Fitting — DIY oversized nylon/poly barbed fitting, trimmed for flush/low-profile fit', price:0.00},
   'frame-coating': {name:'Internal Frame Coating — Eastwood Internal Frame Coating Plus w/ Nozzle, PN 98092', price:43.49},
-  'adhesive-heat-shield': {name:'Adhesive Barrier — DEI Boom Mat Floor & Tunnel Shield II', price:0.00},
+  'adhesive-heat-shield-chassis': {name:'Adhesive Barrier, Chassis — DEI Boom Mat Floor & Tunnel Shield II', price:0.00},
+  'adhesive-heat-shield-interior': {name:'Adhesive Barrier, Interior — DEI Boom Mat Floor & Tunnel Shield II', price:0.00},
   'formed-heat-shield': {name:'Formed Standoff Shield — DEI Form-A-Barrier', price:0.00},
   'heat-shield-standoffs': {name:'Mounting Standoffs — DEI Heat Shield Stand-Off Mounting Kit, PN 10224 (6-pack)', price:0.00},
   'paint-speed-yellow': {name:'Base Color — Ford Speed Yellow, code BZ (2005-06 Ford GT), basecoat', price:0.00},
@@ -507,6 +510,12 @@ const partsLookup = {
   'rear-sway-bar': {name:'Rear Sway Bar — FFR IRS Front & Rear Sway Bar Kit (2015 IRS Swaybar, instruction set #15998)', price:0.00},
   'oil-filter-adapter': {name:"Oil Filter Adapter — Hamburger\'s -12AN, HAM-3320", price:135.99},
   'oil-filter-mount': {name:"Oil Filter Mount — Hamburger\'s -12AN 3/4-16, HAM-3343", price:131.99},
+  'bulkhead-aluminum-sheet': {name:'Aluminum Sheet — bulkhead panel (gauge/size TBD)', price:0.00},
+  'bulkhead-acrylic-window': {name:'Acrylic Sheet — bulkhead window (size/thickness TBD)', price:0.00},
+  'bulkhead-rivnuts': {name:'Aluminum Rivnuts — bulkhead window mounting (size/qty TBD)', price:0.00},
+  'bulkhead-security-screws': {name:'Security Head Screws — tamper-resistant, one-way or tamper Torx (size/qty TBD)', price:0.00},
+  'bulkhead-pclamps': {name:'P-Clamps — rubber-lined, hatch wiring routing (size/qty TBD)', price:0.00},
+  'bulkhead-hatch-carpet': {name:'Carpet — bulkhead cockpit-facing side + hatch floor (qty TBD)', price:0.00},
 };
 
 const milestones = [
@@ -517,7 +526,7 @@ const milestones = [
       {id:'m1-fit-panels', name:'Fit aluminum panels and pre-drill', linkedParts:[]},
       {id:'m1-clean-sand', name:'Clean holes, sand and clean primed surface', linkedParts:[]},
       {id:'m1-final-paint', name:'Final paint', linkedParts:['chassis-paint']},
-      {id:'m1-corrosion-underbody', name:'Corrosion Preventative & Underbody', linkedParts:['raptor-liner','frame-coating'], note:'Sequenced after Final Paint — access holes drilled and coating applied post-paint, since holes get plugged after and bare edge exposure isn\'t a concern. Selective to lower tube runs (highest moisture exposure), not every tube.'},
+      {id:'m1-corrosion-underbody', name:'Corrosion Preventative & Underbody', linkedParts:['raptor-liner-chassis','frame-coating'], note:'Sequenced after Final Paint — access holes drilled and coating applied post-paint, since holes get plugged after and bare edge exposure isn\'t a concern. Selective to lower tube runs (highest moisture exposure), not every tube.'},
     ]
   },
   {
@@ -543,7 +552,7 @@ const milestones = [
   {
     id: 'm4', num: 4, name: 'Cockpit Stage 1',
     steps: [
-      {id:'m4-footbox-floor-prep', name:'Footbox Floor Prep, Damping & Liner + Drain Install', linkedParts:['boom-mat-cld','raptor-liner','footbox-drain-fitting'], note:'Sequenced before Pedal Box install — floor done first, raised/upper floor done later during Interior buildout (Heat and Noise Insulation), overlap zone scuffed and feathered between sessions.'},
+      {id:'m4-footbox-floor-prep', name:'Footbox Floor Prep, Damping & Liner + Drain Install', linkedParts:['boom-mat-cld-chassis','raptor-liner-chassis','footbox-drain-fitting'], note:'Sequenced before Pedal Box install — floor done first, raised/upper floor done later during Interior buildout (Heat and Noise Insulation), overlap zone scuffed and feathered between sessions.'},
       {id:'m4-pedal-box', name:'Pedal Box', linkedParts:['pedal-box','master-cylinders','bias-adjuster','bias-coupler']},
       {id:'m4-accel-pedal', name:'Accelerator Pedal', linkedParts:[]},
       {id:'m4-cockpit-alum', name:'Cockpit aluminum', linkedParts:['footbox-extension','trans-tunnel-lower']},
@@ -571,7 +580,7 @@ const milestones = [
   {
     id: 'm7', num: 7, name: 'Drivetrain Installation',
     steps: [
-      {id:'m7-heat-shield', name:'Engine Bay Prep - Heat Shielding', linkedParts:['firewall-lower','adhesive-heat-shield','formed-heat-shield','heat-shield-standoffs'], note:'Adhesive shield goes in as engine bay prep. Formed/flexible shielding waits until after engine install — headers get temp-installed to confirm clearance, then removed, then final shield fitment happens. This step spans through Mount and Fuel System Installation chronologically; no separate step needed for the temp-fit.'},
+      {id:'m7-heat-shield', name:'Engine Bay Prep - Heat Shielding', linkedParts:['firewall-lower','adhesive-heat-shield-chassis','formed-heat-shield','heat-shield-standoffs'], note:'Adhesive shield goes in as engine bay prep. Formed/flexible shielding waits until after engine install — headers get temp-installed to confirm clearance, then removed, then final shield fitment happens. This step spans through Mount and Fuel System Installation chronologically; no separate step needed for the temp-fit.'},
       {id:'m7-mount', name:'Mount', linkedParts:['tkx-trans','oil-filter-mount']},
       {id:'m7-fuel-install', name:'Fuel System Installation', linkedParts:['fuel-rail','fuel-pump','fuel-reg']},
       {id:'m7-driveshaft', name:'Driveshaft', linkedParts:['driveshaft-halfshafts']},
@@ -667,7 +676,7 @@ const milestones = [
   {
     id: 'm19', num: 19, name: 'Interior',
     steps: [
-      {id:'m19-insulation', name:'Heat and Noise Insulation', linkedParts:['boom-mat-cld','rocker-rigid-foam'], note:'Full-cockpit scope: CLD on cabin-facing side of every riveted aluminum panel (floor, tunnel, footbox walls, rocker floor panel, doors, rear hatch), radiant barrier (Floor & Tunnel Shield II) on heat-facing side only. Rocker zone gets an added FTS II layer + rigid foam for muffler radiant heat. Roof (fiberglass, continuously bonded) excluded from CLD — low resonance risk, not a riveted panel.'},
+      {id:'m19-insulation', name:'Heat and Noise Insulation', linkedParts:['boom-mat-cld-interior','adhesive-heat-shield-interior','rocker-rigid-foam'], note:'Full-cockpit scope: CLD on cabin-facing side of every riveted aluminum panel (floor, tunnel, footbox walls, rocker floor panel, doors, rear hatch), radiant barrier (Floor & Tunnel Shield II) on heat-facing side only. Rocker zone gets an added FTS II layer + rigid foam for muffler radiant heat. Roof (fiberglass, continuously bonded) excluded from CLD — low resonance risk, not a riveted panel.'},
       {id:'m19-carpet', name:'Carpet Installation', linkedParts:['floor-mats']},
       {id:'m19-door-card', name:'Door Card Assembly', linkedParts:['door-pocket-kit','door-pull-handles','suede-dash-door'], note:'Interior door panel/pocket trim — distinct from Body Fitment\'s Door Trim and Mount, which is panel gap/alignment to the chassis.'},
       {id:'m19-dash', name:'Dash Assembly & Installation', linkedParts:['headlight-switch','headlight-switch-knob','headlight-switch-bezel','ignition-switch-cylinder','ignition-switch-assembly','ignition-switch-spacer','ignition-switch-bezel','wiper-switch','wiper-switch-nut','wiper-switch-spacer','wiper-bezel','wiper-knob','indicator-lights','toggle-switches-fog-aux-hazard','custom-switch-bezels','suede-dash-door','suede-roof']},
@@ -688,7 +697,7 @@ const milestones = [
   {
     id: 'm21', num: 21, name: 'Body Fitment',
     steps: [
-      {id:'m21-prep-reinforcement', name:'Pre-Installation Prep/Reinforcement', linkedParts:['underbody-fiberglass-reinforcement','engine-bay-nose-heat-layer','raptor-liner'], note:'Backside fiberglass/Kevlar reinforcement at radiator opening and nose leading edge, plus engine bay nose panel heat layer and Raptor Liner extension to nose underside/fender wells — all done now while panels are off-car, ahead of body/paint stage.'},
+      {id:'m21-prep-reinforcement', name:'Pre-Installation Prep/Reinforcement', linkedParts:['underbody-fiberglass-reinforcement','engine-bay-nose-heat-layer','raptor-liner-exterior'], note:'Backside fiberglass/Kevlar reinforcement at radiator opening and nose leading edge, plus engine bay nose panel heat layer and Raptor Liner extension to nose underside/fender wells — all done now while panels are off-car, ahead of body/paint stage.'},
       {id:'m21-rear-body-mount', name:'Rear Body Mount', linkedParts:[]},
       {id:'m21-nose-trim', name:'Nose Trim and Mount', linkedParts:[]},
       {id:'m21-door-trim', name:'Door Trim and Mount', linkedParts:['door-window-sealant']},
@@ -724,7 +733,9 @@ const milestones = [
       {id:'m24-light-install', name:'Light Installation', linkedParts:[]},
       {id:'m24-fuel-filler', name:'Fuel Filler and Gas Cap Installation', linkedParts:[]},
       {id:'m24-windows', name:'Windows', linkedParts:[]},
+      {id:'m24-bulkhead-fab', name:'Bulkhead Fab and Installation', linkedParts:['bulkhead-aluminum-sheet','bulkhead-acrylic-window','bulkhead-rivnuts','bulkhead-security-screws','bulkhead-pclamps'], note:'Aluminum panel w/ plexiglass window, spans rear hatch, isolates cockpit from hatch area for heat/noise and lockable cargo security. Dependent on driver seat mount decision (Option A vs. B) and rear hatch glass dry test-fit (m22) confirming hinge slot clearance before final installation.'},
       {id:'m24-hatch-alum', name:'Hatch Interior Aluminum', linkedParts:['access-doors']},
+      {id:'m24-cargo-carpet', name:'Cargo Area Carpet Installation', linkedParts:['bulkhead-hatch-carpet'], note:'Hatch floor only. Side panels and the bulkhead\'s hatch-facing surface remain raw aluminum, no carpet or sound deadening — racecar treatment for the hatch, finished treatment stays on the cockpit side of the bulkhead.'},
       {id:'m24-mirrors', name:'Mirror Installations', linkedParts:[]},
       {id:'m24-rear-hatch', name:'Rear Hatch Installation', linkedParts:[]},
       {id:'m24-side-exhaust-final', name:'Side Exhaust Final Installation', linkedParts:[]},
