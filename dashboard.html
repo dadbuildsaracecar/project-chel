@@ -430,7 +430,9 @@ const partsLookup = {
   'rear-caliper': {name:'Rear Calipers — Nugeon 9918037A (RH) & 9918037B (LH), remanufactured, unpainted, w/ mounting bracket', price:119.58},
   'rear-caliper-core': {name:'Nugeon Core Charge — $44/side (refundable)', price:88.00},
   'rear-brake-pads': {name:'Rear Brake Pads — PowerStop Z261793, Z26 Street Performance Carbon-Fiber Ceramic w/ hardware kit', price:69.79},
-  'front-dust-shields': {name:'Front Dust Shields', price:0.00},
+  'front-dust-shields': {name:'Front Dust Shields — LMR LRS-2004CK (pair, includes mounting rivets)', price:54.99},
+  'front-duct-spout-hose': {name:'Front Brake Cooling Duct — spout + hose (size/routing TBD)', price:0.00},
+  'front-duct-blockoff': {name:'Front Brake Duct Block-Off Plug — removable (design TBD)', price:0.00},
   'front-braided-lines': {name:'Front Soft Brake Lines — Maximum Motorsports MMBK4F, stainless braided hose kit', price:104.99},
   'front-brake-bracket-kit': {name:'Front Soft Line Bracket — 5.0 Resto LRS-9998916K', price:15.99},
   'banjo-bolts': {name:'Banjo Bolts — SUPERSEDED, included in MMBK4F kit', price:0.00},
@@ -608,6 +610,7 @@ const milestones = [
     steps: [
       {id:'m9-hard-lines', name:'Hard Brake Lines', linkedParts:[]},
       {id:'m9-soft-lines', name:'Soft Brake Lines', linkedParts:['front-braided-lines','front-brake-bracket-kit','rear-braided-lines','rear-brake-hose-clips'], note:'Front: Maximum Motorsports kit + 5.0 Resto bracket, both direct off-the-shelf reproduction parts. Rear: J&M hose kit, bracket builder-fabricated (rivet-on to FFR mounting location, no reproduction bracket exists for this platform yet) — see Open Issues for retaining clip fitment confirmation.'},
+      {id:'m9-front-duct-fab', name:'Front Brake Cooling Duct Fabrication', linkedParts:['front-dust-shields','front-duct-spout-hose','front-duct-blockoff'], note:'DIY duct built off the dust shields — cut a hole, rivet in a tube spout to mate with hose routed from the front bumper center opening. Plus a removable block-off plug for street driving (avoids road debris/water intrusion and pad overcooling on long highway stints), open for track days. Spout diameter/hose routing pending bumper opening size and hose selection — see Open Issues.'},
       {id:'m9-reservoir', name:'Brake Reservoir', linkedParts:['brake-reservoir']},
       {id:'m9-ebrake', name:'Emergency Brake Handle and Cables', linkedParts:[]},
     ]
@@ -798,6 +801,7 @@ const issues = [
   {id:"side-pipe-heat-shields", area:"Exterior", tag:"SIDE PIPE LEG-BURN HEAT SHIELDS", text:"Confirm actual need once car is drivable and real-world pipe/rocker clearance and heat behavior can be assessed — Gen 3 coupe's side pipes tuck closer to the rocker than the roadster's, which may reduce leg-burn exposure and heat-soak risk enough to make this a non-issue. If needed, most retail shield vendors are sized for the roadster's single large-diameter muffler tube and won't fit the coupe's dual/quad-pipe arrangement — Drummer Mike (individual fabricator via FFR/Cobra forums) is the best-documented match for coupe-style dual pipes. SteelShields.com and CobraStuff's ceramic-coated line worth direct inquiry. Breeze Automotive's adhesive-backed zero-clearance shield insulation flagged as a possible product-family overlap with the interior rocker cavity FTS liner — worth checking if usable in both locations."},
   {id:"water-test-recommendation", area:"Exterior", tag:"WATER TEST BEFORE TRIM", text:"Recommend a low-pressure water test (garden hose, working low to high) on doors/windows/hatch once sealing work is complete and before carpet/interior trim goes in."},
   {id:"rear-cooling-duct-sizing", area:"Interior", tag:"REAR COOLING DUCT SIZING & ROUTING", text:"Pre-split duct diameter (target 3-4\") must account for the downstream caliper/diff split, not be sized as if single-destination, or combined branch area will be starved. Floor routing path needs to be checked against the drop floor tool/jack storage area for conflict. Inlet scoop design/sizing is Exterior specialist scope and must land on the same diameter chosen here — flag to that chat once duct sizing is finalized. Printed fitting material (nylon PA12 preferred, ASA fallback) also still needs sourcing."},
+  {id:"front-duct-sizing", area:"Suspension & Brakes", tag:"FRONT BRAKE DUCT SPOUT/HOSE SIZING", text:"Spout diameter and hose routing (dust-shield-mounted DIY duct) can't be finalized until the front bumper opening size and hose selection are confirmed — cross-reference with the Exterior cooling plan. Kenny Brown Performance (96-04 Mustang/Cobra specific) duct kit is a reputable fallback if the DIY route hits a snag, not being pursued initially."},
   {id:"sikaflex-purchase-timing", area:"Chassis", tag:"SIKAFLEX 221 — SPLIT PURCHASE TIMING", text:"12-month unopened shelf life (not the ~2 years initially assumed) means the full project quantity should NOT be bought in one order — install spans Cockpit Stage 1 through Final Assembly, potentially 12+ months apart. Buy enough for Cockpit Stage 1/2 now; plan a second purchase closer to Final Assembly. Total quantity still pending panel count/seam length estimate. Also open: whether the Exterior-tracked GE Silicone II (door-window-sealant) should be swapped to Sikaflex 221 for consistency, or is an intentional deviation from the FFR manual spec."},
 ];
 
