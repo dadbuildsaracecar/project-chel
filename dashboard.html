@@ -504,6 +504,10 @@ const partsLookup = {
   'heat-shield-standoffs': {name:'Mounting Standoffs — DEI Heat Shield Stand-Off Mounting Kit, PN 10224 (6-pack)', price:37.98},
   'paint-speed-yellow': {name:'Base Color — Ford Speed Yellow, code BZ (2005-06 Ford GT), basecoat', price:0.00},
   'paint-magnetic-metallic': {name:'Stripe Color — Ford Magnetic Metallic, code J7 (cross-ref M7325/M7325A), basecoat', price:0.00},
+  'livery-decal-set-purchased': {name:'Livery Decal Set — I Say Ding Dong (isaydingdong.co.uk), single consolidated order', price:56.96},
+  'decal-holley-efi': {name:'Decal — Holley, EFI-representative (sourcing TBD)', price:0.00},
+  'decal-powered-by-ford': {name:'Decal — "Powered by Ford" script (wording TBD, leaning "Powered by Ford 289")', price:0.00},
+  'decal-us-flag-mirrored': {name:'Decal — US Flag Roundel, mirrored L/R pair (sourcing TBD)', price:0.00},
   'paint-oxford-white': {name:'White Accent — Ford Oxford White, current code Z1 (nose ball + tail wedge), basecoat', price:0.00},
   'body-primer': {name:'Primer — Eastwood OptiFlow Epoxy (body application)', price:0.00},
   'wheel-finish-bronze': {name:'Wheel Finish — Satin bronze powder coat (SVE Satin Bronze reference)', price:0.00},
@@ -733,6 +737,7 @@ const milestones = [
     steps: [
       {id:'m23-interior-liners', name:'Interior Liners', linkedParts:[]},
       {id:'m23-exterior-paint', name:'Exterior Paint', linkedParts:[]},
+      {id:'m23-livery-decals', name:'Livery & Decal Application', linkedParts:['livery-decal-set-purchased','decal-holley-efi','decal-powered-by-ford','decal-us-flag-mirrored'], note:'Period-correct 1960s Le Mans/Daytona sponsor & ID set — door panel: number roundel (white, black "3"), GT class badge + US flag roundel ahead of number, sponsor row (Koni, Autolite, Mobiloil Socony-Vacuum, Daytona script, scrutineer sticker) lower door/rocker aft of front wheel arch, per Shelby Daytona Sebring \'64 reference. SVG layout mockup exists as a starting reference — confirm placement once decals are in hand. Holley and Powered by Ford decals still pending sourcing/wording — see Open Issues. "Chel" name treatment, lap chart personalization, and good luck charm placement are separate open concepts, not yet placed.'},
     ]
   },
   {
@@ -802,6 +807,12 @@ const issues = [
   {id:"water-test-recommendation", area:"Exterior", tag:"WATER TEST BEFORE TRIM", text:"Recommend a low-pressure water test (garden hose, working low to high) on doors/windows/hatch once sealing work is complete and before carpet/interior trim goes in."},
   {id:"rear-cooling-duct-sizing", area:"Interior", tag:"REAR COOLING DUCT SIZING & ROUTING", text:"Pre-split duct diameter (target 3-4\") must account for the downstream caliper/diff split, not be sized as if single-destination, or combined branch area will be starved. Floor routing path needs to be checked against the drop floor tool/jack storage area for conflict. Inlet scoop design/sizing is Exterior specialist scope and must land on the same diameter chosen here — flag to that chat once duct sizing is finalized. Printed fitting material (nylon PA12 preferred, ASA fallback) also still needs sourcing."},
   {id:"front-duct-sizing", area:"Suspension & Brakes", tag:"FRONT BRAKE DUCT SPOUT/HOSE SIZING", text:"Spout diameter and hose routing (dust-shield-mounted DIY duct) can't be finalized until the front bumper opening size and hose selection are confirmed — cross-reference with the Exterior cooling plan. Kenny Brown Performance (96-04 Mustang/Cobra specific) duct kit is a reputable fallback if the DIY route hits a snag, not being pursued initially."},
+  {id:"livery-holley-decal-defer", area:"Exterior", tag:"HOLLEY DECAL — DEFER TO EFI HARDWARE ORDER", text:"All I Say Ding Dong Holley decal options are carburetor-branded, which would misrepresent the actual EFI setup (Holley Terminator X). Check for correct EFI-representative decal options when the Holley EFI hardware itself is ordered."},
+  {id:"livery-powered-by-ford-wording", area:"Exterior", tag:"POWERED BY FORD — WORDING/SOURCING", text:"Still deciding exact wording — leaning \"Powered by Ford 289\" for engine-specific correctness over a generic \"Powered by Ford.\" Not ordered yet."},
+  {id:"livery-us-flag-mirrored-pair", area:"Exterior", tag:"US FLAG ROUNDEL — MIRRORED L/R PAIR", text:"The purchased USA ID plate sticker does not cover this. Flag convention requires the canton (stars) to lead on both sides, so the right-hand door needs a mirrored version of the left-hand door's flag. I Say Ding Dong didn't have a mirrored pair — needs a separate source."},
+  {id:"livery-chel-name-treatment", area:"Exterior", tag:"\"CHEL\" NAME TREATMENT ON LIVERY", text:"Concept still under discussion, no placement decided."},
+  {id:"livery-lap-chart-concept", area:"Exterior", tag:"LAP CHART PERSONALIZATION CONCEPT", text:"Period pit-board detail — no design decided yet, flagged for a future interior/cockpit pass."},
+  {id:"livery-good-luck-charm", area:"Exterior", tag:"GOOD LUCK CHARM / PERSONAL ITEM PLACEMENT", text:"Concept confirmed as desired inside the cockpit — specific item and mounting location TBD."},
   {id:"sikaflex-purchase-timing", area:"Chassis", tag:"SIKAFLEX 221 — SPLIT PURCHASE TIMING", text:"12-month unopened shelf life (not the ~2 years initially assumed) means the full project quantity should NOT be bought in one order — install spans Cockpit Stage 1 through Final Assembly, potentially 12+ months apart. Buy enough for Cockpit Stage 1/2 now; plan a second purchase closer to Final Assembly. Total quantity still pending panel count/seam length estimate. Also open: whether the Exterior-tracked GE Silicone II (door-window-sealant) should be swapped to Sikaflex 221 for consistency, or is an intentional deviation from the FFR manual spec."},
 ];
 
