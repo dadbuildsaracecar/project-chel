@@ -508,6 +508,9 @@ const partsLookup = {
   'decal-holley-efi': {name:'Decal — Holley, EFI-representative (sourcing TBD)', price:0.00},
   'decal-powered-by-ford': {name:'Decal — "Powered by Ford" script (wording TBD, leaning "Powered by Ford 289")', price:0.00},
   'decal-us-flag-mirrored': {name:'Decal — US Flag Roundel, mirrored L/R pair (sourcing TBD)', price:0.00},
+  'bre-mirror-kit': {name:'Side Mirrors — BRE (Brock Racing Enterprises) Daytona Coupe Mirror Kit, pair', price:289.00},
+  'rear-facing-camera-concept': {name:'Rear-Facing Camera — contingent, pending BRE mirror real-world performance (product TBD)', price:0.00},
+  'tow-hook-trim-bezel': {name:'Tow Hook Finish Grommet/Trim Bezel — rear kamm tail slot (product TBD)', price:0.00},
   'paint-oxford-white': {name:'White Accent — Ford Oxford White, current code Z1 (nose ball + tail wedge), basecoat', price:0.00},
   'body-primer': {name:'Primer — Eastwood OptiFlow Epoxy (body application)', price:0.00},
   'wheel-finish-bronze': {name:'Wheel Finish — Satin bronze powder coat (SVE Satin Bronze reference)', price:0.00},
@@ -754,7 +757,7 @@ const milestones = [
       {id:'m24-rear-cooling-ducting', name:'Rear Brake/Diff Cooling Ducting — Bulkhead Pass-Through', linkedParts:['ducting-printed-fittings','ducting-node-seal','ducting-brake-hose','ducting-diff-hose','ducting-splitters'], note:'Closes the original brake cooling ducting open item. Two independent L/R duct paths through the bulkhead via custom-printed fittings scanned to the roll hoop node, then floor-routed and split (generic splitter) to caliper and diff. Sequenced after bulkhead installation. Inlet scoop sizing (quarter window area) is Exterior specialist scope, must stay consistent with duct diameter landed on here — see cross-area open issue.'},
       {id:'m24-hatch-alum', name:'Hatch Interior Aluminum', linkedParts:['access-doors']},
       {id:'m24-cargo-carpet', name:'Cargo Area Carpet Installation', linkedParts:['bulkhead-hatch-carpet'], note:'Hatch floor only. Side panels and the bulkhead\'s hatch-facing surface remain raw aluminum, no carpet or sound deadening — racecar treatment for the hatch, finished treatment stays on the cockpit side of the bulkhead.'},
-      {id:'m24-mirrors', name:'Mirror Installations', linkedParts:[]},
+      {id:'m24-mirrors', name:'Mirror Installations', linkedParts:['bre-mirror-kit'], note:'BRE Daytona Coupe kit — swap stock black steel mounting screws for stainless at install. Hold paint-matching mirror bodies to livery until final color/stripe layout is locked.'},
       {id:'m24-rear-hatch', name:'Rear Hatch Installation', linkedParts:[]},
       {id:'m24-side-exhaust-final', name:'Side Exhaust Final Installation', linkedParts:[]},
       {id:'m24-ac-charge', name:'A/C Line Routing and System Charge', linkedParts:['ac-compressor','vintage-air']},
@@ -813,6 +816,9 @@ const issues = [
   {id:"livery-chel-name-treatment", area:"Exterior", tag:"\"CHEL\" NAME TREATMENT ON LIVERY", text:"Concept still under discussion, no placement decided."},
   {id:"livery-lap-chart-concept", area:"Exterior", tag:"LAP CHART PERSONALIZATION CONCEPT", text:"Period pit-board detail — no design decided yet, flagged for a future interior/cockpit pass."},
   {id:"livery-good-luck-charm", area:"Exterior", tag:"GOOD LUCK CHARM / PERSONAL ITEM PLACEMENT", text:"Concept confirmed as desired inside the cockpit — specific item and mounting location TBD."},
+  {id:"bre-mirror-leadtime", area:"Exterior", tag:"BRE MIRROR KIT — PRICING/LEAD TIME", text:"Confirm current pricing/lead time from BRE (brelegacy.com) before order."},
+  {id:"rear-camera-decision-gate", area:"Exterior", tag:"REAR CAMERA — DECISION GATE", text:"Considering only, not committed. Evaluate need after BRE mirrors are installed and tested — may be dropped entirely if real-world mirror visibility proves sufficient, since side mirrors rank higher for period-correctness than a camera/screen setup. If pursued, full concept still needs physical mockup/measurement verification once body is mounted (vignetting from roll hoop tube/diagonal brace, interior reflections off bare aluminum tonneau panels near the mount point)."},
+  {id:"tow-hook-fitment-check", area:"Exterior", tag:"TOW HOOK — REAR SLOT & FRONT CHAFE CHECK", text:"Rear slot location/shape pending body-mounted fitment check. Front hook stowed/installed chafe-check against the nose opening trim pending the same fitment check. Full structural bracket design tracked in the Chassis chat, not duplicated here."},
   {id:"sikaflex-purchase-timing", area:"Chassis", tag:"SIKAFLEX 221 — SPLIT PURCHASE TIMING", text:"12-month unopened shelf life (not the ~2 years initially assumed) means the full project quantity should NOT be bought in one order — install spans Cockpit Stage 1 through Final Assembly, potentially 12+ months apart. Buy enough for Cockpit Stage 1/2 now; plan a second purchase closer to Final Assembly. Total quantity still pending panel count/seam length estimate. Also open: whether the Exterior-tracked GE Silicone II (door-window-sealant) should be swapped to Sikaflex 221 for consistency, or is an intentional deviation from the FFR manual spec."},
 ];
 
