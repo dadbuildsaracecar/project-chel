@@ -188,6 +188,12 @@
   .milestone[open] > summary::before{transform:rotate(90deg);}
   .milestone-meta{margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:var(--muted); text-transform:none; letter-spacing:0;}
   .milestone-meta.done{color:var(--green);}
+  .milestone-thumb-link{display:block; flex-shrink:0; line-height:0;}
+  .milestone-thumb{
+    width:36px; height:36px; object-fit:cover; border-radius:4px;
+    border:1px solid var(--line); display:block; transition:transform .15s, border-color .15s;
+  }
+  .milestone-thumb-link:hover .milestone-thumb{transform:scale(1.08); border-color:var(--brass);}
   .milestone-content{padding:10px 16px;}
 
   .step-row{
@@ -538,7 +544,7 @@ const partsLookup = {
 
 const milestones = [
   {
-    id: 'm1', num: 1, name: 'Chassis Prep',
+    id: 'm1', num: 1, name: 'Chassis Prep', photo: 'images/chassis/20260826_202603.jpg',
     steps: [
       {id:'m1-primer', name:'Primer on bare steel chassis', linkedParts:['chassis-primer']},
       {id:'m1-fit-panels', name:'Fit aluminum panels and pre-drill', linkedParts:[]},
@@ -894,7 +900,7 @@ function renderMilestones(){
     const editable = !!window.chelIsEditor;
     const dis = editable ? '' : 'disabled';
     return `<details class="milestone" data-milestone-key="${m.id}" ${isOpen ? 'open' : ''}>
-      <summary>${m.num}) ${m.name}<span class="milestone-meta ${done===total?'done':''}">${done}/${total} steps</span></summary>
+      <summary>${m.num}) ${m.name}${m.photo ? `<a href="${m.photo}" target="_blank" rel="noopener" class="milestone-thumb-link" onclick="event.stopPropagation()"><img class="milestone-thumb" src="${m.photo}" alt="${m.name} photo"></a>` : ''}<span class="milestone-meta ${done===total?'done':''}">${done}/${total} steps</span></summary>
       <div class="milestone-content">
         ${m.steps.map(s => {
           const checked = !!buildStepsState[s.id];
