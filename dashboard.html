@@ -353,14 +353,13 @@ window.addEventListener('chel-auth-changed', (e) => {
 // the shared-JSON-catalog discussion for the real long-term fix.
 const partsLookup = {
   'block-core': {name:'Block: Mexican Cast 302 (decked/bored to 4.030")', price:500.00},
-  'main-girdle': {name:'Main Cap Girdle — PRW Billet Steel 3/8", 9030201', price:175.76},
+  'main-girdle': {name:'Main Cap Girdle + Stud Kit — PRW Billet Steel 3/8", PN 9030200', price:240.17},
   'crank': {name:'Crankshaft — Eagle 4340 Forged 2.870" stroke, 430228705090', price:840.95},
   'rod': {name:'Rod — Eagle CRS Lightweight H-beam, CRS5155F3D2000', price:650.28},
   'piston': {name:'Piston — Icon Forged 6.8cc Dome, UEM-IC736-030', price:582.75},
   'rod-bearings': {name:'Rod Bearings — Clevite P-Series, CLE-CB634P8', price:54.99},
   'main-bearings': {name:'Crank Main Bearings — Clevite P-Series, CLE-MS590P', price:78.99},
   'cam-bearings': {name:'Cam Bearings — Clevite, SH-510S', price:33.99},
-  'main-studs': {name:'Main Studs — ARP Stud Kit, 154-5408', price:66.99},
   'rear-main-seal': {name:'Rear Main Seal — Fel-Pro BS 30136, 2-piece, nitrile', price:20.99},
   'heads': {name:'Heads — AFR 165 SBF Renegade CNC (pair, assembled)', price:2126.00},
   'spring-kit': {name:'Valve Spring Kit — FTI-SR765-KIT-TI (PAC 1238X + Ti retainers)', price:976.00},
@@ -588,7 +587,7 @@ const milestones = [
   {
     id: 'm5', num: 5, name: 'Engine Assembly',
     steps: [
-      {id:'m5-block-machining', name:'Block Machining', linkedParts:['block-core','main-girdle','main-bearings','cam-bearings','main-studs','machining-block'], note:'Block filling (Hard Block / epoxy) considered and declined. A friend\'s drag 302 build (boosted/nitrous-adjacent, sustained high-cylinder-pressure passes past 8k) recommended it, but Chel\'s N/A combo is valvetrain-RPM-limited rather than high-BMEP-limited — different failure mode than what filling targets. Cap walk risk (the real Windsor thin-main-web concern) is already addressed by the PRW billet steel main cap girdle, so filling would be redundant there rather than complementary. Declined given real costs for a street-driven car: reduced cooling capacity/heater output, debris risk from cured filler breaking loose into coolant passages, required re-machining before bore/hone (sequencing complexity for marginal benefit), and reduced future serviceability on a used block with unknown history. Worth re-evaluating only if boost/nitrous is ever added later.'},
+      {id:'m5-block-machining', name:'Block Machining', linkedParts:['block-core','main-girdle','main-bearings','cam-bearings','machining-block'], note:'Block filling (Hard Block / epoxy) considered and declined. A friend\'s drag 302 build (boosted/nitrous-adjacent, sustained high-cylinder-pressure passes past 8k) recommended it, but Chel\'s N/A combo is valvetrain-RPM-limited rather than high-BMEP-limited — different failure mode than what filling targets. Cap walk risk (the real Windsor thin-main-web concern) is already addressed by the PRW billet steel main cap girdle, so filling would be redundant there rather than complementary. Declined given real costs for a street-driven car: reduced cooling capacity/heater output, debris risk from cured filler breaking loose into coolant passages, required re-machining before bore/hone (sequencing complexity for marginal benefit), and reduced future serviceability on a used block with unknown history. Worth re-evaluating only if boost/nitrous is ever added later.'},
       {id:'m5-rotating-assy', name:'Rotating Assy Zero Balance', linkedParts:['crank','rod','piston','rod-bearings','damper','flywheel','machining-balance']},
       {id:'m5-short-block', name:'Short Block Assembly', linkedParts:['rear-main-seal','piston-rings','camshaft','cam-bolt-kit','thrust-plate','timing-set','oil-pump','oil-pump-shaft','oil-pan','oil-pickup','oil-dipstick','oil-filter-adapter']},
       {id:'m5-head-install', name:'Head Installation', linkedParts:['heads','spring-kit','intake-valves','exhaust-valves','lifters','rockers','rocker-studs','pushrods','head-bolts','rocker-girdle','rocker-girdle-nuts','head-gasket','vc-studs','valve-covers','seals-guides']},
