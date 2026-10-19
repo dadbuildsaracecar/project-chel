@@ -447,6 +447,9 @@ const partsLookup = {
   'ffr-brake-line-mounts': {name:'Braided Brake Line Mount — FFR PN 14689, qty 4 (covers front + rear)', price:24.00},
   'ffr-brake-line-clips': {name:'Brake Line Mount Clip — FFR PN 14709, qty 4 (covers front + rear)', price:2.00},
   'coilover-helper-springs': {name:'Coilover Helper Springs — Silvers, w/ Adapters (2 pairs, front + rear)', price:200.00},
+  'fuel-level-sender': {name:'Fuel Level Sender — kit OEM tank sender (16-158 ohm), reuse', price:0},
+  'fuel-hard-line': {name:'Fuel Hard Line — 3/8" OD (-6AN), supply + return, one continuous run tank to engine bay (PN/price TBD)', price:0.00},
+  'fuel-braided-hose-fittings': {name:'-6AN Braided Hose + AN Tube Nuts/Sleeves or 37° Flare Fittings for Hard Line Ends (PN/price TBD)', price:0.00},
   'pedal-box': {name:'Pedal Box — Wilwood 340-11299, reverse swing mount brake/clutch, 6.25:1 ratio', price:0.00},
   'master-cylinders': {name:'Master Cylinders (x3: front, rear, clutch) — Wilwood Z-260-14297, compact remote, 0.75" bore', price:0.00},
   'bias-adjuster': {name:'Brake Bias Adjuster — Wilwood 340-4990, remote balance bar cable, 5 ft, dash-mount blue knob', price:54.99},
@@ -572,8 +575,8 @@ const milestones = [
   {
     id: 'm3', num: 3, name: 'Chassis Fuel System',
     steps: [
-      {id:'m3-fuel-tank', name:'Fuel Tank', linkedParts:['fuel-pump','fuel-hanger']},
-      {id:'m3-fuel-lines', name:'Fuel Lines', linkedParts:['fuel-filter','fuel-filter-bracket']},
+      {id:'m3-fuel-tank', name:'Fuel Tank', linkedParts:['fuel-pump','fuel-hanger','fuel-level-sender'], note:'Stock Fox-body Mustang tank (79-93 tanks, hangers and senders interchangeable). Walbro GCA719-2 on the SVE -6AN hanger: 3/8\" feed tube continuous in-tank, return runs to the tank bottom with a diffuser nozzle. Level sender mounts in its own tank port, separate from the hanger. Kit tank vent and rollover valve are included; the vent has a check valve and dumps to atmosphere. Level sender is the kit\'s OEM unit (16-158 ohm), matching the AutoMeter 201975 gauge.'},
+      {id:'m3-fuel-lines', name:'Fuel Lines', linkedParts:['fuel-filter','fuel-filter-bracket','fuel-hard-line','fuel-braided-hose-fittings'], note:'-6AN / 3/8\" end to end (the kit carb-era 5/16\" and 1/4\" lines and rubber hose are not suitable at EFI pressure). One continuous hard line run through the sealed trans tunnel with no joints inside it, away from the side exhaust; shield/insulate where it enters the engine bay. Plumbing order: pump > braided > 10 micron filter > hard line supply > fuel rail in > rail out > Holley 12-886KIT bypass regulator > hard line return > braided > hanger return. Regulator sits AFTER the rail per Holley Terminator X manual section 6.1 (rail gets flow-through for hot-restart vapor purge, regulator senses at the rail end). Air leak test the lines with the tank isolated before first fuel.'},
     ]
   },
   {
@@ -830,6 +833,12 @@ const issues = [
   {id:"rear-camera-decision-gate", area:"Exterior", tag:"REAR CAMERA — DECISION GATE", text:"Considering only, not committed. Evaluate need after BRE mirrors are installed and tested — may be dropped entirely if real-world mirror visibility proves sufficient, since side mirrors rank higher for period-correctness than a camera/screen setup. If pursued, full concept still needs physical mockup/measurement verification once body is mounted (vignetting from roll hoop tube/diagonal brace, interior reflections off bare aluminum tonneau panels near the mount point)."},
   {id:"tow-hook-fitment-check", area:"Exterior", tag:"TOW HOOK — REAR SLOT & FRONT CHAFE CHECK", text:"Rear slot location/shape pending body-mounted fitment check. Front hook stowed/installed chafe-check against the nose opening trim pending the same fitment check. Full structural bracket design tracked in the Chassis chat, not duplicated here."},
   {id:"sikaflex-purchase-timing", area:"Chassis", tag:"SIKAFLEX 221 — SPLIT PURCHASE TIMING", text:"12-month unopened shelf life (not the ~2 years initially assumed) means the full project quantity should NOT be bought in one order — install spans Cockpit Stage 1 through Final Assembly, potentially 12+ months apart. Buy enough for Cockpit Stage 1/2 now; plan a second purchase closer to Final Assembly. Total quantity still pending panel count/seam length estimate. Also open: whether the Exterior-tracked GE Silicone II (door-window-sealant) should be swapped to Sikaflex 221 for consistency, or is an intentional deviation from the FFR manual spec."},
+  {id:"fuel-sender-bench-check", area:"Chassis", tag:"FUEL SENDER BENCH CHECK", text:"Gauge is the AutoMeter Cobra 201975 (16-158 ohm), so the kit's OEM tank sender gets reused — no separate sender purchase. Before the tank goes in, put an ohmmeter on the sender and sweep the float: expect roughly 16 ohm empty and 158 ohm full. If it reads off-spec, source a 16-158 ohm replacement."},
+  {id:"fuel-sender-connector-ground", area:"Chassis", tag:"FUEL SENDER CONNECTOR & GROUND", text:"Sender plug vs. FFR gray connector — splice to match, and include the sender ground."},
+  {id:"fuel-reg-reference-port", area:"Chassis", tag:"FUEL REGULATOR REFERENCE PORT / PRESSURE TRANSDUCER", text:"Holley 12-886KIT regulator 1:1 reference port is shown for carb use — confirm with Holley how to treat it on the N/A Terminator X before setting base pressure. Optional Holley 554-102 fuel pressure transducer (1/8\" NPT) for logging: the kit gauge uses the regulator's gauge port, so plan a tee or second port if adding it."},
+  {id:"fuel-tank-vent-check", area:"Chassis", tag:"FUEL TANK VENT CHECK VALVE", text:"Confirm the kit tank vent's check valve lets air in as the tank draws down (it dumps to atmosphere on the way out)."},
+  {id:"fuel-line-sourcing", area:"Chassis", tag:"FUEL LINE SOURCING (UNPRICED)", text:"Source the 3/8\" hard line (supply + return, continuous tank to engine bay) and the -6AN braided hose plus AN tube nuts/sleeves or 37-degree flare fittings. PN/price TBD."},
+  {id:"fuel-line-leak-test", area:"Chassis", tag:"FUEL LINE AIR LEAK TEST", text:"Air leak test the fuel lines with the tank isolated before first fuel."},
 ];
 
 let buildStepsState = {};
