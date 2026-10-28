@@ -446,6 +446,8 @@ const partsLookup = {
   'ffr-brake-hose-sets': {name:'Brake Hose Set w/ Fittings — FFR PN 16741, qty 2 (covers front + rear)', price:90.00},
   'ffr-brake-line-mounts': {name:'Braided Brake Line Mount — FFR PN 14689, qty 4 (covers front + rear)', price:24.00},
   'ffr-brake-line-clips': {name:'Brake Line Mount Clip — FFR PN 14709, qty 4 (covers front + rear)', price:2.00},
+  'parking-brake-cable-lh': {name:'Rear Parking Brake Cable, LH — Ford FR3Z-2A635-K (Motorcraft BRCA-286)', price:0},
+  'parking-brake-cable-rh': {name:'Rear Parking Brake Cable, RH — Ford FR3Z-2A635-M (Motorcraft BRCA-373)', price:0},
   'coilover-helper-springs': {name:'Coilover Helper Springs — Silvers, w/ Adapters (2 pairs, front + rear)', price:200.00},
   'fuel-level-sender': {name:'Fuel Level Sender — kit OEM tank sender (16-158 ohm), reuse', price:0},
   'fuel-hard-line': {name:'Fuel Hard Line — 3/8" OD (-6AN), supply + return, one continuous run tank to engine bay (PN/price TBD)', price:0.00},
@@ -631,7 +633,7 @@ const milestones = [
       {id:'m9-soft-lines', name:'Soft Brake Lines', linkedParts:['ffr-brake-hose-sets','ffr-brake-line-mounts','ffr-brake-line-clips'], note:'FFR direct-buy (PN 16741 hose sets + PN 14689 mounts + PN 14709 clips) covers front + rear in one source — supersedes the earlier Maximum Motorsports/5.0 Resto/J&M/McLeod plan (never purchased, no wasted spend), cheaper (~$116 vs. ~$250+) and resolves mounting hardware without builder-fabricating a rear bracket. Ordered, ETA a couple weeks — see Open Issues for banjo bolt thread pitch confirmation on arrival.'},
       {id:'m9-front-duct-fab', name:'Front Brake Cooling Duct Fabrication', linkedParts:['front-dust-shields','front-duct-spout-hose','front-duct-blockoff'], note:'DIY duct built off the dust shields — cut a hole, rivet in a tube spout to mate with hose routed from the front bumper center opening. Plus a removable block-off plug for street driving (avoids road debris/water intrusion and pad overcooling on long highway stints), open for track days. Spout diameter/hose routing pending bumper opening size and hose selection — see Open Issues.'},
       {id:'m9-reservoir', name:'Brake Reservoir', linkedParts:['brake-reservoir']},
-      {id:'m9-ebrake', name:'Emergency Brake Handle and Cables', linkedParts:[]},
+      {id:'m9-ebrake', name:'Emergency Brake Handle and Cables', linkedParts:['parking-brake-cable-lh','parking-brake-cable-rh'], note:'FFR-supplied cables do not fit the 2015 S550 rear calipers, so the plan is OEM Ford S550 cables (LH FR3Z-2A635-K, RH FR3Z-2A635-M) adapted to the FFR handle assembly. Verify length at full suspension droop before final routing; handle-end fab is acceptable if OEM length is marginal.'},
     ]
   },
   {
@@ -839,6 +841,9 @@ const issues = [
   {id:"fuel-tank-vent-check", area:"Chassis", tag:"FUEL TANK VENT CHECK VALVE", text:"Confirm the kit tank vent's check valve lets air in as the tank draws down (it dumps to atmosphere on the way out)."},
   {id:"fuel-line-sourcing", area:"Chassis", tag:"FUEL LINE SOURCING (UNPRICED)", text:"Source the 3/8\" hard line (supply + return, continuous tank to engine bay) and the -6AN braided hose plus AN tube nuts/sleeves or 37-degree flare fittings. PN/price TBD."},
   {id:"fuel-line-leak-test", area:"Chassis", tag:"FUEL LINE AIR LEAK TEST", text:"Air leak test the fuel lines with the tank isolated before first fuel."},
+  {id:"ebrake-cable-length", area:"Suspension & Brakes", tag:"PARKING BRAKE CABLE LENGTH", text:"No published length for FR3Z-2A635-K/-M in any catalog. Confirm conduit and inner cable length with the local Ford dealer before ordering. Straight-line point-to-point need is ~36\" conservative; the routed path (around the shock, over the center section to the tunnel bracket) will be longer, plus suspension travel allowance. Check at full droop with the cable in a smooth arc, not taut."},
+  {id:"ebrake-rh-revision", area:"Suspension & Brakes", tag:"PARKING BRAKE CABLE RH REVISION", text:"Verify at the parts counter that RH FR3Z-2A635-M is the current revision (older -J is superseded). Dealer pricing for both cables is still TBD; reference prices are ~$40–45 (LH, LMR/aftermarket) and $58.99 (RH, CJ Pony)."},
+  {id:"ebrake-handle-fitment", area:"Suspension & Brakes", tag:"PARKING BRAKE HANDLE-END FITMENT", text:"Handle-end fittings appear to match the FFR handle assembly (15183) but are unverified. Confirm fitting and tunnel bracket fit on the car. If OEM length is marginal, fab the handle end (sheath anchor/bracket or equalizer)."},
 ];
 
 let buildStepsState = {};
